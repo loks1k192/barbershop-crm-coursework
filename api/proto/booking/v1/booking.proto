@@ -1,0 +1,180 @@
+syntax = "proto3";
+
+package booking.v1;
+
+option go_package = "github.com/RomanKovalev007/barber_crm/api/proto/booking/v1;bookingv1";
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+
+service BookingService {
+  rpc CreateBooking(CreateBookingRequest) returns (BookingResponse);
+  rpc GetBooking(BookingIdRequest) returns (BookingResponse);
+  rpc UpdateBooking(UpdateBookingRequest) returns (BookingResponse);
+  rpc UpdateBookingStatus(UpdateBookingStatusRequest) returns (BookingResponse);
+  rpc DeleteBooking(BookingIdRequest) returns (google.protobuf.Empty);
+  rpc GetSlots(SlotsRequest) returns (SlotsResponse);
+  rpc GetFreeSlots(FreeSlotsRequest) returns (FreeSlotsResponse);
+  rpc GetBarberSettings(BarberSettingsRequest) returns (BarberSettingsResponse);
+  rpc SetCompactSlots(SetCompactSlotsRequest) returns (BarberSettingsResponse);
+  rpc SetClientSlotStep(SetClientSlotStepRequest) returns (BarberSettingsResponse);
+  rpc GetClientBookings(GetClientBookingsRequest) returns (GetClientBookingsResponse);
+}
+
+// ─── Booking ─────────────────────────────────────────────────────────────────
+
+message CreateBookingRequest {
+  string                    barber_id    = 1;
+  string                    service_id   = 2;
+  string                    client_name  = 3;
+  string                    client_phone = 4;
+  google.protobuf.Timestamp time_start   = 5;
+  // time_end вычисляется сервером из duration_minutes услуги
+}
+
+message UpdateBookingRequest {
+  string                    booking_id = 1;
+  string                    barber_id  = 2; // для проверки владения
+  string                    service_id = 3;
+  google.protobuf.Timestamp time_start = 4;
+  // time_end пересчитывается сервером из duration_minutes новой услуги
+}
+
+message UpdateBookingStatusRequest {
+  string        booking_id = 1;
+  string        barber_id  = 2; // для проверки владения
+  BookingStatus status     = 3; // допустимы: CANCELLED, COMPLETED, NO_SHOW
+}
+
+message BookingIdRequest {
+  string booking_id = 1;
+  string barber_id  = 2; // для проверки владения
+}
+
+message Booking {
+  string                    booking_id   = 1;
+  string                    barber_id    = 2;
+  string                    service_id   = 3;
+  string                    service_name = 4;
+  string                    client_name  = 5;
+  string                    client_phone = 6;
+  google.protobuf.Timestamp time_start   = 7;
+  google.protobuf.Timestamp time_end     = 8;
+  BookingStatus             status       = 9;
+  int32                     price        = 10; // цена услуги на момент записи (руб.)
+}
+
+message BookingResponse {
+  Booking booking = 1;
+}
+
+// ─── Slots ───────────────────────────────────────────────────────────────────
+
+// SlotsRequest — все слоты дня (для барбера, staff-эндпоинт)
+message SlotsRequest {
+  string barber_id = 1;
+  string date      = 2; // YYYY-MM-DD
+}
+
+message SlotsResponse {
+  string         barber_id = 1;
+  string         date      = 2;
+  repeated Slot  slots     = 3;
+}
+
+// FreeSlotsRequest — свободные слоты (для клиента, публичный эндпоинт)
+message FreeSlotsRequest {
+  string barber_id = 1;
+  string date      = 2; // YYYY-MM-DD; если пусто — ближайший доступный день
+  string service_id = 3; // опционально: фильтр по длительности услуги
+}
+
+message FreeSlotsResponse {
+  string        barber_id = 1;
+  string        date      = 2;
+  repeated Slot slots     = 3;
+}
+
+// ─── Slot ────────────────────────────────────────────────────────────────────
+
+enum SlotStatus {
+  SLOT_STATUS_UNSPECIFIED = 0;
+  SLOT_STATUS_FREE        = 1;
+  SLOT_STATUS_BOOKED      = 2;
+  SLOT_STATUS_BLOCKED     = 3;
+}
+
+message SlotBooking {
+  string        booking_id   = 1;
+  string        client_name  = 2;
+  string        client_phone = 3;
+  string        service_name = 4;
+  BookingStatus status       = 5;
+}
+
+message Slot {
+  SlotStatus                status     = 1;
+  google.protobuf.Timestamp time_start = 2;
+  google.protobuf.Timestamp time_end   = 3;
+  SlotBooking               booking    = 4; // заполнено только если status = BOOKED
+}
+
+// ─── Barber Settings ──────────────────────────────────────────────────────────
+
+message BarberSettingsRequest {
+  string barber_id = 1;
+}
+
+message BarberSettingsResponse {
+  string barber_id                = 1;
+  bool   compact_slots_enabled    = 2;
+  int32  client_slot_step_minutes = 3;
+}
+
+message SetCompactSlotsRequest {
+  string barber_id = 1;
+  bool   enabled   = 2;
+}
+
+message SetClientSlotStepRequest {
+  string barber_id    = 1;
+  int32  step_minutes = 2;
+}
+
+// ─── Client Bookings ──────────────────────────────────────────────────────────
+
+message GetClientBookingsRequest {
+  string barber_id     = 1;
+  string client_phone  = 2;
+  int32  limit         = 3;
+  int32  offset        = 4;
+}
+
+message GetClientBookingsResponse {
+  repeated Booking bookings = 1;
+  int32            total    = 2;
+}
+
+// ─── Kafka Events ─────────────────────────────────────────────────────────────
+
+message BookingEvent {
+  string                    booking_id   = 1;
+  string                    barber_id    = 2;
+  string                    client_phone = 3;
+  string                    client_name  = 4;
+  string                    service_id   = 5;
+  string                    service_name = 6;
+  int32                     price        = 7; // цена на момент записи (руб.)
+  google.protobuf.Timestamp time_start   = 8;
+  google.protobuf.Timestamp time_end     = 9;
+  BookingStatus             status       = 10;
+  google.protobuf.Timestamp occurred_at  = 11;
+}
+
+enum BookingStatus {
+  BOOKING_STATUS_UNSPECIFIED = 0;
+  BOOKING_STATUS_PENDING     = 1;
+  BOOKING_STATUS_COMPLETED   = 2;
+  BOOKING_STATUS_CANCELLED   = 3;
+  BOOKING_STATUS_NO_SHOW     = 4;
+}

@@ -1,0 +1,17 @@
+version: "2"
+
+linters:
+  disable:
+    - errcheck
+  enable:
+    - govet
+    - ineffassign
+    - staticcheck
+    - misspell
+    - unconvert
+    - unparam
+  exclusions:
+    rules:
+      - path: _test\.go
+        linters:
+          - unparam
