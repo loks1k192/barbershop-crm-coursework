@@ -2,3 +2,5 @@
 .env.prod
 go.work
 go.work.sum
+__pycache__/
+*.pyc
