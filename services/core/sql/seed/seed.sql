@@ -44,22 +44,23 @@ INSERT INTO crm.service_categories (name, description) VALUES
 INSERT INTO crm.services (category_id, name, base_price, base_duration_min, is_active)
 SELECT c.category_id, s.name, s.price, s.dur, s.active
 FROM (VALUES
-    ('Стрижки',         'Мужская стрижка',         1500, 45, true),
-    ('Стрижки',         'Стрижка машинкой',         900, 30, true),
-    ('Стрижки',         'Детская стрижка',         1100, 30, true),
-    ('Стрижки',         'Стрижка длинных волос',   2000, 60, true),
-    ('Борода и бритьё', 'Моделирование бороды',    1000, 30, true),
-    ('Борода и бритьё', 'Королевское бритьё',      1400, 45, true),
-    ('Борода и бритьё', 'Оформление усов',          500, 15, true),
-    ('Уход',            'Камуфляж седины',         1300, 30, true),
-    ('Уход',            'Мытьё и укладка',          700, 20, true),
-    ('Уход',            'Уход за кожей лица',      1600, 40, true),
-    ('Уход',            'Тонирование бровей',       600, 15, false),
-    ('Комплексы',       'Стрижка + борода',        2300, 75, true),
-    ('Комплексы',       'Отец и сын',              2400, 75, true),
-    ('Комплексы',       'Стрижка + камуфляж',      2600, 75, true)
-) AS s(cat, name, price, dur, active)
-JOIN crm.service_categories c ON c.name = s.cat;
+    (1, 'Стрижки',         'Мужская стрижка',         1500, 45, true),
+    (2, 'Стрижки',         'Стрижка машинкой',         900, 30, true),
+    (3, 'Стрижки',         'Детская стрижка',         1100, 30, true),
+    (4, 'Стрижки',         'Стрижка длинных волос',   2000, 60, true),
+    (5, 'Борода и бритьё', 'Моделирование бороды',    1000, 30, true),
+    (6, 'Борода и бритьё', 'Королевское бритьё',      1400, 45, true),
+    (7, 'Борода и бритьё', 'Оформление усов',          500, 15, true),
+    (8, 'Уход',            'Камуфляж седины',         1300, 30, true),
+    (9, 'Уход',            'Мытьё и укладка',          700, 20, true),
+    (10, 'Уход',            'Уход за кожей лица',      1600, 40, true),
+    (11, 'Уход',            'Тонирование бровей',       600, 15, false),
+    (12, 'Комплексы',       'Стрижка + борода',        2300, 75, true),
+    (13, 'Комплексы',       'Отец и сын',              2400, 75, true),
+    (14, 'Комплексы',       'Стрижка + камуфляж',      2600, 75, true)
+) AS s(ord, cat, name, price, dur, active)
+JOIN crm.service_categories c ON c.name = s.cat
+ORDER BY s.ord;
 
 -- ── Мастера (пароль у всех: password123, bcrypt) ────────────────────────────
 INSERT INTO crm.barbers (branch_id, full_name, phone, login, password_hash, grade, hired_at, fired_at)
@@ -68,20 +69,21 @@ SELECT br.branch_id, b.name, b.phone, b.login,
        b.grade::crm.barber_grade, current_date - b.hired_days,
        CASE WHEN b.fired_days IS NOT NULL THEN current_date - b.fired_days END
 FROM (VALUES
-    ('Тверская', 'Артём Волков',       '+79030000001', 'artem',    'top',    1200, NULL),
-    ('Тверская', 'Максим Орлов',       '+79030000002', 'maksim',   'senior',  900, NULL),
-    ('Тверская', 'Илья Соболев',       '+79030000003', 'ilya',     'middle',  400, NULL),
-    ('Тверская', 'Глеб Корнилов',      '+79030000004', 'gleb',     'junior',  170, NULL),
-    ('Арбат',    'Тимур Алиев',        '+79030000005', 'timur',    'top',    1500, NULL),
-    ('Арбат',    'Роман Ковалёв',      '+79030000006', 'roman',    'senior',  700, NULL),
-    ('Арбат',    'Денис Гусев',        '+79030000007', 'denis',    'middle',  350, NULL),
-    ('Арбат',    'Егор Белов',         '+79030000008', 'egor',     'junior',  120, NULL),
-    ('Сокол',    'Никита Зуев',        '+79030000009', 'nikita',   'senior', 1000, NULL),
-    ('Сокол',    'Павел Крылов',       '+79030000010', 'pavel',    'middle',  500, NULL),
-    ('Сокол',    'Степан Лавров',      '+79030000011', 'stepan',   'junior',  200, NULL),
-    ('Сокол',    'Олег Миронов',       '+79030000012', 'oleg',     'middle',  800, 40)
-) AS b(branch, name, phone, login, grade, hired_days, fired_days)
-JOIN crm.branches br ON br.name = b.branch;
+    (1, 'Тверская', 'Артём Волков',       '+79030000001', 'artem',    'top',    1200, NULL),
+    (2, 'Тверская', 'Максим Орлов',       '+79030000002', 'maksim',   'senior',  900, NULL),
+    (3, 'Тверская', 'Илья Соболев',       '+79030000003', 'ilya',     'middle',  400, NULL),
+    (4, 'Тверская', 'Глеб Корнилов',      '+79030000004', 'gleb',     'junior',  170, NULL),
+    (5, 'Арбат',    'Тимур Алиев',        '+79030000005', 'timur',    'top',    1500, NULL),
+    (6, 'Арбат',    'Роман Ковалёв',      '+79030000006', 'roman',    'senior',  700, NULL),
+    (7, 'Арбат',    'Денис Гусев',        '+79030000007', 'denis',    'middle',  350, NULL),
+    (8, 'Арбат',    'Егор Белов',         '+79030000008', 'egor',     'junior',  120, NULL),
+    (9, 'Сокол',    'Никита Зуев',        '+79030000009', 'nikita',   'senior', 1000, NULL),
+    (10, 'Сокол',    'Павел Крылов',       '+79030000010', 'pavel',    'middle',  500, NULL),
+    (11, 'Сокол',    'Степан Лавров',      '+79030000011', 'stepan',   'junior',  200, NULL),
+    (12, 'Сокол',    'Олег Миронов',       '+79030000012', 'oleg',     'middle',  800, 40)
+) AS b(ord, branch, name, phone, login, grade, hired_days, fired_days)
+JOIN crm.branches br ON br.name = b.branch
+ORDER BY b.ord;
 
 -- Прайс мастеров: цена зависит от грейда, у junior длительность больше.
 INSERT INTO crm.barber_services (barber_id, service_id, price, duration_min, is_active)
