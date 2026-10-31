@@ -1,0 +1,1016 @@
+openapi: 3.0.3
+info:
+  title: Barber CRM — Core API
+  version: 1.0.0
+  description: |
+    REST API сервиса **core** — CRM сети барбершопов поверх единой БД PostgreSQL.
+
+    * Коллекции поддерживают пагинацию (`page`, `page_size` ≤ 100), сортировку
+      (`sort=поле1,-поле2`, `-` — по убыванию, только разрешённые поля) и фильтры.
+    * Бизнес-правила проверяет СУБД (ограничения, триггеры, функции); их нарушения
+      возвращаются как `4xx` с кодом ошибки и исходным `sqlstate`.
+    * Заголовок `X-User` (передаётся api-gateway после проверки JWT) попадает
+      в журнал аудита и историю статусов.
+
+    Коды ошибок: `validation_error` (400), `not_found` (404), `already_exists`,
+    `time_slot_conflict`, `invalid_state`, `in_use`, `shift_has_appointments` (409),
+    `schedule_violation`, `invalid_booking`, `booking_window`, `payment_error`,
+    `review_not_allowed`, `insufficient_bonus`, `constraint_violation` (422),
+    `concurrent_update` (503).
+servers:
+  - url: http://localhost:8090
+    description: Локальный запуск (docker compose)
+tags:
+  - name: Branches
+  - name: Catalog
+  - name: Barbers
+  - name: Shifts
+  - name: Clients
+  - name: Appointments
+  - name: Reports
+  - name: Import
+  - name: Audit
+  - name: System
+
+paths:
+  /health:
+    get:
+      tags: [System]
+      summary: Проверка доступности сервиса и БД
+      responses:
+        "200": { description: OK }
+        "503": { description: БД недоступна }
+
+  # ── Филиалы ─────────────────────────────────────────────────────────────────
+  /api/v1/branches:
+    get:
+      tags: [Branches]
+      summary: Список филиалов
+      parameters:
+        - { name: active, in: query, schema: { type: boolean } }
+        - { name: search, in: query, schema: { type: string }, description: Подстрока названия }
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/PageSize"
+        - { name: sort, in: query, schema: { type: string, default: name }, description: "name, branch_id, created_at" }
+      responses:
+        "200": { description: OK, content: { application/json: { schema: { $ref: "#/components/schemas/BranchPage" } } } }
+        "400": { $ref: "#/components/responses/BadRequest" }
+    post:
+      tags: [Branches]
+      summary: Создать филиал
+      requestBody: { required: true, content: { application/json: { schema: { $ref: "#/components/schemas/BranchInput" } } } }
+      responses:
+        "201": { description: Создан, content: { application/json: { schema: { $ref: "#/components/schemas/Branch" } } } }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "409": { $ref: "#/components/responses/Conflict" }
+  /api/v1/branches/{id}:
+    parameters: [{ $ref: "#/components/parameters/Id" }]
+    get:
+      tags: [Branches]
+      summary: Филиал
+      responses:
+        "200": { description: OK, content: { application/json: { schema: { $ref: "#/components/schemas/Branch" } } } }
+        "404": { $ref: "#/components/responses/NotFound" }
+    put:
+      tags: [Branches]
+      summary: Изменить филиал
+      requestBody: { required: true, content: { application/json: { schema: { $ref: "#/components/schemas/BranchInput" } } } }
+      responses:
+        "200": { description: OK, content: { application/json: { schema: { $ref: "#/components/schemas/Branch" } } } }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "409": { $ref: "#/components/responses/Conflict" }
+    delete:
+      tags: [Branches]
+      summary: Удалить филиал (только без мастеров и смен — ON DELETE RESTRICT)
+      responses:
+        "204": { description: Удалён }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "409": { $ref: "#/components/responses/Conflict" }
+
+  # ── Каталог ─────────────────────────────────────────────────────────────────
+  /api/v1/categories:
+    get:
+      tags: [Catalog]
+      summary: Категории услуг
+      responses:
+        "200": { description: OK, content: { application/json: { schema: { type: array, items: { $ref: "#/components/schemas/Category" } } } } }
+    post:
+      tags: [Catalog]
+      summary: Создать категорию
+      requestBody: { required: true, content: { application/json: { schema: { $ref: "#/components/schemas/CategoryInput" } } } }
+      responses:
+        "201": { description: Создана, content: { application/json: { schema: { $ref: "#/components/schemas/Category" } } } }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "409": { $ref: "#/components/responses/Conflict" }
+  /api/v1/categories/{id}:
+    parameters: [{ $ref: "#/components/parameters/Id" }]
+    put:
+      tags: [Catalog]
+      summary: Изменить категорию
+      requestBody: { required: true, content: { application/json: { schema: { $ref: "#/components/schemas/CategoryInput" } } } }
+      responses:
+        "200": { description: OK, content: { application/json: { schema: { $ref: "#/components/schemas/Category" } } } }
+        "404": { $ref: "#/components/responses/NotFound" }
+    delete:
+      tags: [Catalog]
+      summary: Удалить категорию (только без услуг)
+      responses:
+        "204": { description: Удалена }
+        "409": { $ref: "#/components/responses/Conflict" }
+  /api/v1/services:
+    get:
+      tags: [Catalog]
+      summary: Каталог услуг сети
+      parameters:
+        - { name: category_id, in: query, schema: { type: integer } }
+        - { name: active, in: query, schema: { type: boolean } }
+        - { name: search, in: query, schema: { type: string } }
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/PageSize"
+        - { name: sort, in: query, schema: { type: string, default: "category,name" }, description: "name, service_id, base_price, category" }
+      responses:
+        "200": { description: OK, content: { application/json: { schema: { $ref: "#/components/schemas/ServicePage" } } } }
+    post:
+      tags: [Catalog]
+      summary: Создать услугу
+      requestBody: { required: true, content: { application/json: { schema: { $ref: "#/components/schemas/ServiceInput" } } } }
+      responses:
+        "201": { description: Создана, content: { application/json: { schema: { $ref: "#/components/schemas/Service" } } } }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "409": { $ref: "#/components/responses/Conflict" }
+        "422": { $ref: "#/components/responses/Unprocessable" }
+  /api/v1/services/{id}:
+    parameters: [{ $ref: "#/components/parameters/Id" }]
+    get:
+      tags: [Catalog]
+      summary: Услуга
+      responses:
+        "200": { description: OK, content: { application/json: { schema: { $ref: "#/components/schemas/Service" } } } }
+        "404": { $ref: "#/components/responses/NotFound" }
+    put:
+      tags: [Catalog]
+      summary: Изменить услугу
+      requestBody: { required: true, content: { application/json: { schema: { $ref: "#/components/schemas/ServiceInput" } } } }
+      responses:
+        "200": { description: OK, content: { application/json: { schema: { $ref: "#/components/schemas/Service" } } } }
+        "404": { $ref: "#/components/responses/NotFound" }
+    delete:
+      tags: [Catalog]
+      summary: Удалить услугу (если не использовалась в записях)
+      responses:
+        "204": { description: Удалена }
+        "409": { $ref: "#/components/responses/Conflict" }
+
+  # ── Мастера ─────────────────────────────────────────────────────────────────
+  /api/v1/barbers:
+    get:
+      tags: [Barbers]
+      summary: Мастера
+      parameters:
+        - { name: branch_id, in: query, schema: { type: integer } }
+        - { name: grade, in: query, schema: { $ref: "#/components/schemas/Grade" } }
+        - { name: active, in: query, schema: { type: boolean }, description: true — не уволенные }
+        - { name: search, in: query, schema: { type: string } }
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/PageSize"
+        - { name: sort, in: query, schema: { type: string, default: "branch,full_name" }, description: "full_name, barber_id, grade, hired_at, branch" }
+      responses:
+        "200": { description: OK, content: { application/json: { schema: { $ref: "#/components/schemas/BarberPage" } } } }
+    post:
+      tags: [Barbers]
+      summary: Нанять мастера (настройки записи создаются автоматически)
+      requestBody: { required: true, content: { application/json: { schema: { $ref: "#/components/schemas/BarberInput" } } } }
+      responses:
+        "201": { description: Создан, content: { application/json: { schema: { $ref: "#/components/schemas/Barber" } } } }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "409": { $ref: "#/components/responses/Conflict" }
+        "422": { $ref: "#/components/responses/Unprocessable" }
+  /api/v1/barbers/{id}:
+    parameters: [{ $ref: "#/components/parameters/Id" }]
+    get:
+      tags: [Barbers]
+      summary: Мастер
+      responses:
+        "200": { description: OK, content: { application/json: { schema: { $ref: "#/components/schemas/Barber" } } } }
+        "404": { $ref: "#/components/responses/NotFound" }
+    put:
+      tags: [Barbers]
+      summary: Изменить мастера (увольнение — fired_at)
+      requestBody: { required: true, content: { application/json: { schema: { $ref: "#/components/schemas/BarberInput" } } } }
+      responses:
+        "200": { description: OK, content: { application/json: { schema: { $ref: "#/components/schemas/Barber" } } } }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "409": { $ref: "#/components/responses/Conflict" }
+    delete:
+      tags: [Barbers]
+      summary: Удалить мастера без истории записей
+      responses:
+        "204": { description: Удалён }
+        "409": { $ref: "#/components/responses/Conflict" }
+  /api/v1/barbers/{id}/settings:
+    parameters: [{ $ref: "#/components/parameters/Id" }]
+    get:
+      tags: [Barbers]
+      summary: Настройки онлайн-записи (1:1)
+      responses:
+        "200": { description: OK, content: { application/json: { schema: { $ref: "#/components/schemas/BarberSettings" } } } }
+    put:
+      tags: [Barbers]
+      summary: Изменить настройки
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [slot_step_min, compact_slots, min_lead_min, max_days_ahead]
+              properties:
+                slot_step_min: { type: integer, enum: [5, 10, 15, 20, 30, 60] }
+                compact_slots: { type: boolean }
+                min_lead_min: { type: integer, minimum: 0, maximum: 2880 }
+                max_days_ahead: { type: integer, minimum: 1, maximum: 180 }
+      responses:
+        "200": { description: OK, content: { application/json: { schema: { $ref: "#/components/schemas/BarberSettings" } } } }
+        "400": { $ref: "#/components/responses/BadRequest" }
+  /api/v1/barbers/{id}/services:
+    parameters: [{ $ref: "#/components/parameters/Id" }]
+    get:
+      tags: [Barbers]
+      summary: Прайс мастера (M:N мастер — услуга)
+      parameters:
+        - { name: active, in: query, schema: { type: boolean }, description: true — только доступные для записи }
+      responses:
+        "200": { description: OK, content: { application/json: { schema: { type: array, items: { $ref: "#/components/schemas/BarberService" } } } } }
+  /api/v1/barbers/{id}/services/{service_id}:
+    parameters:
+      - $ref: "#/components/parameters/Id"
+      - { name: service_id, in: path, required: true, schema: { type: integer } }
+    put:
+      tags: [Barbers]
+      summary: Добавить услугу в прайс или изменить цену/длительность (фиксируется в аудите)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [price, duration_min]
+              properties:
+                price: { type: number, example: 1500 }
+                duration_min: { type: integer, example: 45 }
+                is_active: { type: boolean }
+      responses:
+        "200": { description: OK, content: { application/json: { schema: { $ref: "#/components/schemas/BarberService" } } } }
+        "422": { $ref: "#/components/responses/Unprocessable" }
+    delete:
+      tags: [Barbers]
+      summary: Убрать услугу из прайса
+      responses:
+        "204": { description: Удалено }
+  /api/v1/barbers/{id}/free-slots:
+    parameters: [{ $ref: "#/components/parameters/Id" }]
+    get:
+      tags: [Appointments]
+      summary: Свободные слоты мастера на дату (функция crm.free_slots)
+      parameters:
+        - { name: date, in: query, schema: { type: string, format: date }, description: По умолчанию — сегодня }
+        - { name: service_ids, in: query, required: true, schema: { type: string, example: "1,5" } }
+        - { name: ignore_lead, in: query, schema: { type: boolean }, description: Не учитывать мин. время до записи (для администратора) }
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  barber_id: { type: integer }
+                  date: { type: string, format: date }
+                  slots: { type: array, items: { $ref: "#/components/schemas/Slot" } }
+        "422": { $ref: "#/components/responses/Unprocessable" }
+
+  # ── Смены ───────────────────────────────────────────────────────────────────
+  /api/v1/shifts:
+    get:
+      tags: [Shifts]
+      summary: Смены мастеров
+      parameters:
+        - { name: barber_id, in: query, schema: { type: integer } }
+        - { name: branch_id, in: query, schema: { type: integer } }
+        - { name: date_from, in: query, schema: { type: string, format: date } }
+        - { name: date_to, in: query, schema: { type: string, format: date } }
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/PageSize"
+        - { name: sort, in: query, schema: { type: string, default: "work_date,barber" }, description: "work_date, barber, branch, starts_at, shift_id" }
+      responses:
+        "200": { description: OK, content: { application/json: { schema: { $ref: "#/components/schemas/ShiftPage" } } } }
+    post:
+      tags: [Shifts]
+      summary: Создать смену (внутри часов работы филиала)
+      requestBody: { required: true, content: { application/json: { schema: { $ref: "#/components/schemas/ShiftInput" } } } }
+      responses:
+        "201": { description: Создана, content: { application/json: { schema: { $ref: "#/components/schemas/Shift" } } } }
+        "409": { $ref: "#/components/responses/Conflict" }
+        "422": { $ref: "#/components/responses/Unprocessable" }
+  /api/v1/shifts/{id}:
+    parameters: [{ $ref: "#/components/parameters/Id" }]
+    get:
+      tags: [Shifts]
+      summary: Смена
+      responses:
+        "200": { description: OK, content: { application/json: { schema: { $ref: "#/components/schemas/Shift" } } } }
+        "404": { $ref: "#/components/responses/NotFound" }
+    put:
+      tags: [Shifts]
+      summary: Изменить смену (нельзя, если активные записи окажутся вне смены)
+      requestBody: { required: true, content: { application/json: { schema: { $ref: "#/components/schemas/ShiftInput" } } } }
+      responses:
+        "200": { description: OK, content: { application/json: { schema: { $ref: "#/components/schemas/Shift" } } } }
+        "409": { $ref: "#/components/responses/Conflict" }
+        "422": { $ref: "#/components/responses/Unprocessable" }
+    delete:
+      tags: [Shifts]
+      summary: Удалить смену (нельзя при активных записях)
+      responses:
+        "204": { description: Удалена }
+        "409": { $ref: "#/components/responses/Conflict" }
+
+  # ── Клиенты ─────────────────────────────────────────────────────────────────
+  /api/v1/clients:
+    get:
+      tags: [Clients]
+      summary: Клиенты со статистикой (v_client_stats)
+      parameters:
+        - { name: search, in: query, schema: { type: string }, description: Подстрока ФИО, телефона или e-mail }
+        - { name: level, in: query, schema: { $ref: "#/components/schemas/LoyaltyLevel" } }
+        - { name: marketing_consent, in: query, schema: { type: boolean } }
+        - { name: min_visits, in: query, schema: { type: integer } }
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/PageSize"
+        - { name: sort, in: query, schema: { type: string, default: full_name }, description: "full_name, client_id, created_at, visits, total_spent, last_visit" }
+      responses:
+        "200": { description: OK, content: { application/json: { schema: { $ref: "#/components/schemas/ClientPage" } } } }
+        "400": { $ref: "#/components/responses/BadRequest" }
+    post:
+      tags: [Clients]
+      summary: Создать клиента (бонусный счёт создаётся автоматически)
+      requestBody: { required: true, content: { application/json: { schema: { $ref: "#/components/schemas/ClientInput" } } } }
+      responses:
+        "201": { description: Создан, content: { application/json: { schema: { $ref: "#/components/schemas/Client" } } } }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "409": { $ref: "#/components/responses/Conflict" }
+  /api/v1/clients/{id}:
+    parameters: [{ $ref: "#/components/parameters/Id" }]
+    get:
+      tags: [Clients]
+      summary: Клиент
+      responses:
+        "200": { description: OK, content: { application/json: { schema: { $ref: "#/components/schemas/Client" } } } }
+        "404": { $ref: "#/components/responses/NotFound" }
+    put:
+      tags: [Clients]
+      summary: Изменить клиента
+      requestBody: { required: true, content: { application/json: { schema: { $ref: "#/components/schemas/ClientInput" } } } }
+      responses:
+        "200": { description: OK, content: { application/json: { schema: { $ref: "#/components/schemas/Client" } } } }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "409": { $ref: "#/components/responses/Conflict" }
+    delete:
+      tags: [Clients]
+      summary: Удалить клиента без истории визитов
+      responses:
+        "204": { description: Удалён }
+        "409": { $ref: "#/components/responses/Conflict" }
+  /api/v1/clients/{id}/appointments:
+    parameters: [{ $ref: "#/components/parameters/Id" }]
+    get:
+      tags: [Clients]
+      summary: Записи клиента
+      parameters:
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/PageSize"
+        - { name: sort, in: query, schema: { type: string, default: "-starts_at" } }
+      responses:
+        "200": { description: OK, content: { application/json: { schema: { $ref: "#/components/schemas/AppointmentPage" } } } }
+  /api/v1/clients/{id}/bonus-history:
+    parameters: [{ $ref: "#/components/parameters/Id" }]
+    get:
+      tags: [Clients]
+      summary: Движение бонусов клиента
+      responses:
+        "200": { description: OK, content: { application/json: { schema: { type: array, items: { $ref: "#/components/schemas/BonusTx" } } } } }
+
+  # ── Записи ──────────────────────────────────────────────────────────────────
+  /api/v1/appointments:
+    get:
+      tags: [Appointments]
+      summary: Записи (v_appointment_details)
+      parameters:
+        - { name: barber_id, in: query, schema: { type: integer } }
+        - { name: client_id, in: query, schema: { type: integer } }
+        - { name: branch_id, in: query, schema: { type: integer } }
+        - { name: status, in: query, schema: { type: string, example: "scheduled,confirmed" } }
+        - { name: from, in: query, schema: { type: string }, description: Дата или RFC 3339 }
+        - { name: to, in: query, schema: { type: string }, description: Дата или RFC 3339 (не включая) }
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/PageSize"
+        - { name: sort, in: query, schema: { type: string, default: "-starts_at" }, description: "starts_at, appointment_id, status, client_name, barber_name, total_price, created_at" }
+      responses:
+        "200": { description: OK, content: { application/json: { schema: { $ref: "#/components/schemas/AppointmentPage" } } } }
+        "400": { $ref: "#/components/responses/BadRequest" }
+    post:
+      tags: [Appointments]
+      summary: "Сценарий 1: запись клиента (crm.book_appointment, атомарно)"
+      description: |
+        Находит клиента по телефону или создаёт его (с бонусным счётом), создаёт запись,
+        фиксирует цены и длительности услуг мастера. Пересечение с другими записями
+        мастера или клиента — `409 time_slot_conflict` (EXCLUDE-ограничение, корректно
+        и при конкурентных запросах); выход за смену — `422 schedule_violation`.
+      requestBody: { required: true, content: { application/json: { schema: { $ref: "#/components/schemas/BookInput" } } } }
+      responses:
+        "201": { description: Создана, content: { application/json: { schema: { $ref: "#/components/schemas/Appointment" } } } }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "409": { $ref: "#/components/responses/Conflict" }
+        "422": { $ref: "#/components/responses/Unprocessable" }
+  /api/v1/appointments/{id}:
+    parameters: [{ $ref: "#/components/parameters/Id" }]
+    get:
+      tags: [Appointments]
+      summary: Запись с составом услуг
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/Appointment"
+                  - type: object
+                    properties:
+                      items: { type: array, items: { $ref: "#/components/schemas/AppointmentItem" } }
+        "404": { $ref: "#/components/responses/NotFound" }
+    patch:
+      tags: [Appointments]
+      summary: Изменить комментарий
+      requestBody:
+        required: true
+        content: { application/json: { schema: { type: object, properties: { comment: { type: string, nullable: true } } } } }
+      responses:
+        "200": { description: OK, content: { application/json: { schema: { $ref: "#/components/schemas/Appointment" } } } }
+        "409": { $ref: "#/components/responses/Conflict" }
+    delete:
+      tags: [Appointments]
+      summary: Удалить ошибочную запись (без оплат)
+      responses:
+        "204": { description: Удалена }
+        "409": { $ref: "#/components/responses/Conflict" }
+  /api/v1/appointments/{id}/status:
+    parameters: [{ $ref: "#/components/parameters/Id" }]
+    patch:
+      tags: [Appointments]
+      summary: Подтвердить, начать визит или отметить неявку
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [status]
+              properties: { status: { type: string, enum: [confirmed, in_progress, no_show] } }
+      responses:
+        "200": { description: OK, content: { application/json: { schema: { $ref: "#/components/schemas/Appointment" } } } }
+        "409": { $ref: "#/components/responses/Conflict" }
+  /api/v1/appointments/{id}/cancel:
+    parameters: [{ $ref: "#/components/parameters/Id" }]
+    post:
+      tags: [Appointments]
+      summary: "Сценарий 3: отмена записи с причиной"
+      requestBody:
+        required: true
+        content: { application/json: { schema: { type: object, required: [reason], properties: { reason: { type: string } } } } }
+      responses:
+        "200": { description: OK, content: { application/json: { schema: { $ref: "#/components/schemas/Appointment" } } } }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "409": { $ref: "#/components/responses/Conflict" }
+  /api/v1/appointments/{id}/reschedule:
+    parameters: [{ $ref: "#/components/parameters/Id" }]
+    post:
+      tags: [Appointments]
+      summary: Перенести запись (длительность сохраняется)
+      requestBody:
+        required: true
+        content: { application/json: { schema: { type: object, required: [starts_at], properties: { starts_at: { type: string, format: date-time } } } } }
+      responses:
+        "200": { description: OK, content: { application/json: { schema: { $ref: "#/components/schemas/Appointment" } } } }
+        "409": { $ref: "#/components/responses/Conflict" }
+        "422": { $ref: "#/components/responses/Unprocessable" }
+  /api/v1/appointments/{id}/complete:
+    parameters: [{ $ref: "#/components/parameters/Id" }]
+    post:
+      tags: [Appointments]
+      summary: "Сценарий 2: завершение визита с оплатой и бонусами (crm.complete_appointment)"
+      description: |
+        Атомарно: статус `completed` (+ история), оплата бонусами (≤ 30 % чека и ≤ баланса)
+        и деньгами, списание и начисление бонусов по уровню, пересчёт суммы покупок и уровня.
+        При любой ошибке ничего не изменяется.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [payment_method]
+              properties:
+                payment_method: { type: string, enum: [cash, card, online] }
+                bonus_to_redeem: { type: number, default: 0 }
+      responses:
+        "200": { description: OK, content: { application/json: { schema: { $ref: "#/components/schemas/CompleteResult" } } } }
+        "409": { $ref: "#/components/responses/Conflict" }
+        "422": { $ref: "#/components/responses/Unprocessable" }
+  /api/v1/appointments/{id}/history:
+    parameters: [{ $ref: "#/components/parameters/Id" }]
+    get:
+      tags: [Appointments]
+      summary: История статусов записи
+      responses:
+        "200": { description: OK, content: { application/json: { schema: { type: array, items: { $ref: "#/components/schemas/StatusChange" } } } } }
+        "404": { $ref: "#/components/responses/NotFound" }
+  /api/v1/appointments/{id}/review:
+    parameters: [{ $ref: "#/components/parameters/Id" }]
+    post:
+      tags: [Appointments]
+      summary: "Сценарий 4: отзыв о завершённом визите (не позже 30 дней)"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [rating]
+              properties:
+                rating: { type: integer, minimum: 1, maximum: 5 }
+                comment: { type: string }
+      responses:
+        "201": { description: Создан, content: { application/json: { schema: { $ref: "#/components/schemas/Review" } } } }
+        "409": { $ref: "#/components/responses/Conflict" }
+        "422": { $ref: "#/components/responses/Unprocessable" }
+    delete:
+      tags: [Appointments]
+      summary: Удалить отзыв
+      responses:
+        "204": { description: Удалён }
+
+  # ── Отчёты ──────────────────────────────────────────────────────────────────
+  /api/v1/reports/day-schedule:
+    get:
+      tags: [Reports]
+      summary: "Q01: расписание мастера на день"
+      parameters:
+        - { name: barber_id, in: query, required: true, schema: { type: integer } }
+        - { name: date, in: query, schema: { type: string, format: date } }
+      responses: { "200": { $ref: "#/components/responses/Report" } }
+  /api/v1/reports/client-history:
+    get:
+      tags: [Reports]
+      summary: "Q02: история визитов клиента (LAG)"
+      parameters: [{ name: client_id, in: query, required: true, schema: { type: integer } }]
+      responses: { "200": { $ref: "#/components/responses/Report" } }
+  /api/v1/reports/revenue-by-branch:
+    get:
+      tags: [Reports]
+      summary: "Q03: выручка филиалов по месяцам, динамика и доля"
+      parameters: [{ $ref: "#/components/parameters/From" }, { $ref: "#/components/parameters/To" }]
+      responses: { "200": { $ref: "#/components/responses/Report" } }
+  /api/v1/reports/barber-ranking:
+    get:
+      tags: [Reports]
+      summary: "Q04: рейтинг мастеров (комплексный многоэтапный отчёт)"
+      parameters: [{ $ref: "#/components/parameters/From" }, { $ref: "#/components/parameters/To" }]
+      responses: { "200": { $ref: "#/components/responses/Report" } }
+  /api/v1/reports/rfm:
+    get:
+      tags: [Reports]
+      summary: "Q05: RFM-сегментация клиентов (комплексный многоэтапный отчёт)"
+      parameters: [{ name: as_of, in: query, schema: { type: string } }]
+      responses: { "200": { $ref: "#/components/responses/Report" } }
+  /api/v1/reports/top-services:
+    get:
+      tags: [Reports]
+      summary: "Q06: популярность услуг по категориям"
+      parameters:
+        - $ref: "#/components/parameters/From"
+        - $ref: "#/components/parameters/To"
+        - { name: min_count, in: query, schema: { type: integer, default: 1 } }
+      responses: { "200": { $ref: "#/components/responses/Report" } }
+  /api/v1/reports/churn-risk:
+    get:
+      tags: [Reports]
+      summary: "Q07: клиенты в зоне оттока"
+      parameters:
+        - { name: as_of, in: query, schema: { type: string } }
+        - { name: min_visits, in: query, schema: { type: integer, default: 3 } }
+        - { name: days, in: query, schema: { type: integer, default: 45 } }
+      responses: { "200": { $ref: "#/components/responses/Report" } }
+  /api/v1/reports/no-shows:
+    get:
+      tags: [Reports]
+      summary: "Q08: клиенты с систематическими неявками"
+      parameters:
+        - $ref: "#/components/parameters/From"
+        - { name: min_no_shows, in: query, schema: { type: integer, default: 2 } }
+      responses: { "200": { $ref: "#/components/responses/Report" } }
+  /api/v1/reports/utilization:
+    get:
+      tags: [Reports]
+      summary: "Q09: загрузка мастеров по неделям"
+      parameters:
+        - { name: from, in: query, schema: { type: string, format: date } }
+        - { name: to, in: query, schema: { type: string, format: date } }
+        - { name: branch_id, in: query, schema: { type: integer } }
+      responses: { "200": { $ref: "#/components/responses/Report" } }
+  /api/v1/reports/cohorts:
+    get:
+      tags: [Reports]
+      summary: "Q10: когортное удержание клиентов"
+      parameters: [{ name: from, in: query, schema: { type: string, format: date } }]
+      responses: { "200": { $ref: "#/components/responses/Report" } }
+  /api/v1/reports/daily-revenue:
+    get:
+      tags: [Reports]
+      summary: "Q11: выручка по дням месяца, нарастающий итог, скользящее среднее"
+      parameters:
+        - { name: month, in: query, schema: { type: string, format: date } }
+        - { name: branch_id, in: query, schema: { type: integer } }
+      responses: { "200": { $ref: "#/components/responses/Report" } }
+  /api/v1/reports/kpi:
+    get:
+      tags: [Reports]
+      summary: KPI мастеров по месяцам (материализованное представление)
+      parameters:
+        - { name: month, in: query, schema: { type: string, format: date } }
+        - { name: barber_id, in: query, schema: { type: integer } }
+      responses: { "200": { $ref: "#/components/responses/Report" } }
+  /api/v1/reports/kpi/refresh:
+    post:
+      tags: [Reports]
+      summary: Обновить MV (REFRESH MATERIALIZED VIEW CONCURRENTLY)
+      responses:
+        "200":
+          description: OK
+          content: { application/json: { schema: { type: object, properties: { refreshed_at: { type: string, format: date-time } } } } }
+
+  # ── Импорт и аудит ──────────────────────────────────────────────────────────
+  /api/v1/import/clients:
+    post:
+      tags: [Import]
+      summary: "Сценарий 5: пакетная загрузка клиентов из CSV"
+      description: |
+        Заголовок обязателен: `phone,last_name,first_name,middle_name,email,birth_date,notes,marketing_consent`
+        (обязательны phone и first_name, порядок любой). Телефоны нормализуются,
+        даты — `YYYY-MM-DD` или `DD.MM.YYYY`. Некорректные строки попадают в отчёт
+        об ошибках, корректные — добавляются или обновляют существующих клиентов.
+      parameters: [{ name: source, in: query, schema: { type: string }, description: Имя файла для журнала }]
+      requestBody:
+        required: true
+        content:
+          text/csv:
+            schema: { type: string }
+            example: |
+              phone,last_name,first_name,email,birth_date,marketing_consent
+              8 916 777-00-01,Новиков,Олег,oleg@example.com,01.02.1990,да
+      responses:
+        "200": { description: Отчёт о загрузке, content: { application/json: { schema: { $ref: "#/components/schemas/ImportResult" } } } }
+        "400": { $ref: "#/components/responses/BadRequest" }
+  /api/v1/audit:
+    get:
+      tags: [Audit]
+      summary: Журнал аудита изменений
+      parameters:
+        - { name: table, in: query, schema: { type: string, example: crm.appointments } }
+        - { name: operation, in: query, schema: { type: string, enum: [INSERT, UPDATE, DELETE] } }
+        - { name: row_id, in: query, schema: { type: integer } }
+        - { name: from, in: query, schema: { type: string } }
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/PageSize"
+        - { name: sort, in: query, schema: { type: string, default: "-audit_id" } }
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/PageMeta"
+                  - type: object
+                    properties: { items: { type: array, items: { $ref: "#/components/schemas/AuditEntry" } } }
+
+components:
+  parameters:
+    Id: { name: id, in: path, required: true, schema: { type: integer, minimum: 1 } }
+    Page: { name: page, in: query, schema: { type: integer, minimum: 1, default: 1 } }
+    PageSize: { name: page_size, in: query, schema: { type: integer, minimum: 1, maximum: 100, default: 20 } }
+    From: { name: from, in: query, schema: { type: string }, description: Начало периода (дата или RFC 3339) }
+    To: { name: to, in: query, schema: { type: string }, description: Конец периода, не включая }
+
+  responses:
+    BadRequest: { description: Ошибка валидации входных данных, content: { application/json: { schema: { $ref: "#/components/schemas/ErrorResponse" } } } }
+    NotFound: { description: Не найдено, content: { application/json: { schema: { $ref: "#/components/schemas/ErrorResponse" } } } }
+    Conflict: { description: Конфликт (уникальность, пересечение времени, состояние, связанные данные), content: { application/json: { schema: { $ref: "#/components/schemas/ErrorResponse" } } } }
+    Unprocessable: { description: Нарушение бизнес-правила, content: { application/json: { schema: { $ref: "#/components/schemas/ErrorResponse" } } } }
+    Report:
+      description: Табличный отчёт
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              columns: { type: array, items: { type: string } }
+              rows: { type: array, items: { type: object, additionalProperties: true } }
+
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code: { type: string, example: time_slot_conflict }
+            message: { type: string, example: Мастер уже занят в это время }
+            fields: { type: object, additionalProperties: { type: string } }
+            sqlstate: { type: string, example: 23P01 }
+    PageMeta:
+      type: object
+      properties:
+        page: { type: integer }
+        page_size: { type: integer }
+        total: { type: integer }
+    Grade: { type: string, enum: [junior, middle, senior, top] }
+    LoyaltyLevel: { type: string, enum: [bronze, silver, gold] }
+    Status: { type: string, enum: [scheduled, confirmed, in_progress, completed, cancelled, no_show] }
+
+    BranchInput:
+      type: object
+      required: [name, address, phone, opens_at, closes_at]
+      properties:
+        name: { type: string, example: Тверская }
+        address: { type: string, example: "Москва, ул. Тверская, 12" }
+        phone: { type: string, example: "+74951110001" }
+        opens_at: { type: string, example: "09:00" }
+        closes_at: { type: string, example: "21:00" }
+        is_active: { type: boolean }
+    Branch:
+      allOf:
+        - $ref: "#/components/schemas/BranchInput"
+        - type: object
+          properties:
+            branch_id: { type: integer }
+            created_at: { type: string, format: date-time }
+            updated_at: { type: string, format: date-time }
+    BranchPage:
+      allOf:
+        - $ref: "#/components/schemas/PageMeta"
+        - type: object
+          properties: { items: { type: array, items: { $ref: "#/components/schemas/Branch" } } }
+
+    CategoryInput:
+      type: object
+      required: [name]
+      properties:
+        name: { type: string }
+        description: { type: string, nullable: true }
+    Category:
+      allOf:
+        - { type: object, properties: { category_id: { type: integer } } }
+        - $ref: "#/components/schemas/CategoryInput"
+    ServiceInput:
+      type: object
+      required: [category_id, name, base_price, base_duration_min]
+      properties:
+        category_id: { type: integer }
+        name: { type: string, example: Мужская стрижка }
+        description: { type: string, nullable: true }
+        base_price: { type: number, example: 1500 }
+        base_duration_min: { type: integer, example: 45, description: "5..480, кратно 5" }
+        is_active: { type: boolean }
+    Service:
+      allOf:
+        - $ref: "#/components/schemas/ServiceInput"
+        - { type: object, properties: { service_id: { type: integer }, category_name: { type: string } } }
+    ServicePage:
+      allOf:
+        - $ref: "#/components/schemas/PageMeta"
+        - { type: object, properties: { items: { type: array, items: { $ref: "#/components/schemas/Service" } } } }
+
+    BarberInput:
+      type: object
+      required: [branch_id, full_name, phone, login, grade]
+      properties:
+        branch_id: { type: integer }
+        full_name: { type: string, example: Артём Волков }
+        phone: { type: string, example: "+79030000001" }
+        login: { type: string, example: artem }
+        password: { type: string, format: password, description: "8..72 символа; обязателен при создании" }
+        grade: { $ref: "#/components/schemas/Grade" }
+        hired_at: { type: string, format: date, nullable: true }
+        fired_at: { type: string, format: date, nullable: true }
+    Barber:
+      type: object
+      properties:
+        barber_id: { type: integer }
+        branch_id: { type: integer }
+        branch_name: { type: string }
+        full_name: { type: string }
+        phone: { type: string }
+        login: { type: string }
+        grade: { $ref: "#/components/schemas/Grade" }
+        hired_at: { type: string, format: date }
+        fired_at: { type: string, format: date, nullable: true }
+        created_at: { type: string, format: date-time }
+        updated_at: { type: string, format: date-time }
+    BarberPage:
+      allOf:
+        - $ref: "#/components/schemas/PageMeta"
+        - { type: object, properties: { items: { type: array, items: { $ref: "#/components/schemas/Barber" } } } }
+    BarberSettings:
+      type: object
+      properties:
+        barber_id: { type: integer }
+        slot_step_min: { type: integer }
+        compact_slots: { type: boolean }
+        min_lead_min: { type: integer }
+        max_days_ahead: { type: integer }
+        updated_at: { type: string, format: date-time }
+    BarberService:
+      type: object
+      properties:
+        barber_id: { type: integer }
+        service_id: { type: integer }
+        service_name: { type: string }
+        price: { type: number }
+        duration_min: { type: integer }
+        is_active: { type: boolean }
+    Slot:
+      type: object
+      properties:
+        start: { type: string, format: date-time }
+        end: { type: string, format: date-time }
+
+    ShiftInput:
+      type: object
+      required: [barber_id, branch_id, work_date, starts_at, ends_at]
+      properties:
+        barber_id: { type: integer }
+        branch_id: { type: integer }
+        work_date: { type: string, format: date }
+        starts_at: { type: string, example: "10:00" }
+        ends_at: { type: string, example: "19:00" }
+    Shift:
+      allOf:
+        - $ref: "#/components/schemas/ShiftInput"
+        - { type: object, properties: { shift_id: { type: integer }, barber_name: { type: string }, branch_name: { type: string } } }
+    ShiftPage:
+      allOf:
+        - $ref: "#/components/schemas/PageMeta"
+        - { type: object, properties: { items: { type: array, items: { $ref: "#/components/schemas/Shift" } } } }
+
+    ClientInput:
+      type: object
+      required: [phone, first_name]
+      properties:
+        phone: { type: string, example: "+79161234567" }
+        last_name: { type: string, nullable: true }
+        first_name: { type: string }
+        middle_name: { type: string, nullable: true }
+        email: { type: string, nullable: true }
+        birth_date: { type: string, format: date, nullable: true }
+        notes: { type: string }
+        marketing_consent: { type: boolean }
+    Client:
+      allOf:
+        - $ref: "#/components/schemas/ClientInput"
+        - type: object
+          properties:
+            client_id: { type: integer }
+            full_name: { type: string, description: Вычисляемый столбец }
+            loyalty_level: { $ref: "#/components/schemas/LoyaltyLevel" }
+            bonus_balance: { type: number }
+            total_spent: { type: number }
+            visits_count: { type: integer }
+            no_show_count: { type: integer }
+            last_visit_at: { type: string, format: date-time, nullable: true }
+            next_visit_at: { type: string, format: date-time, nullable: true }
+            created_at: { type: string, format: date-time }
+    ClientPage:
+      allOf:
+        - $ref: "#/components/schemas/PageMeta"
+        - { type: object, properties: { items: { type: array, items: { $ref: "#/components/schemas/Client" } } } }
+    BonusTx:
+      type: object
+      properties:
+        bonus_tx_id: { type: integer }
+        appointment_id: { type: integer, nullable: true }
+        kind: { type: string, enum: [accrual, redeem, adjustment, expire] }
+        amount: { type: number }
+        comment: { type: string, nullable: true }
+        created_at: { type: string, format: date-time }
+
+    BookInput:
+      type: object
+      required: [client_phone, client_name, barber_id, starts_at, service_ids]
+      properties:
+        client_phone: { type: string, example: "+79161234567" }
+        client_name: { type: string, example: Иванов Иван }
+        barber_id: { type: integer, example: 1 }
+        starts_at: { type: string, format: date-time, example: "2026-11-05T12:00:00+03:00" }
+        service_ids: { type: array, items: { type: integer }, example: [1, 5] }
+        source: { type: string, enum: [online, phone, walk_in, admin], default: online }
+        comment: { type: string, nullable: true }
+    Appointment:
+      type: object
+      properties:
+        appointment_id: { type: integer }
+        starts_at: { type: string, format: date-time }
+        ends_at: { type: string, format: date-time }
+        status: { $ref: "#/components/schemas/Status" }
+        source: { type: string }
+        client_id: { type: integer }
+        client_name: { type: string }
+        client_phone: { type: string }
+        barber_id: { type: integer }
+        barber_name: { type: string }
+        branch_id: { type: integer }
+        branch_name: { type: string }
+        services: { type: string, nullable: true }
+        total_price: { type: number }
+        total_duration_min: { type: integer }
+        paid_amount: { type: number }
+        rating: { type: integer, nullable: true }
+        comment: { type: string, nullable: true }
+        cancel_reason: { type: string, nullable: true }
+        created_at: { type: string, format: date-time }
+        updated_at: { type: string, format: date-time }
+    AppointmentPage:
+      allOf:
+        - $ref: "#/components/schemas/PageMeta"
+        - { type: object, properties: { items: { type: array, items: { $ref: "#/components/schemas/Appointment" } } } }
+    AppointmentItem:
+      type: object
+      properties:
+        service_id: { type: integer }
+        name: { type: string }
+        price: { type: number }
+        duration_min: { type: integer }
+    StatusChange:
+      type: object
+      properties:
+        history_id: { type: integer }
+        old_status: { type: string, nullable: true }
+        new_status: { type: string }
+        changed_at: { type: string, format: date-time }
+        changed_by: { type: string }
+    CompleteResult:
+      type: object
+      properties:
+        total_amount: { type: number }
+        bonus_redeemed: { type: number }
+        paid_money: { type: number }
+        bonus_accrued: { type: number }
+        bonus_balance: { type: number }
+        loyalty_level: { $ref: "#/components/schemas/LoyaltyLevel" }
+    Review:
+      type: object
+      properties:
+        appointment_id: { type: integer }
+        rating: { type: integer }
+        comment: { type: string, nullable: true }
+        created_at: { type: string, format: date-time }
+    ImportResult:
+      type: object
+      properties:
+        batch_id: { type: integer }
+        total: { type: integer }
+        inserted: { type: integer }
+        updated: { type: integer }
+        rejected: { type: integer }
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              line_no: { type: integer }
+              field: { type: string }
+              message: { type: string }
+    AuditEntry:
+      type: object
+      properties:
+        audit_id: { type: integer }
+        table_name: { type: string }
+        operation: { type: string }
+        row_pk: { type: object }
+        old_data: { type: object, nullable: true }
+        new_data: { type: object, nullable: true }
+        changed_columns: { type: array, items: { type: string }, nullable: true }
+        db_user: { type: string }
+        app_user: { type: string, nullable: true }
+        changed_at: { type: string, format: date-time }
