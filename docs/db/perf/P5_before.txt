@@ -1,0 +1,61 @@
+-- P5. Q03 выручка филиалов за 3 месяца (before)
+-- медиана Execution Time из 7 прогонов: 33.86 ms
+
+Incremental Sort  (cost=10289.78..10310.03 rows=242 width=191) (actual time=31.281..33.044 rows=16 loops=1)
+  Sort Key: ((date_trunc('month'::text, (a.starts_at AT TIME ZONE 'Europe/Moscow'::text)))::date), br.name
+  Presorted Key: ((date_trunc('month'::text, (a.starts_at AT TIME ZONE 'Europe/Moscow'::text)))::date)
+  Full-sort Groups: 1  Sort Method: quicksort  Average Memory: 26kB  Peak Memory: 26kB
+  Buffers: shared hit=3591
+  ->  WindowAgg  (cost=10289.72..10300.61 rows=242 width=191) (actual time=31.241..33.019 rows=16 loops=1)
+        Buffers: shared hit=3588
+        ->  Sort  (cost=10289.72..10290.32 rows=242 width=95) (actual time=31.233..32.995 rows=16 loops=1)
+              Sort Key: ((date_trunc('month'::text, (a.starts_at AT TIME ZONE 'Europe/Moscow'::text)))::date)
+              Sort Method: quicksort  Memory: 26kB
+              Buffers: shared hit=3588
+              ->  WindowAgg  (cost=8382.67..10280.14 rows=242 width=95) (actual time=28.872..32.985 rows=16 loops=1)
+                    Buffers: shared hit=3588
+                    ->  Merge Join  (cost=8382.67..10275.90 rows=242 width=63) (actual time=28.637..32.972 rows=16 loops=1)
+                          Merge Cond: (ws.branch_id = br.branch_id)
+                          Buffers: shared hit=3588
+                          ->  GroupAggregate  (cost=8381.59..10121.33 rows=12084 width=48) (actual time=28.624..32.955 rows=16 loops=1)
+                                Group Key: ws.branch_id, ((date_trunc('month'::text, (a.starts_at AT TIME ZONE 'Europe/Moscow'::text)))::date)
+                                Buffers: shared hit=3587
+                                ->  Gather Merge  (cost=8381.59..9758.81 rows=12084 width=21) (actual time=28.392..31.585 rows=17045 loops=1)
+                                      Workers Planned: 1
+                                      Workers Launched: 1
+                                      Buffers: shared hit=3587
+                                      ->  Sort  (cost=7381.58..7399.35 rows=7108 width=21) (actual time=26.854..27.084 rows=8522 loops=2)
+                                            Sort Key: ws.branch_id, ((date_trunc('month'::text, (a.starts_at AT TIME ZONE 'Europe/Moscow'::text)))::date), a.appointment_id
+                                            Sort Method: quicksort  Memory: 781kB
+                                            Buffers: shared hit=3587
+                                            Worker 0:  Sort Method: quicksort  Memory: 787kB
+                                            ->  Hash Join  (cost=4569.37..6926.84 rows=7108 width=21) (actual time=17.426..23.762 rows=8522 loops=2)
+                                                  Hash Cond: ((a.barber_id = ws.barber_id) AND (((a.starts_at AT TIME ZONE 'Europe/Moscow'::text))::date = ws.work_date))
+                                                  Buffers: shared hit=3532
+                                                  ->  Parallel Hash Join  (cost=3859.19..6108.62 rows=9951 width=25) (actual time=13.593..15.408 rows=8522 loops=2)
+                                                        Hash Cond: (x.appointment_id = a.appointment_id)
+                                                        Buffers: shared hit=3112
+                                                        ->  Parallel Seq Scan on appointment_services x  (cost=0.00..1997.75 rows=95875 width=13) (actual time=0.005..3.197 rows=81494 loops=2)
+                                                              Buffers: shared hit=1039
+                                                        ->  Parallel Hash  (cost=3734.81..3734.81 rows=9951 width=20) (actual time=5.934..5.935 rows=8522 loops=2)
+                                                              Buckets: 32768  Batches: 1  Memory Usage: 1216kB
+                                                              Buffers: shared hit=2057
+                                                              ->  Parallel Seq Scan on appointments a  (cost=0.00..3734.81 rows=9951 width=20) (actual time=3.769..4.732 rows=8522 loops=2)
+                                                                    Filter: ((starts_at >= '2026-08-03 17:56:41.330503+03'::timestamp with time zone) AND (starts_at < '2026-11-03 17:56:41.330503+03'::timestamp with time zone) AND (status = 'completed'::crm.appointment_status))
+                                                                    Rows Removed by Filter: 72971
+                                                                    Buffers: shared hit=2057
+                                                  ->  Hash  (cost=390.87..390.87 rows=21287 width=12) (actual time=3.688..3.688 rows=21287 loops=2)
+                                                        Buckets: 32768  Batches: 1  Memory Usage: 1171kB
+                                                        Buffers: shared hit=356
+                                                        ->  Seq Scan on work_shifts ws  (cost=0.00..390.87 rows=21287 width=12) (actual time=0.010..1.625 rows=21287 loops=2)
+                                                              Buffers: shared hit=356
+                          ->  Sort  (cost=1.08..1.09 rows=4 width=19) (actual time=0.010..0.010 rows=4 loops=1)
+                                Sort Key: br.branch_id
+                                Sort Method: quicksort  Memory: 25kB
+                                Buffers: shared hit=1
+                                ->  Seq Scan on branches br  (cost=0.00..1.04 rows=4 width=19) (actual time=0.005..0.006 rows=4 loops=1)
+                                      Buffers: shared hit=1
+Planning:
+  Buffers: shared hit=449
+Planning Time: 1.086 ms
+Execution Time: 33.172 ms

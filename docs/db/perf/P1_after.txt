@@ -1,0 +1,45 @@
+-- P1. Q01 расписание мастера на день (after)
+-- медиана Execution Time из 7 прогонов: 0.30 ms
+
+Sort  (cost=131.55..131.56 rows=6 width=240) (actual time=0.169..0.170 rows=6 loops=1)
+  Sort Key: a.starts_at
+  Sort Method: quicksort  Memory: 25kB
+  Buffers: shared hit=87
+  ->  GroupAggregate  (cost=131.24..131.47 rows=6 width=240) (actual time=0.146..0.154 rows=6 loops=1)
+        Group Key: a.appointment_id, c.client_id
+        Buffers: shared hit=84
+        ->  Sort  (cost=131.24..131.26 rows=6 width=140) (actual time=0.092..0.093 rows=6 loops=1)
+              Sort Key: a.appointment_id, c.client_id, s.name
+              Sort Method: quicksort  Memory: 25kB
+              Buffers: shared hit=84
+              ->  Nested Loop Left Join  (cost=5.63..131.17 rows=6 width=140) (actual time=0.050..0.074 rows=6 loops=1)
+                    Buffers: shared hit=78
+                    ->  Nested Loop Left Join  (cost=5.49..130.23 rows=6 width=129) (actual time=0.045..0.065 rows=6 loops=1)
+                          Buffers: shared hit=66
+                          ->  Nested Loop  (cost=5.07..79.55 rows=6 width=120) (actual time=0.037..0.050 rows=6 loops=1)
+                                Buffers: shared hit=42
+                                ->  Nested Loop  (cost=4.78..77.47 rows=6 width=116) (actual time=0.029..0.038 rows=6 loops=1)
+                                      Buffers: shared hit=24
+                                      ->  Bitmap Heap Scan on appointments a  (cost=4.50..27.64 rows=6 width=68) (actual time=0.018..0.021 rows=6 loops=1)
+                                            Recheck Cond: ((barber_id = 1) AND (starts_at >= '2026-10-27 00:00:00+03'::timestamp with time zone) AND (starts_at < '2026-10-28 00:00:00+03'::timestamp with time zone))
+                                            Heap Blocks: exact=3
+                                            Buffers: shared hit=6
+                                            ->  Bitmap Index Scan on appointments_barber_starts_idx  (cost=0.00..4.50 rows=6 width=0) (actual time=0.009..0.009 rows=6 loops=1)
+                                                  Index Cond: ((barber_id = 1) AND (starts_at >= '2026-10-27 00:00:00+03'::timestamp with time zone) AND (starts_at < '2026-10-28 00:00:00+03'::timestamp with time zone))
+                                                  Buffers: shared hit=3
+                                      ->  Index Scan using clients_pkey on clients c  (cost=0.29..8.30 rows=1 width=48) (actual time=0.002..0.002 rows=1 loops=6)
+                                            Index Cond: (client_id = a.client_id)
+                                            Buffers: shared hit=18
+                                ->  Index Scan using loyalty_accounts_pkey on loyalty_accounts la  (cost=0.29..0.35 rows=1 width=12) (actual time=0.002..0.002 rows=1 loops=6)
+                                      Index Cond: (client_id = c.client_id)
+                                      Buffers: shared hit=18
+                          ->  Index Scan using appointment_services_pkey on appointment_services x  (cost=0.42..8.44 rows=1 width=17) (actual time=0.002..0.002 rows=1 loops=6)
+                                Index Cond: (appointment_id = a.appointment_id)
+                                Buffers: shared hit=24
+                    ->  Index Scan using services_pkey on services s  (cost=0.14..0.16 rows=1 width=19) (actual time=0.001..0.001 rows=1 loops=6)
+                          Index Cond: (service_id = x.service_id)
+                          Buffers: shared hit=12
+Planning:
+  Buffers: shared hit=656
+Planning Time: 1.467 ms
+Execution Time: 0.246 ms

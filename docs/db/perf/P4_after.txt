@@ -1,0 +1,53 @@
+-- P4. Поиск клиентов по подстроке + статистика (список API) (after)
+-- медиана Execution Time из 7 прогонов: 5.84 ms
+
+Limit  (cost=2264.02..2824.25 rows=20 width=51) (actual time=3.207..4.242 rows=20 loops=1)
+  Buffers: shared hit=766
+  ->  Nested Loop  (cost=2264.02..10751.56 rows=303 width=51) (actual time=3.206..4.240 rows=20 loops=1)
+        Buffers: shared hit=766
+        ->  Nested Loop  (cost=2236.38..2366.43 rows=303 width=43) (actual time=3.163..3.962 rows=20 loops=1)
+              Buffers: shared hit=597
+              ->  Gather Merge  (cost=2236.09..2270.62 rows=303 width=43) (actual time=3.151..3.919 rows=20 loops=1)
+                    Workers Planned: 1
+                    Workers Launched: 1
+                    Buffers: shared hit=556
+                    ->  Sort  (cost=1236.08..1236.52 rows=178 width=43) (actual time=1.833..1.834 rows=16 loops=2)
+                          Sort Key: c.full_name
+                          Sort Method: quicksort  Memory: 39kB
+                          Buffers: shared hit=556
+                          Worker 0:  Sort Method: quicksort  Memory: 25kB
+                          ->  Merge Join  (cost=519.54..1229.43 rows=178 width=43) (actual time=0.644..1.809 rows=108 loops=2)
+                                Merge Cond: (c_1.client_id = c.client_id)
+                                Buffers: shared hit=547
+                                ->  Parallel Index Only Scan using clients_pkey on clients c_1  (cost=0.29..662.76 rows=17647 width=8) (actual time=0.013..0.743 rows=14991 loops=2)
+                                      Heap Fetches: 0
+                                      Buffers: shared hit=85
+                                ->  Sort  (cost=519.25..520.01 rows=303 width=35) (actual time=0.622..0.627 rows=214 loops=2)
+                                      Sort Key: c.client_id
+                                      Sort Method: quicksort  Memory: 38kB
+                                      Buffers: shared hit=462
+                                      Worker 0:  Sort Method: quicksort  Memory: 38kB
+                                      ->  Bitmap Heap Scan on clients c  (cost=49.13..506.77 rows=303 width=35) (actual time=0.223..0.590 rows=215 loops=2)
+                                            Recheck Cond: (lower(((((full_name || ' '::text) || phone) || ' '::text) || COALESCE(email, ''::text))) ~~ '%петрова%'::text)
+                                            Heap Blocks: exact=215
+                                            Buffers: shared hit=456
+                                            ->  Bitmap Index Scan on clients_search_trgm_idx  (cost=0.00..49.05 rows=303 width=0) (actual time=0.201..0.201 rows=215 loops=2)
+                                                  Index Cond: (lower(((((full_name || ' '::text) || phone) || ' '::text) || COALESCE(email, ''::text))) ~~ '%петрова%'::text)
+                                                  Buffers: shared hit=26
+              ->  Index Only Scan using loyalty_accounts_pkey on loyalty_accounts la  (cost=0.29..0.32 rows=1 width=8) (actual time=0.002..0.002 rows=1 loops=20)
+                    Index Cond: (client_id = c_1.client_id)
+                    Heap Fetches: 0
+                    Buffers: shared hit=41
+        ->  Aggregate  (cost=27.64..27.65 rows=1 width=40) (actual time=0.014..0.014 rows=1 loops=20)
+              Buffers: shared hit=169
+              ->  Bitmap Heap Scan on appointments a  (cost=4.47..27.58 rows=6 width=12) (actual time=0.004..0.013 rows=5 loops=20)
+                    Recheck Cond: (client_id = c_1.client_id)
+                    Heap Blocks: exact=108
+                    Buffers: shared hit=169
+                    ->  Bitmap Index Scan on appointments_client_starts_idx  (cost=0.00..4.46 rows=6 width=0) (actual time=0.002..0.002 rows=5 loops=20)
+                          Index Cond: (client_id = c_1.client_id)
+                          Buffers: shared hit=61
+Planning:
+  Buffers: shared hit=460
+Planning Time: 1.835 ms
+Execution Time: 4.364 ms

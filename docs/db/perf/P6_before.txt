@@ -1,0 +1,110 @@
+-- P6. Q04 рейтинг мастеров за месяц (before)
+-- медиана Execution Time из 7 прогонов: 18.93 ms
+
+Sort  (cost=6033.39..6033.49 rows=40 width=266) (actual time=19.077..19.083 rows=40 loops=1)
+  Sort Key: br.name, (rank() OVER (?)), b.barber_id
+  Sort Method: quicksort  Memory: 30kB
+  Buffers: shared hit=25198
+  CTE period_appts
+    ->  Seq Scan on appointments a  (cost=0.00..4501.81 rows=6756 width=32) (actual time=8.114..8.904 rows=6758 loops=1)
+          Filter: ((starts_at >= '2026-10-01 00:00:00+03'::timestamp with time zone) AND (starts_at < '2026-11-01 00:00:00+03'::timestamp with time zone))
+          Rows Removed by Filter: 156229
+          Buffers: shared hit=2057
+  ->  WindowAgg  (cost=1527.32..1530.52 rows=40 width=266) (actual time=19.003..19.051 rows=40 loops=1)
+        Buffers: shared hit=25192
+        ->  WindowAgg  (cost=1527.32..1528.22 rows=40 width=250) (actual time=18.991..19.008 rows=40 loops=1)
+              Buffers: shared hit=25192
+              ->  Sort  (cost=1527.32..1527.42 rows=40 width=242) (actual time=18.990..18.995 rows=40 loops=1)
+                    Sort Key: b.branch_id, (COALESCE((sum(x.price)), '0'::numeric)) DESC
+                    Sort Method: quicksort  Memory: 30kB
+                    Buffers: shared hit=25192
+                    ->  WindowAgg  (cost=1525.46..1526.26 rows=40 width=242) (actual time=18.943..18.963 rows=40 loops=1)
+                          Buffers: shared hit=25189
+                          ->  Sort  (cost=1525.46..1525.56 rows=40 width=234) (actual time=18.940..18.945 rows=40 loops=1)
+                                Sort Key: (round((avg(r.rating)), 2)) DESC NULLS LAST
+                                Sort Method: quicksort  Memory: 30kB
+                                Buffers: shared hit=25189
+                                ->  Hash Join  (cost=1522.42..1524.39 rows=40 width=234) (actual time=18.389..18.923 rows=40 loops=1)
+                                      Hash Cond: (b.branch_id = br.branch_id)
+                                      Buffers: shared hit=25189
+                                      ->  Hash Left Join  (cost=1521.33..1522.99 rows=40 width=187) (actual time=18.370..18.896 rows=40 loops=1)
+                                            Hash Cond: (b.barber_id = st.barber_id)
+                                            Filter: ((pa_1.barber_id IS NOT NULL) OR (st.barber_id IS NOT NULL))
+                                            Buffers: shared hit=25188
+                                            ->  Merge Left Join  (cost=1011.65..1013.19 rows=40 width=159) (actual time=17.475..17.995 rows=40 loops=1)
+                                                  Merge Cond: (b.barber_id = pa_2.barber_id)
+                                                  Buffers: shared hit=25010
+                                                  ->  Sort  (cost=571.56..571.66 rows=40 width=127) (actual time=12.425..12.429 rows=40 loops=1)
+                                                        Sort Key: b.barber_id
+                                                        Sort Method: quicksort  Memory: 29kB
+                                                        Buffers: shared hit=2066
+                                                        ->  Hash Right Join  (cost=564.84..570.49 rows=40 width=127) (actual time=12.396..12.412 rows=40 loops=1)
+                                                              Hash Cond: (pa.barber_id = b.barber_id)
+                                                              Buffers: shared hit=2066
+                                                              ->  HashAggregate  (cost=236.50..239.00 rows=200 width=44) (actual time=0.893..0.902 rows=40 loops=1)
+                                                                    Group Key: pa.barber_id
+                                                                    Batches: 1  Memory Usage: 40kB
+                                                                    Buffers: shared hit=8
+                                                                    ->  Hash Join  (cost=32.91..185.83 rows=6756 width=6) (actual time=0.235..0.813 rows=1001 loops=1)
+                                                                          Hash Cond: (pa.appointment_id = r.appointment_id)
+                                                                          Buffers: shared hit=8
+                                                                          ->  CTE Scan on period_appts pa  (cost=0.00..135.12 rows=6756 width=12) (actual time=0.000..0.278 rows=6758 loops=1)
+                                                                          ->  Hash  (cost=19.07..19.07 rows=1107 width=10) (actual time=0.154..0.154 rows=1107 loops=1)
+                                                                                Buckets: 2048  Batches: 1  Memory Usage: 68kB
+                                                                                Buffers: shared hit=8
+                                                                                ->  Seq Scan on reviews r  (cost=0.00..19.07 rows=1107 width=10) (actual time=0.006..0.067 rows=1107 loops=1)
+                                                                                      Buffers: shared hit=8
+                                                              ->  Hash  (cost=327.85..327.85 rows=40 width=87) (actual time=11.493..11.494 rows=40 loops=1)
+                                                                    Buckets: 1024  Batches: 1  Memory Usage: 12kB
+                                                                    Buffers: shared hit=2058
+                                                                    ->  Hash Right Join  (cost=322.81..327.85 rows=40 width=87) (actual time=11.470..11.485 rows=40 loops=1)
+                                                                          Hash Cond: (pa_1.barber_id = b.barber_id)
+                                                                          Buffers: shared hit=2058
+                                                                          ->  HashAggregate  (cost=320.91..323.41 rows=200 width=60) (actual time=11.442..11.450 rows=40 loops=1)
+                                                                                Group Key: pa_1.barber_id
+                                                                                Batches: 1  Memory Usage: 64kB
+                                                                                Buffers: shared hit=2057
+                                                                                ->  CTE Scan on period_appts pa_1  (cost=0.00..135.12 rows=6756 width=24) (actual time=8.115..9.975 rows=6758 loops=1)
+                                                                                      Buffers: shared hit=2057
+                                                                          ->  Hash  (cost=1.40..1.40 rows=40 width=27) (actual time=0.017..0.018 rows=40 loops=1)
+                                                                                Buckets: 1024  Batches: 1  Memory Usage: 11kB
+                                                                                Buffers: shared hit=1
+                                                                                ->  Seq Scan on barbers b  (cost=0.00..1.40 rows=40 width=27) (actual time=0.003..0.006 rows=40 loops=1)
+                                                                                      Buffers: shared hit=1
+                                                  ->  GroupAggregate  (cost=440.09..440.73 rows=31 width=36) (actual time=5.047..5.557 rows=40 loops=1)
+                                                        Group Key: pa_2.barber_id
+                                                        Buffers: shared hit=22944
+                                                        ->  Sort  (cost=440.09..440.17 rows=34 width=9) (actual time=5.032..5.179 rows=5736 loops=1)
+                                                              Sort Key: pa_2.barber_id
+                                                              Sort Method: quicksort  Memory: 417kB
+                                                              Buffers: shared hit=22944
+                                                              ->  Nested Loop  (cost=0.42..439.23 rows=34 width=9) (actual time=0.025..4.481 rows=5736 loops=1)
+                                                                    Buffers: shared hit=22944
+                                                                    ->  CTE Scan on period_appts pa_2  (cost=0.00..152.01 rows=34 width=12) (actual time=0.001..0.351 rows=5736 loops=1)
+                                                                          Filter: (status = 'completed'::crm.appointment_status)
+                                                                          Rows Removed by Filter: 1022
+                                                                    ->  Index Scan using appointment_services_pkey on appointment_services x  (cost=0.42..8.44 rows=1 width=13) (actual time=0.001..0.001 rows=1 loops=5736)
+                                                                          Index Cond: (appointment_id = pa_2.appointment_id)
+                                                                          Buffers: shared hit=22944
+                                            ->  Hash  (cost=509.18..509.18 rows=40 width=36) (actual time=0.892..0.892 rows=40 loops=1)
+                                                  Buckets: 1024  Batches: 1  Memory Usage: 10kB
+                                                  Buffers: shared hit=178
+                                                  ->  Subquery Scan on st  (cost=508.28..509.18 rows=40 width=36) (actual time=0.881..0.888 rows=40 loops=1)
+                                                        Buffers: shared hit=178
+                                                        ->  HashAggregate  (cost=508.28..508.78 rows=40 width=36) (actual time=0.880..0.885 rows=40 loops=1)
+                                                              Group Key: ws.barber_id
+                                                              Batches: 1  Memory Usage: 32kB
+                                                              Buffers: shared hit=178
+                                                              ->  Seq Scan on work_shifts ws  (cost=0.00..497.31 rows=878 width=20) (actual time=0.602..0.695 rows=885 loops=1)
+                                                                    Filter: ((work_date >= '2026-10-01'::date) AND (work_date < '2026-11-01'::date))
+                                                                    Rows Removed by Filter: 20402
+                                                                    Buffers: shared hit=178
+                                      ->  Hash  (cost=1.04..1.04 rows=4 width=19) (actual time=0.008..0.009 rows=4 loops=1)
+                                            Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                            Buffers: shared hit=1
+                                            ->  Seq Scan on branches br  (cost=0.00..1.04 rows=4 width=19) (actual time=0.004..0.004 rows=4 loops=1)
+                                                  Buffers: shared hit=1
+Planning:
+  Buffers: shared hit=519
+Planning Time: 2.295 ms
+Execution Time: 19.479 ms

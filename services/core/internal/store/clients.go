@@ -35,7 +35,8 @@ const clientFrom = `crm.clients c JOIN crm.v_client_stats st ON st.client_id = c
 func (s *Store) ListClients(ctx context.Context, cf ClientFilter, p ListParams) (model.Page[model.Client], error) {
 	var f Filter
 	if cf.Search != "" {
-		f.Add("(c.full_name ILIKE '%' || ? || '%' OR c.phone LIKE '%' || ? || '%' OR c.email ILIKE '%' || ? || '%')", cf.Search)
+		// выражение совпадает с триграммным индексом clients_search_trgm_idx (миграция 0010)
+		f.Add("crm.client_search_text(c.full_name, c.phone, c.email) LIKE '%' || lower(?) || '%'", cf.Search)
 	}
 	if cf.Level != "" {
 		f.Add("st.level::text = ?", cf.Level)

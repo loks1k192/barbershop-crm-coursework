@@ -1,0 +1,40 @@
+-- P2. Q02 история визитов клиента (before)
+-- медиана Execution Time из 7 прогонов: 6.73 ms
+
+Sort  (cost=4188.24..4188.26 rows=6 width=74) (actual time=6.499..6.500 rows=9 loops=1)
+  Sort Key: a.starts_at DESC
+  Sort Method: quicksort  Memory: 25kB
+  Buffers: shared hit=2120
+  ->  WindowAgg  (cost=4137.23..4188.17 rows=6 width=74) (actual time=6.434..6.489 rows=9 loops=1)
+        Buffers: shared hit=2117
+        ->  Sort  (cost=4137.23..4137.24 rows=6 width=38) (actual time=6.372..6.373 rows=9 loops=1)
+              Sort Key: ((a.status = 'completed'::crm.appointment_status)), a.starts_at
+              Sort Method: quicksort  Memory: 25kB
+              Buffers: shared hit=2081
+              ->  Nested Loop Left Join  (cost=0.28..4137.15 rows=6 width=38) (actual time=6.334..6.358 rows=9 loops=1)
+                    Buffers: shared hit=2076
+                    ->  Nested Loop  (cost=0.00..4099.35 rows=6 width=35) (actual time=6.327..6.347 rows=9 loops=1)
+                          Join Filter: (b.barber_id = a.barber_id)
+                          Rows Removed by Join Filter: 351
+                          Buffers: shared hit=2058
+                          ->  Seq Scan on barbers b  (cost=0.00..1.40 rows=40 width=19) (actual time=0.001..0.003 rows=40 loops=1)
+                                Buffers: shared hit=1
+                          ->  Materialize  (cost=0.00..4094.37 rows=6 width=24) (actual time=0.002..0.158 rows=9 loops=40)
+                                Buffers: shared hit=2057
+                                ->  Seq Scan on appointments a  (cost=0.00..4094.34 rows=6 width=24) (actual time=0.071..6.308 rows=9 loops=1)
+                                      Filter: (client_id = '2762'::bigint)
+                                      Rows Removed by Filter: 162978
+                                      Buffers: shared hit=2057
+                    ->  Index Scan using reviews_pkey on reviews r  (cost=0.28..6.29 rows=1 width=10) (actual time=0.001..0.001 rows=0 loops=9)
+                          Index Cond: (appointment_id = a.appointment_id)
+                          Buffers: shared hit=18
+        SubPlan 1
+          ->  Aggregate  (cost=8.44..8.45 rows=1 width=32) (actual time=0.010..0.010 rows=1 loops=9)
+                Buffers: shared hit=36
+                ->  Index Scan using appointment_services_pkey on appointment_services x  (cost=0.42..8.44 rows=1 width=5) (actual time=0.009..0.009 rows=1 loops=9)
+                      Index Cond: (appointment_id = a.appointment_id)
+                      Buffers: shared hit=36
+Planning:
+  Buffers: shared hit=515
+Planning Time: 0.775 ms
+Execution Time: 6.557 ms

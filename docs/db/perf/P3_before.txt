@@ -1,0 +1,47 @@
+-- P3. Свободные слоты мастера (crm.free_slots) (before)
+-- медиана Execution Time из 7 прогонов: 137.80 ms
+
+Sort  (cost=2429791.07..2429793.30 rows=889 width=16) (actual time=126.270..126.272 rows=0 loops=1)
+  Sort Key: g.g
+  Sort Method: quicksort  Memory: 25kB
+  Buffers: shared hit=1545
+  ->  Nested Loop  (cost=179.91..2429747.53 rows=889 width=16) (actual time=126.251..126.253 rows=0 loops=1)
+        Buffers: shared hit=1542
+        ->  Nested Loop  (cost=0.29..9.82 rows=1 width=23) (actual time=117.821..117.825 rows=1 loops=1)
+              Buffers: shared hit=4
+              ->  Index Scan using work_shifts_barber_date_uq on work_shifts ws  (cost=0.29..8.31 rows=1 width=24) (actual time=0.008..0.010 rows=1 loops=1)
+                    Index Cond: ((barber_id = 3) AND (work_date = '2026-11-06'::date))
+                    Buffers: shared hit=3
+              ->  Seq Scan on barber_settings bs  (cost=0.00..1.50 rows=1 width=7) (actual time=117.806..117.808 rows=1 loops=1)
+                    Filter: (barber_id = 3)
+                    Rows Removed by Filter: 39
+                    Buffers: shared hit=1
+        ->  Nested Loop Anti Join  (cost=179.63..2429728.81 rows=668 width=8) (actual time=8.424..8.425 rows=0 loops=1)
+              Join Filter: ((a.ends_at > g.g) AND (a.starts_at < (g.g + '00:45:00'::interval)))
+              Rows Removed by Join Filter: 116009
+              Buffers: shared hit=1538
+              ->  Function Scan on generate_series g  (cost=0.02..2380254.61 rows=752 width=8) (actual time=0.019..0.021 rows=34 loops=1)
+                    Filter: ((NOT bs.compact_slots) OR (g = ((ws.work_date + ws.starts_at) AT TIME ZONE 'Europe/Moscow'::text)) OR ((g + '00:45:00'::interval) = ((ws.work_date + ws.ends_at) AT TIME ZONE 'Europe/Moscow'::text)) OR (SubPlan 1))
+                    SubPlan 1
+                      ->  Bitmap Heap Scan on appointments a_1  (cost=178.73..2380.23 rows=1 width=0) (never executed)
+                            Recheck Cond: ((barber_id = 3) AND (status <> ALL ('{cancelled,no_show}'::crm.appointment_status[])))
+                            Filter: ((ends_at = g.g) OR (starts_at = (g.g + '00:45:00'::interval)))
+                            ->  Bitmap Index Scan on appointments_barber_no_overlap  (cost=0.00..178.72 rows=3526 width=0) (never executed)
+                                  Index Cond: (barber_id = 3)
+              ->  Materialize  (cost=179.61..2372.29 rows=3526 width=16) (actual time=0.016..0.163 rows=3413 loops=34)
+                    Buffers: shared hit=1538
+                    ->  Bitmap Heap Scan on appointments a  (cost=179.61..2354.66 rows=3526 width=16) (actual time=0.535..2.766 rows=3417 loops=1)
+                          Recheck Cond: ((barber_id = 3) AND (status <> ALL ('{cancelled,no_show}'::crm.appointment_status[])))
+                          Heap Blocks: exact=1482
+                          Buffers: shared hit=1538
+                          ->  Bitmap Index Scan on appointments_barber_no_overlap  (cost=0.00..178.72 rows=3526 width=0) (actual time=0.406..0.406 rows=3483 loops=1)
+                                Index Cond: (barber_id = 3)
+                                Buffers: shared hit=56
+Planning:
+  Buffers: shared hit=878
+Planning Time: 1.666 ms
+JIT:
+  Functions: 29
+  Options: Inlining true, Optimization true, Expressions true, Deforming true
+  Timing: Generation 0.737 ms, Inlining 35.503 ms, Optimization 45.126 ms, Emission 37.183 ms, Total 118.549 ms
+Execution Time: 135.574 ms

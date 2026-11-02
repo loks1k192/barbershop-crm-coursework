@@ -1,0 +1,32 @@
+-- P3. Свободные слоты мастера (crm.free_slots) (after)
+-- медиана Execution Time из 7 прогонов: 1.14 ms
+
+Sort  (cost=4971.18..4973.67 rows=995 width=16) (actual time=0.752..0.753 rows=0 loops=1)
+  Sort Key: g.g
+  Sort Method: quicksort  Memory: 25kB
+  Buffers: shared hit=170
+  ->  Nested Loop  (cost=0.59..4921.64 rows=995 width=16) (actual time=0.743..0.744 rows=0 loops=1)
+        Buffers: shared hit=167
+        ->  Nested Loop  (cost=0.29..9.82 rows=1 width=23) (actual time=0.008..0.011 rows=1 loops=1)
+              Buffers: shared hit=4
+              ->  Index Scan using work_shifts_barber_date_uq on work_shifts ws  (cost=0.29..8.31 rows=1 width=24) (actual time=0.005..0.006 rows=1 loops=1)
+                    Index Cond: ((barber_id = 3) AND (work_date = '2026-11-06'::date))
+                    Buffers: shared hit=3
+              ->  Seq Scan on barber_settings bs  (cost=0.00..1.50 rows=1 width=7) (actual time=0.002..0.003 rows=1 loops=1)
+                    Filter: (barber_id = 3)
+                    Rows Removed by Filter: 39
+                    Buffers: shared hit=1
+        ->  Nested Loop Anti Join  (cost=0.30..4901.86 rows=748 width=8) (actual time=0.732..0.732 rows=0 loops=1)
+              Buffers: shared hit=163
+              ->  Function Scan on generate_series g  (cost=0.02..4440.63 rows=752 width=8) (actual time=0.014..0.016 rows=34 loops=1)
+                    Filter: ((NOT bs.compact_slots) OR (g = ((ws.work_date + ws.starts_at) AT TIME ZONE 'Europe/Moscow'::text)) OR ((g + '00:45:00'::interval) = ((ws.work_date + ws.ends_at) AT TIME ZONE 'Europe/Moscow'::text)) OR (SubPlan 1))
+                    SubPlan 1
+                      ->  Index Scan using appointments_barber_no_overlap on appointments a_1  (cost=0.28..153.03 rows=37 width=0) (never executed)
+                            Index Cond: ((barber_id = 3) AND (tstzrange(starts_at, ends_at, '[)'::text) -|- tstzrange(g.g, (g.g + '00:45:00'::interval), '[)'::text)))
+              ->  Index Scan using appointments_barber_no_overlap on appointments a  (cost=0.28..12.50 rows=37 width=16) (actual time=0.021..0.021 rows=1 loops=34)
+                    Index Cond: ((barber_id = 3) AND (tstzrange(starts_at, ends_at, '[)'::text) && tstzrange(g.g, (g.g + '00:45:00'::interval), '[)'::text)))
+                    Buffers: shared hit=163
+Planning:
+  Buffers: shared hit=1056
+Planning Time: 1.596 ms
+Execution Time: 0.794 ms

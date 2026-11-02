@@ -1,0 +1,46 @@
+-- P4. Поиск клиентов по подстроке + статистика (список API) (before)
+-- медиана Execution Time из 7 прогонов: 83.38 ms
+
+Limit  (cost=10341.58..10341.63 rows=20 width=51) (actual time=82.129..82.133 rows=20 loops=1)
+  Buffers: shared hit=2857
+  ->  Sort  (cost=10341.58..10342.12 rows=218 width=51) (actual time=82.128..82.130 rows=20 loops=1)
+        Sort Key: c.full_name
+        Sort Method: top-N heapsort  Memory: 27kB
+        Buffers: shared hit=2857
+        ->  Hash Join  (cost=9657.01..10335.77 rows=218 width=51) (actual time=78.486..82.078 rows=215 loops=1)
+              Hash Cond: (c_1.client_id = c.client_id)
+              Buffers: shared hit=2854
+              ->  HashAggregate  (cost=8637.29..8937.29 rows=30000 width=196) (actual time=64.712..67.188 rows=30000 loops=1)
+                    Group Key: c_1.client_id
+                    Batches: 1  Memory Usage: 4625kB
+                    Buffers: shared hit=2362
+                    ->  Hash Join  (cost=2057.29..6599.95 rows=162987 width=36) (actual time=6.621..47.375 rows=162987 loops=1)
+                          Hash Cond: (c_1.client_id = la.client_id)
+                          Buffers: shared hit=2362
+                          ->  Hash Right Join  (cost=1161.29..5276.05 rows=162987 width=28) (actual time=3.258..29.305 rows=162987 loops=1)
+                                Hash Cond: (a.client_id = c_1.client_id)
+                                Buffers: shared hit=2141
+                                ->  Seq Scan on appointments a  (cost=0.00..3686.87 rows=162987 width=28) (actual time=0.004..6.720 rows=162987 loops=1)
+                                      Buffers: shared hit=2057
+                                ->  Hash  (cost=786.29..786.29 rows=30000 width=8) (actual time=3.175..3.176 rows=30000 loops=1)
+                                      Buckets: 32768  Batches: 1  Memory Usage: 1428kB
+                                      Buffers: shared hit=84
+                                      ->  Index Only Scan using clients_pkey on clients c_1  (cost=0.29..786.29 rows=30000 width=8) (actual time=0.015..1.342 rows=30000 loops=1)
+                                            Heap Fetches: 0
+                                            Buffers: shared hit=84
+                          ->  Hash  (cost=521.00..521.00 rows=30000 width=8) (actual time=3.278..3.278 rows=30000 loops=1)
+                                Buckets: 32768  Batches: 1  Memory Usage: 1428kB
+                                Buffers: shared hit=221
+                                ->  Seq Scan on loyalty_accounts la  (cost=0.00..521.00 rows=30000 width=8) (actual time=0.002..1.353 rows=30000 loops=1)
+                                      Buffers: shared hit=221
+              ->  Hash  (cost=1017.00..1017.00 rows=218 width=35) (actual time=13.755..13.756 rows=215 loops=1)
+                    Buckets: 1024  Batches: 1  Memory Usage: 23kB
+                    Buffers: shared hit=492
+                    ->  Seq Scan on clients c  (cost=0.00..1017.00 rows=218 width=35) (actual time=0.035..13.709 rows=215 loops=1)
+                          Filter: ((full_name ~~* '%петрова%'::text) OR (phone ~~ '%петрова%'::text) OR (email ~~* '%петрова%'::text))
+                          Rows Removed by Filter: 29785
+                          Buffers: shared hit=492
+Planning:
+  Buffers: shared hit=371
+Planning Time: 1.581 ms
+Execution Time: 83.376 ms

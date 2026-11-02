@@ -1,0 +1,125 @@
+{
+  "appointments": 162987,
+  "before": {
+    "P1": {
+      "title": "Q01 расписание мастера на день",
+      "ms": 7.528
+    },
+    "P2": {
+      "title": "Q02 история визитов клиента",
+      "ms": 6.73
+    },
+    "P3": {
+      "title": "Свободные слоты мастера (crm.free_slots)",
+      "ms": 137.804
+    },
+    "P4": {
+      "title": "Поиск клиентов по подстроке + статистика (список API)",
+      "ms": 83.376
+    },
+    "P5": {
+      "title": "Q03 выручка филиалов за 3 месяца",
+      "ms": 33.861
+    },
+    "P6": {
+      "title": "Q04 рейтинг мастеров за месяц",
+      "ms": 18.93
+    },
+    "write_ms": 1351,
+    "indexes": [
+      [
+        "crm.clients_pkey",
+        "672 kB"
+      ],
+      [
+        "crm.clients_phone_uq",
+        "936 kB"
+      ],
+      [
+        "crm.clients_email_uq",
+        "208 kB"
+      ],
+      [
+        "crm.appointments_pkey",
+        "3704 kB"
+      ],
+      [
+        "crm.appointments_barber_no_overlap",
+        "12 MB"
+      ],
+      [
+        "crm.appointments_client_no_overlap",
+        "10 MB"
+      ]
+    ]
+  },
+  "after": {
+    "P1": {
+      "title": "Q01 расписание мастера на день",
+      "ms": 0.303
+    },
+    "P2": {
+      "title": "Q02 история визитов клиента",
+      "ms": 0.402
+    },
+    "P3": {
+      "title": "Свободные слоты мастера (crm.free_slots)",
+      "ms": 1.144
+    },
+    "P4": {
+      "title": "Поиск клиентов по подстроке + статистика (список API)",
+      "ms": 5.836
+    },
+    "P5": {
+      "title": "Q03 выручка филиалов за 3 месяца",
+      "ms": 37.623
+    },
+    "P6": {
+      "title": "Q04 рейтинг мастеров за месяц",
+      "ms": 18.745
+    },
+    "write_ms": 1389,
+    "indexes": [
+      [
+        "crm.clients_pkey",
+        "672 kB"
+      ],
+      [
+        "crm.clients_phone_uq",
+        "936 kB"
+      ],
+      [
+        "crm.clients_email_uq",
+        "208 kB"
+      ],
+      [
+        "crm.appointments_pkey",
+        "3808 kB"
+      ],
+      [
+        "crm.appointments_barber_no_overlap",
+        "12 MB"
+      ],
+      [
+        "crm.appointments_client_no_overlap",
+        "10 MB"
+      ],
+      [
+        "crm.appointments_barber_starts_idx",
+        "5992 kB"
+      ],
+      [
+        "crm.appointments_client_starts_idx",
+        "5880 kB"
+      ],
+      [
+        "crm.appointments_completed_starts_idx",
+        "1072 kB"
+      ],
+      [
+        "crm.clients_search_trgm_idx",
+        "1672 kB"
+      ]
+    ]
+  }
+}

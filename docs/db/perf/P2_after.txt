@@ -1,0 +1,46 @@
+-- P2. Q02 история визитов клиента (after)
+-- медиана Execution Time из 7 прогонов: 0.40 ms
+
+Sort  (cost=102.66..102.68 rows=6 width=74) (actual time=0.316..0.318 rows=9 loops=1)
+  Sort Key: a.starts_at DESC
+  Sort Method: quicksort  Memory: 25kB
+  Buffers: shared hit=65
+  ->  WindowAgg  (cost=51.64..102.58 rows=6 width=74) (actual time=0.249..0.306 rows=9 loops=1)
+        Buffers: shared hit=62
+        ->  Sort  (cost=51.64..51.66 rows=6 width=38) (actual time=0.178..0.180 rows=9 loops=1)
+              Sort Key: ((a.status = 'completed'::crm.appointment_status)), a.starts_at
+              Sort Method: quicksort  Memory: 25kB
+              Buffers: shared hit=26
+              ->  Hash Join  (cost=29.56..51.57 rows=6 width=38) (actual time=0.160..0.163 rows=9 loops=1)
+                    Hash Cond: (a.barber_id = b.barber_id)
+                    Buffers: shared hit=21
+                    ->  Hash Right Join  (cost=27.66..49.63 rows=6 width=26) (actual time=0.141..0.143 rows=9 loops=1)
+                          Hash Cond: (r.appointment_id = a.appointment_id)
+                          Buffers: shared hit=20
+                          ->  Seq Scan on reviews r  (cost=0.00..19.07 rows=1107 width=10) (actual time=0.001..0.039 rows=1107 loops=1)
+                                Buffers: shared hit=8
+                          ->  Hash  (cost=27.58..27.58 rows=6 width=24) (actual time=0.046..0.046 rows=9 loops=1)
+                                Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                Buffers: shared hit=12
+                                ->  Bitmap Heap Scan on appointments a  (cost=4.47..27.58 rows=6 width=24) (actual time=0.014..0.044 rows=9 loops=1)
+                                      Recheck Cond: (client_id = '2762'::bigint)
+                                      Heap Blocks: exact=9
+                                      Buffers: shared hit=12
+                                      ->  Bitmap Index Scan on appointments_client_starts_idx  (cost=0.00..4.46 rows=6 width=0) (actual time=0.009..0.009 rows=9 loops=1)
+                                            Index Cond: (client_id = '2762'::bigint)
+                                            Buffers: shared hit=3
+                    ->  Hash  (cost=1.40..1.40 rows=40 width=19) (actual time=0.009..0.009 rows=40 loops=1)
+                          Buckets: 1024  Batches: 1  Memory Usage: 11kB
+                          Buffers: shared hit=1
+                          ->  Seq Scan on barbers b  (cost=0.00..1.40 rows=40 width=19) (actual time=0.002..0.004 rows=40 loops=1)
+                                Buffers: shared hit=1
+        SubPlan 1
+          ->  Aggregate  (cost=8.44..8.45 rows=1 width=32) (actual time=0.007..0.007 rows=1 loops=9)
+                Buffers: shared hit=36
+                ->  Index Scan using appointment_services_pkey on appointment_services x  (cost=0.42..8.44 rows=1 width=5) (actual time=0.006..0.006 rows=1 loops=9)
+                      Index Cond: (appointment_id = a.appointment_id)
+                      Buffers: shared hit=36
+Planning:
+  Buffers: shared hit=577
+Planning Time: 1.003 ms
+Execution Time: 0.385 ms
