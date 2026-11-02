@@ -1,0 +1,125 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2300" height="1450" viewBox="0 0 2300 1450"><defs><marker id="arrow" viewBox="0 0 12 12" refX="11" refY="6" markerWidth="11" markerHeight="11" orient="auto-start-reverse" markerUnits="userSpaceOnUse"><path d="M0,1 L12,6 L0,11 z" fill="#222"/></marker></defs><rect width="100%" height="100%" fill="#ffffff"/><rect x="10.0" y="10.0" width="2280.0" height="1430.0" rx="0" stroke="#1b1b1b" stroke-width="1.5" fill="none"/>
+<polyline points="10.0,50.0 2290.0,50.0" stroke="#1b1b1b" stroke-width="1" fill="none" stroke-linejoin="round"/>
+<polyline points="506.0,10.0 506.0,50.0" stroke="#1b1b1b" stroke-width="1" fill="none" stroke-linejoin="round"/>
+<polyline points="1081.0,10.0 1081.0,50.0" stroke="#1b1b1b" stroke-width="1" fill="none" stroke-linejoin="round"/>
+<polyline points="1610.0,10.0 1610.0,50.0" stroke="#1b1b1b" stroke-width="1" fill="none" stroke-linejoin="round"/>
+<polyline points="1886.0,10.0 1886.0,50.0" stroke="#1b1b1b" stroke-width="1" fill="none" stroke-linejoin="round"/>
+<polyline points="10.0,1400.0 2290.0,1400.0" stroke="#1b1b1b" stroke-width="1" fill="none" stroke-linejoin="round"/>
+<polyline points="276.0,1400.0 276.0,1440.0" stroke="#1b1b1b" stroke-width="1" fill="none" stroke-linejoin="round"/>
+<polyline points="1978.0,1400.0 1978.0,1440.0" stroke="#1b1b1b" stroke-width="1" fill="none" stroke-linejoin="round"/>
+<polyline points="50.0,330.0 300.0,330.0" stroke="#1b1b1b" stroke-width="1.6" fill="none" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<polyline points="200.0,330.0 200.0,570.0 760.0,570.0" stroke="#1b1b1b" stroke-width="1.6" fill="none" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<polyline points="200.0,570.0 200.0,1060.0 1680.0,1060.0" stroke="#1b1b1b" stroke-width="1.6" fill="none" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<polyline points="50.0,630.0 760.0,630.0" stroke="#1b1b1b" stroke-width="1.6" fill="none" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<polyline points="360.0,85.0 360.0,270.0" stroke="#1b1b1b" stroke-width="1.6" fill="none" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<polyline points="480.0,85.0 480.0,270.0" stroke="#1b1b1b" stroke-width="1.6" fill="none" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<polyline points="480.0,215.0 1450.0,215.0 1450.0,770.0" stroke="#1b1b1b" stroke-width="1.6" fill="none" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<polyline points="555.0,85.0 555.0,270.0" stroke="#1b1b1b" stroke-width="1.6" fill="none" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<polyline points="555.0,145.0 1310.0,145.0 1310.0,770.0" stroke="#1b1b1b" stroke-width="1.6" fill="none" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<polyline points="1310.0,145.0 1830.0,145.0 1830.0,1020.0" stroke="#1b1b1b" stroke-width="1.6" fill="none" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<polyline points="600.0,330.0 1160.0,330.0 1160.0,815.0 1220.0,815.0" stroke="#1b1b1b" stroke-width="1.6" fill="none" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<polyline points="1060.0,580.0 1190.0,580.0 1190.0,875.0 1220.0,875.0" stroke="#1b1b1b" stroke-width="1.6" fill="none" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<polyline points="1060.0,640.0 2250.0,640.0" stroke="#1b1b1b" stroke-width="1.6" fill="none" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<polyline points="1520.0,830.0 1640.0,830.0 1640.0,1115.0 1680.0,1115.0" stroke="#1b1b1b" stroke-width="1.6" fill="none" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<polyline points="1520.0,885.0 2250.0,885.0" stroke="#1b1b1b" stroke-width="1.6" fill="none" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<polyline points="1980.0,1060.0 2250.0,1060.0" stroke="#1b1b1b" stroke-width="1.6" fill="none" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<polyline points="1980.0,1105.0 2250.0,1105.0" stroke="#1b1b1b" stroke-width="1.6" fill="none" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<polyline points="1980.0,1150.0 2005.0,1150.0 2005.0,1200.0 260.0,1200.0 260.0,390.0 300.0,390.0" stroke="#1b1b1b" stroke-width="1.6" fill="none" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<polyline points="130.0,1370.0 130.0,1300.0" stroke="#1b1b1b" stroke-width="1.6" fill="none" stroke-linejoin="round"/>
+<polyline points="130.0,1300.0 1750.0,1300.0" stroke="#1b1b1b" stroke-width="1.6" fill="none" stroke-linejoin="round"/>
+<polyline points="370.0,1300.0 370.0,420.0" stroke="#1b1b1b" stroke-width="1.6" fill="none" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<polyline points="830.0,1300.0 830.0,670.0" stroke="#1b1b1b" stroke-width="1.6" fill="none" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<polyline points="1290.0,1300.0 1290.0,920.0" stroke="#1b1b1b" stroke-width="1.6" fill="none" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<polyline points="1750.0,1300.0 1750.0,1170.0" stroke="#1b1b1b" stroke-width="1.6" fill="none" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<polyline points="470.0,1370.0 470.0,1330.0" stroke="#1b1b1b" stroke-width="1.6" fill="none" stroke-linejoin="round"/>
+<polyline points="470.0,1330.0 1900.0,1330.0" stroke="#1b1b1b" stroke-width="1.6" fill="none" stroke-linejoin="round"/>
+<polyline points="520.0,1330.0 520.0,420.0" stroke="#1b1b1b" stroke-width="1.6" fill="none" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<polyline points="980.0,1330.0 980.0,670.0" stroke="#1b1b1b" stroke-width="1.6" fill="none" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<polyline points="1440.0,1330.0 1440.0,920.0" stroke="#1b1b1b" stroke-width="1.6" fill="none" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<polyline points="1900.0,1330.0 1900.0,1170.0" stroke="#1b1b1b" stroke-width="1.6" fill="none" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<rect x="300.0" y="270.0" width="300.0" height="150.0" rx="0" stroke="#1b1b1b" stroke-width="2" fill="#eef4ff"/>
+<rect x="760.0" y="520.0" width="300.0" height="150.0" rx="0" stroke="#1b1b1b" stroke-width="2" fill="#eef4ff"/>
+<rect x="1220.0" y="770.0" width="300.0" height="150.0" rx="0" stroke="#1b1b1b" stroke-width="2" fill="#eef4ff"/>
+<rect x="1680.0" y="1020.0" width="300.0" height="150.0" rx="0" stroke="#1b1b1b" stroke-width="2" fill="#eef4ff"/>
+<rect x="56.8" y="297.3" width="211.5" height="14.3" rx="0" stroke="none" stroke-width="0" fill="#ffffff"/>
+<rect x="146.5" y="312.2" width="32.0" height="14.3" rx="0" stroke="none" stroke-width="0" fill="#ffffff"/>
+<rect x="461.8" y="552.2" width="148.5" height="14.3" rx="0" stroke="none" stroke-width="0" fill="#ffffff"/>
+<rect x="1022.4" y="1042.2" width="190.5" height="14.3" rx="0" stroke="none" stroke-width="0" fill="#ffffff"/>
+<rect x="204.1" y="612.2" width="117.7" height="14.3" rx="0" stroke="none" stroke-width="0" fill="#ffffff"/>
+<rect x="318.6" y="115.2" width="82.7" height="14.3" rx="0" stroke="none" stroke-width="0" fill="#ffffff"/>
+<rect x="416.4" y="160.2" width="207.2" height="14.3" rx="0" stroke="none" stroke-width="0" fill="#ffffff"/>
+<rect x="1455.0" y="344.0" width="149.2" height="14.3" rx="0" stroke="none" stroke-width="0" fill="#ffffff"/>
+<rect x="530.9" y="105.2" width="378.2" height="14.3" rx="0" stroke="none" stroke-width="0" fill="#ffffff"/>
+<rect x="792.0" y="312.2" width="176.0" height="14.3" rx="0" stroke="none" stroke-width="0" fill="#ffffff"/>
+<rect x="1059.2" y="562.2" width="110.7" height="14.3" rx="0" stroke="none" stroke-width="0" fill="#ffffff"/>
+<rect x="1963.0" y="622.2" width="98.0" height="14.3" rx="0" stroke="none" stroke-width="0" fill="#ffffff"/>
+<rect x="1645.0" y="905.8" width="118.0" height="14.3" rx="0" stroke="none" stroke-width="0" fill="#ffffff"/>
+<rect x="1841.5" y="852.3" width="262.2" height="14.3" rx="0" stroke="none" stroke-width="0" fill="#ffffff"/>
+<rect x="1938.5" y="867.2" width="68.2" height="14.3" rx="0" stroke="none" stroke-width="0" fill="#ffffff"/>
+<rect x="2030.6" y="1042.2" width="195.7" height="14.3" rx="0" stroke="none" stroke-width="0" fill="#ffffff"/>
+<rect x="2050.6" y="1087.2" width="155.7" height="14.3" rx="0" stroke="none" stroke-width="0" fill="#ffffff"/>
+<rect x="1000.8" y="1204.2" width="263.5" height="14.3" rx="0" stroke="none" stroke-width="0" fill="#ffffff"/>
+<rect x="136.0" y="1342.2" width="232.7" height="14.3" rx="0" stroke="none" stroke-width="0" fill="#ffffff"/>
+<rect x="476.0" y="1342.2" width="163.5" height="14.3" rx="0" stroke="none" stroke-width="0" fill="#ffffff"/>
+<text x="162.5" y="311.6" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="13" text-anchor="middle" fill="#111">Запрос: мастер, услуги, желаемая</text>
+<text x="162.5" y="326.6" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="13" text-anchor="middle" fill="#111">дата</text>
+<text x="536.0" y="566.5" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="13" text-anchor="middle" fill="#111">Телефон и имя клиента</text>
+<text x="1117.6" y="1056.5" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="13" text-anchor="middle" fill="#111">Запрос на перенос или отмену</text>
+<text x="263.0" y="626.5" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="13" text-anchor="middle" fill="#111">Карточки клиентов</text>
+<text x="360.0" y="129.6" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="13" text-anchor="middle" fill="#111">График смен</text>
+<text x="520.0" y="174.6" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="13" text-anchor="middle" fill="#111">Прайсы мастеров (длительность)</text>
+<text x="1457.0" y="358.3" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="13" text-anchor="start" fill="#111">Цены на момент записи</text>
+<text x="720.0" y="119.5" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="13" text-anchor="middle" fill="#111">Регламенты: шаг сетки, окно онлайн-записи, правила отмены</text>
+<text x="880.0" y="326.6" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="13" text-anchor="middle" fill="#111">Выбранный свободный слот</text>
+<text x="1114.6" y="576.5" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="13" text-anchor="middle" fill="#111">Карточка клиента</text>
+<text x="2012.0" y="636.5" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="13" text-anchor="middle" fill="#111">Новые клиенты</text>
+<text x="1647.0" y="920.0" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="13" text-anchor="start" fill="#111">Запись (scheduled)</text>
+<text x="1972.6" y="866.6" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="13" text-anchor="middle" fill="#111">Уведомление об отказе: время занято или</text>
+<text x="1972.6" y="881.5" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="13" text-anchor="middle" fill="#111">вне смены</text>
+<text x="2128.5" y="1056.5" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="13" text-anchor="middle" fill="#111">Подтверждения и напоминания</text>
+<text x="2128.5" y="1101.5" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="13" text-anchor="middle" fill="#111">Записи на обслуживание</text>
+<text x="1132.5" y="1218.5" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="13" text-anchor="middle" fill="#111">Освободившееся время (отмена, перенос)</text>
+<text x="252.4" y="1356.5" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="13" text-anchor="middle" fill="#111">Администратор / клиент (самозапись)</text>
+<text x="557.7" y="1356.5" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="13" text-anchor="middle" fill="#111">CRM-система Barber CRM</text>
+<text x="20.0" y="34.5" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="13" text-anchor="start" fill="#111">ИСПОЛЬЗУЕТСЯ: курсовой проект</text>
+<text x="516.0" y="34.5" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="13" text-anchor="start" fill="#111">АВТОР: Команда проекта Barber CRM</text>
+<text x="1091.0" y="34.5" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="13" text-anchor="start" fill="#111">ПРОЕКТ: CRM сети барбершопов</text>
+<text x="1620.0" y="34.5" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="13" text-anchor="start" fill="#111">ДАТА: 03.11.2026</text>
+<text x="1896.0" y="34.5" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="13" text-anchor="start" fill="#111">СТАТУС: РАБОЧАЯ ВЕРСИЯ</text>
+<text x="20.0" y="1425.2" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="15" text-anchor="start" fill="#111" font-weight="bold">УЗЕЛ: A4</text>
+<text x="1127.0" y="1426.0" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="17" text-anchor="middle" fill="#111" font-weight="bold">НАЗВАНИЕ: Записывать клиентов на услуги</text>
+<text x="2001.0" y="1425.2" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="15" text-anchor="start" fill="#111" font-weight="bold">НОМЕР: FM-3</text>
+<text x="450.0" y="335.2" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="15" text-anchor="middle" fill="#111" font-weight="bold">Подобрать свободное время</text>
+<text x="450.0" y="353.2" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="15" text-anchor="middle" fill="#111" font-weight="bold">(crm.free_slots)</text>
+<text x="592.0" y="412.6" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="13" text-anchor="end" fill="#111" font-weight="bold">A41</text>
+<text x="910.0" y="585.2" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="15" text-anchor="middle" fill="#111" font-weight="bold">Идентифицировать или</text>
+<text x="910.0" y="603.2" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="15" text-anchor="middle" fill="#111" font-weight="bold">зарегистрировать клиента</text>
+<text x="1052.0" y="662.5" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="13" text-anchor="end" fill="#111" font-weight="bold">A42</text>
+<text x="1370.0" y="835.2" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="15" text-anchor="middle" fill="#111" font-weight="bold">Зарегистрировать запись</text>
+<text x="1370.0" y="853.2" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="15" text-anchor="middle" fill="#111" font-weight="bold">(crm.book_appointment)</text>
+<text x="1512.0" y="912.5" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="13" text-anchor="end" fill="#111" font-weight="bold">A43</text>
+<text x="1830.0" y="1085.2" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="15" text-anchor="middle" fill="#111" font-weight="bold">Сопровождать запись:</text>
+<text x="1830.0" y="1103.2" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="15" text-anchor="middle" fill="#111" font-weight="bold">подтвердить, перенести, отменить</text>
+<text x="1972.0" y="1162.5" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="13" text-anchor="end" fill="#111" font-weight="bold">A44</text>
+<circle cx="200.0" cy="330.0" r="3.6" stroke="#1b1b1b" stroke-width="1" fill="#1b1b1b"/>
+<circle cx="200.0" cy="570.0" r="3.6" stroke="#1b1b1b" stroke-width="1" fill="#1b1b1b"/>
+<circle cx="480.0" cy="215.0" r="3.6" stroke="#1b1b1b" stroke-width="1" fill="#1b1b1b"/>
+<circle cx="555.0" cy="145.0" r="3.6" stroke="#1b1b1b" stroke-width="1" fill="#1b1b1b"/>
+<circle cx="1310.0" cy="145.0" r="3.6" stroke="#1b1b1b" stroke-width="1" fill="#1b1b1b"/>
+<circle cx="370.0" cy="1300.0" r="3.6" stroke="#1b1b1b" stroke-width="1" fill="#1b1b1b"/>
+<circle cx="830.0" cy="1300.0" r="3.6" stroke="#1b1b1b" stroke-width="1" fill="#1b1b1b"/>
+<circle cx="1290.0" cy="1300.0" r="3.6" stroke="#1b1b1b" stroke-width="1" fill="#1b1b1b"/>
+<circle cx="520.0" cy="1330.0" r="3.6" stroke="#1b1b1b" stroke-width="1" fill="#1b1b1b"/>
+<circle cx="980.0" cy="1330.0" r="3.6" stroke="#1b1b1b" stroke-width="1" fill="#1b1b1b"/>
+<circle cx="1440.0" cy="1330.0" r="3.6" stroke="#1b1b1b" stroke-width="1" fill="#1b1b1b"/>
+<text x="46.0" y="325.2" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12" text-anchor="end" fill="#b0161b" font-weight="bold">I1</text>
+<text x="46.0" y="625.2" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12" text-anchor="end" fill="#b0161b" font-weight="bold">I2</text>
+<text x="366.0" y="103.2" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12" text-anchor="start" fill="#b0161b" font-weight="bold">C3</text>
+<text x="486.0" y="103.2" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12" text-anchor="start" fill="#b0161b" font-weight="bold">C2</text>
+<text x="561.0" y="103.2" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12" text-anchor="start" fill="#b0161b" font-weight="bold">C1</text>
+<text x="2254.0" y="635.2" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12" text-anchor="start" fill="#b0161b" font-weight="bold">O3</text>
+<text x="2254.0" y="880.2" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12" text-anchor="start" fill="#b0161b" font-weight="bold">O1</text>
+<text x="2254.0" y="1055.2" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12" text-anchor="start" fill="#b0161b" font-weight="bold">O1</text>
+<text x="2254.0" y="1100.2" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12" text-anchor="start" fill="#b0161b" font-weight="bold">O2</text>
+<text x="136.0" y="1368.2" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12" text-anchor="start" fill="#b0161b" font-weight="bold">M1</text>
+<text x="476.0" y="1368.2" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12" text-anchor="start" fill="#b0161b" font-weight="bold">M4</text></svg>
