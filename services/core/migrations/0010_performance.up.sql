@@ -10,7 +10,8 @@ CREATE INDEX appointments_barber_starts_idx ON crm.appointments (barber_id, star
 CREATE INDEX appointments_client_starts_idx ON crm.appointments (client_id, starts_at DESC);
 
 -- (3) Периодные аналитические отчёты учитывают только завершённые визиты (Q03, Q04, Q06):
---     частичный индекс в 1.2 раза меньше полного и не обновляется для активных записей.
+--     частичный индекс (~1 MB) примерно в 5,5 раза меньше полного (~5.9 MB)
+--     и не обновляется при изменениях незавершённых записей.
 CREATE INDEX appointments_completed_starts_idx ON crm.appointments (starts_at) WHERE status = 'completed';
 
 -- (4) Поиск клиента по подстроке ФИО/телефона/e-mail (ILIKE '%…%'): B-дерево не

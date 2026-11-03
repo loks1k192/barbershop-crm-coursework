@@ -1,5 +1,85 @@
 # Barber CRM
 
+CRM-система для барбершопов: расписание, запись клиентов, аналитика.
+
+## Курсовой проект: CRM сети барбершопов на единой БД PostgreSQL
+
+На базе исходного проекта добавлен сервис **core** ([services/core](services/core)) с
+единой нормализованной БД `barbershop` (15 таблиц, ограничения целостности, триггеры,
+функции бизнес-операций, аудит, представления и MV, роли с минимальными правами),
+REST API с OpenAPI, автотестами, исследованием конкурентного доступа и
+производительности. Документация и диаграммы — [docs/README.md](docs/README.md).
+
+### Запуск
+
+```bash
+cp .env.example .env          # задайте пароли ролей БД barbershop
+make core-up                  # postgres → core-migrate → core-seed → core (:8090)
+docker compose up -d          # вся платформа (шлюз :8080 проксирует /api/core/* в core)
+```
+
+| Адрес | Что |
+|---|---|
+| http://localhost:8090/docs | Swagger UI сервиса core |
+| http://localhost:8090/openapi.yaml | Спецификация OpenAPI 3 |
+| http://localhost:8090/api/v1/... | REST API core (напрямую) |
+| http://localhost:8080/api/core/api/v1/... | Тот же API через api-gateway (JWT) |
+| `make psql-core` | psql в БД `barbershop` |
+
+### Демонстрация
+
+```bash
+# бизнес-сценарий 1: свободные слоты и запись
+curl "localhost:8090/api/v1/barbers/1/free-slots?date=$(date -d tomorrow +%F)&service_ids=1"
+curl -X POST localhost:8090/api/v1/appointments -H 'Content-Type: application/json' -H 'X-User: demo' \
+  -d '{"client_phone":"+79991234567","client_name":"Иванов Иван","barber_id":1,
+       "starts_at":"<слот из ответа>","service_ids":[1]}'
+# повтор того же запроса другим клиентом → 409 time_slot_conflict (EXCLUDE)
+
+# сценарий 2: завершение визита с оплатой и бонусами (визит, начавшийся в прошлом)
+curl -X POST localhost:8090/api/v1/appointments/<id>/complete -d '{"payment_method":"card","bonus_to_redeem":100}'
+
+# коллекции: фильтры, сортировка, пагинация
+curl "localhost:8090/api/v1/clients?search=петров&min_visits=3&sort=-total_spent&page=1&page_size=10"
+
+# отчёты
+curl "localhost:8090/api/v1/reports/barber-ranking?from=2026-10-01&to=2026-11-01"
+curl "localhost:8090/api/v1/reports/rfm"
+curl -X POST localhost:8090/api/v1/reports/kpi/refresh
+
+# пакетная загрузка клиентов из CSV (строки с ошибками попадают в отчёт)
+make core-import-demo
+# журнал аудита
+curl "localhost:8090/api/v1/audit?table=crm.appointments&page_size=5"
+
+make core-test                 # автотесты БД и API
+make core-demo-concurrency     # транзакции, аномалии и их предотвращение (2 подключения)
+make core-perf-data            # набор ≥ 100 000 записей для замеров
+```
+
+### Структура курсового проекта
+
+```
+services/core/
+├── migrations/           # 0001–0010: схема, правила, функции, аудит, миграция данных,
+│                         #            представления, импорт, роли, исправление, индексы
+├── sql/queries/          # 11 аналитических и операционных запросов (встроены в API)
+├── sql/seed/             # воспроизводимое начальное наполнение
+├── sql/perf/             # генератор ≥100 000 записей и сценарий замеров
+├── internal/api          # HTTP: маршруты, валидация, обработчики
+├── internal/store        # доступ к данным + интеграционные тесты
+├── internal/db, apperr   # транзакции с повтором, SQLSTATE → HTTP
+├── cmd/                  # core, migrate, importer, concurrency-demo
+├── api/openapi.yaml
+└── testdata/fixture.sql  # контрольные данные с известными результатами
+docs/db/                  # документация по БД
+docs/it-project/          # ER по Чену, IDEF0, BPMN, архитектура
+```
+
+---
+
+## Исходный проект
+
 CRM-система для частных барберов: расписание, запись клиентов, аналитика.
 
 Репозиторий с frontend: https://github.com/K4rens/Barber-CRM/tree/main

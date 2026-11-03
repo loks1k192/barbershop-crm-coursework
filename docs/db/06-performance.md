@@ -42,7 +42,7 @@
 |---|---|---|---|
 | `appointments_barber_starts_idx (barber_id, starts_at)` | 5.9 MB | Q01, Q09, KPI, расписание | Обновляется при вставке/переносе записи |
 | `appointments_client_starts_idx (client_id, starts_at DESC)` | 5.7 MB | Q02, Q07, `v_client_stats`, проверка FK при удалении клиента | Обновляется при вставке |
-| `appointments_completed_starts_idx (starts_at) WHERE status = 'completed'` | 1.0 MB | Q03, Q04, Q06 | Частичный: в 5.6 раза меньше полного, не содержит активные записи |
+| `appointments_completed_starts_idx (starts_at) WHERE status = 'completed'` | 1.0 MB | Q03, Q04, Q06 | Частичный: примерно в 5,5 раза меньше полного, не содержит активные записи |
 | `clients_search_trgm_idx` GIN (gin_trgm_ops) | 1.6 MB | поиск `LIKE '%…%'` | GIN дороже при записи, но клиенты меняются редко |
 
 Для сравнения: GiST-индексы ограничений EXCLUDE — 12 MB и 10 MB; они нужны для
