@@ -1,0 +1,47 @@
+digraph "arch-2-containers" {
+graph [rankdir=TB, fontname="Liberation Sans", fontsize=22, labelloc=t, label=<<b>Архитектура. Уровень 2: контейнеры (C4)</b>>, nodesep=0.55, ranksep=0.8, pad=0.4, splines=spline, newrank=true ];
+node [fontname="Liberation Sans", fontsize=13];
+edge [fontname="Liberation Sans", fontsize=10, arrowsize=0.8, penwidth=1.3];
+"users" [label=<<b>Пользователи&#160;&#160;&#160;&#160;</b><br/><font point-size="10">[браузер]</font><br/><font point-size="10">Клиенты, администраторы, барберы,&#160;&#160;&#160;&#160;&#160;&#160;&#160;</font><br/><font point-size="10">управляющий&#160;&#160;&#160;</font>>, shape=box, style="rounded,filled", fillcolor="#08427b", fontcolor="white", color="#08427b", margin="0.25,0.12"];
+subgraph cluster_sys { label=<<b>Barber CRM (docker compose)</b>>; style="dashed,rounded"; color="#1168bd"; fontsize=15;
+"front" [label=<<b>Frontend&#160;&#160;&#160;</b><br/><font point-size="10">[React SPA, nginx]</font><br/><font point-size="10">Интерфейс записи и рабочего места&#160;&#160;&#160;&#160;&#160;&#160;&#160;</font>>, shape=box, style="rounded,filled", fillcolor="#438dd5", fontcolor="white", color="#438dd5", margin="0.25,0.12"];
+"gw" [label=<<b>API Gateway&#160;&#160;&#160;</b><br/><font point-size="10">[Go, chi, JWT, :8080]</font><br/><font point-size="10">Единая точка входа: аутентификация, rate limit,&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</font><br/><font point-size="10">CORS, маршрутизация, метрики&#160;&#160;&#160;&#160;&#160;&#160;</font>>, shape=box, style="rounded,filled", fillcolor="#438dd5", fontcolor="white", color="#438dd5", margin="0.25,0.12", width=3.2];
+subgraph cluster_ms { label=<<b>Микросервисы исходного проекта</b>>; style="rounded"; color="#999999";
+"staff" [label=<<b>staff&#160;&#160;</b><br/><font point-size="10">[Go, gRPC]</font><br/><font point-size="10">Мастера, услуги, график, вход&#160;&#160;&#160;&#160;&#160;&#160;</font>>, shape=box, style="rounded,filled", fillcolor="#438dd5", fontcolor="white", color="#438dd5", margin="0.25,0.12"];
+"booking" [label=<<b>booking&#160;&#160;&#160;</b><br/><font point-size="10">[Go, gRPC]</font><br/><font point-size="10">Бронирования, слоты&#160;&#160;&#160;&#160;&#160;</font>>, shape=box, style="rounded,filled", fillcolor="#438dd5", fontcolor="white", color="#438dd5", margin="0.25,0.12"];
+"clientsvc" [label=<<b>client&#160;&#160;&#160;</b><br/><font point-size="10">[Go, gRPC]</font><br/><font point-size="10">Профили клиентов&#160;&#160;&#160;&#160;</font>>, shape=box, style="rounded,filled", fillcolor="#438dd5", fontcolor="white", color="#438dd5", margin="0.25,0.12"];
+"analytics" [label=<<b>analytics&#160;&#160;&#160;</b><br/><font point-size="10">[Go, gRPC]</font><br/><font point-size="10">Статистика&#160;&#160;&#160;</font>>, shape=box, style="rounded,filled", fillcolor="#438dd5", fontcolor="white", color="#438dd5", margin="0.25,0.12"];
+}
+subgraph cluster_core { label=<<b>Курсовой проект: единая БД сети</b>>; style="rounded,filled"; fillcolor="#f2f8ff"; color="#1168bd";
+"core" [label=<<b>core&#160;&#160;</b><br/><font point-size="10">[Go, chi, pgx, :8090]</font><br/><font point-size="10">REST API: CRUD, бизнес-сценарии, отчёты,&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</font><br/><font point-size="10">импорт, аудит; OpenAPI /docs&#160;&#160;&#160;&#160;&#160;&#160;</font>>, shape=box, style="rounded,filled", fillcolor="#438dd5", fontcolor="white", color="#438dd5", margin="0.25,0.12", width=3.2];
+"coremig" [label=<<b>core-migrate / core-seed&#160;&#160;&#160;&#160;&#160;&#160;</b><br/><font point-size="10">[Go, psql]</font><br/><font point-size="10">Версионные миграции и воспроизводимое&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</font><br/><font point-size="10">наполнение&#160;&#160;&#160;</font>>, shape=box, style="rounded,filled", fillcolor="#438dd5", fontcolor="white", color="#438dd5", margin="0.25,0.12"];
+"pgcore" [label=<<b>PostgreSQL 16: barbershop&#160;&#160;&#160;&#160;&#160;&#160;</b><br/><font point-size="10">[схемы crm, audit, staging]</font><br/><font point-size="10">15 таблиц, ограничения, триггеры, функции,&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</font><br/><font point-size="10">представления, MV, роли&#160;&#160;&#160;&#160;&#160;</font>>, shape=cylinder, style="filled", fillcolor="#2f7d4f", fontcolor="white", color="#2f7d4f", margin="0.25,0.12"];
+}
+"pgms" [label=<<b>PostgreSQL 16&#160;&#160;&#160;&#160;</b><br/><font point-size="10">[staff_db, booking_db, client_db]</font><br/><font point-size="10">Базы микросервисов&#160;&#160;&#160;&#160;&#160;</font>>, shape=cylinder, style="filled", fillcolor="#2f7d4f", fontcolor="white", color="#2f7d4f", margin="0.25,0.12"];
+"redis" [label=<<b>Redis 7&#160;&#160;&#160;</b><br/><font point-size="10">[кэш]</font><br/><font point-size="10">Кэш расписания и сессий&#160;&#160;&#160;&#160;&#160;</font>>, shape=cylinder, style="filled", fillcolor="#7a5c99", fontcolor="white", color="#7a5c99", margin="0.25,0.12"];
+"kafka" [label=<<b>Kafka (KRaft)&#160;&#160;&#160;&#160;</b><br/><font point-size="10">[bookings.events]</font><br/><font point-size="10">События бронирований&#160;&#160;&#160;&#160;&#160;</font>>, shape=cylinder, style="filled", fillcolor="#7a5c99", fontcolor="white", color="#7a5c99", margin="0.25,0.12"];
+"ch" [label=<<b>ClickHouse&#160;&#160;&#160;</b><br/><font point-size="10">[analytics]</font><br/><font point-size="10">Аналитическое хранилище&#160;&#160;&#160;&#160;&#160;</font>>, shape=cylinder, style="filled", fillcolor="#7a5c99", fontcolor="white", color="#7a5c99", margin="0.25,0.12"];
+"prom" [label=<<b>Prometheus + Grafana&#160;&#160;&#160;&#160;&#160;</b><br/><font point-size="10">Сбор метрик и дашборды&#160;&#160;&#160;&#160;&#160;</font>>, shape=box, style="rounded,filled", fillcolor="#8a8a8a", fontcolor="white", color="#8a8a8a", margin="0.25,0.12"];
+}
+"users" -> "front" [color="#555555", fontcolor="#333333", style=solid, label=<<font point-size="10">HTTPS&#160;&#160;</font>>];
+"front" -> "gw" [color="#555555", fontcolor="#333333", style=solid, label=<<font point-size="10">REST/JSON&#160;&#160;&#160;</font>>];
+"users" -> "gw" [color="#555555", fontcolor="#333333", style=dashed, label=<<font point-size="10">REST/JSON&#160;&#160;&#160;</font>>];
+"gw" -> "staff" [color="#555555", fontcolor="#333333", style=solid, label=<<font point-size="10">gRPC&#160;&#160;</font>>];
+"gw" -> "booking" [color="#555555", fontcolor="#333333", style=solid, label=<<font point-size="10">gRPC&#160;&#160;</font>>];
+"gw" -> "clientsvc" [color="#555555", fontcolor="#333333", style=solid, label=<<font point-size="10">gRPC&#160;&#160;</font>>];
+"gw" -> "analytics" [color="#555555", fontcolor="#333333", style=solid, label=<<font point-size="10">gRPC&#160;&#160;</font>>];
+"gw" -> "core" [color="#555555", fontcolor="#333333", style=solid, label=<<font point-size="10">HTTP /api/core/* + X-User&#160;&#160;&#160;&#160;&#160;&#160;</font>>];
+"core" -> "pgcore" [color="#555555", fontcolor="#333333", style=solid, label=<<font point-size="10">pgx, роль crm_app (мин. права)&#160;&#160;&#160;&#160;&#160;&#160;&#160;</font>>];
+"coremig" -> "pgcore" [color="#555555", fontcolor="#333333", style=solid, label=<<font point-size="10">роль crm_owner&#160;&#160;&#160;&#160;</font>>];
+"staff" -> "pgms" [color="#555555", fontcolor="#333333", style=solid, label=<<font point-size="10">SQL&#160;&#160;</font>>];
+"booking" -> "pgms" [color="#555555", fontcolor="#333333", style=solid, label=<<font point-size="10">SQL&#160;&#160;</font>>];
+"clientsvc" -> "pgms" [color="#555555", fontcolor="#333333", style=solid, label=<<font point-size="10">SQL&#160;&#160;</font>>];
+"staff" -> "redis" [color="#555555", fontcolor="#333333", style=solid];
+"booking" -> "redis" [color="#555555", fontcolor="#333333", style=solid];
+"booking" -> "kafka" [color="#555555", fontcolor="#333333", style=solid, label=<<font point-size="10">publish&#160;&#160;&#160;</font>>];
+"kafka" -> "analytics" [color="#555555", fontcolor="#333333", style=solid, label=<<font point-size="10">consume&#160;&#160;&#160;</font>>];
+"kafka" -> "clientsvc" [color="#555555", fontcolor="#333333", style=solid, label=<<font point-size="10">consume&#160;&#160;&#160;</font>>];
+"analytics" -> "ch" [color="#555555", fontcolor="#333333", style=solid, label=<<font point-size="10">SQL&#160;&#160;</font>>];
+"prom" -> "gw" [color="#555555", fontcolor="#333333", style=dashed, label=<<font point-size="10">/metrics&#160;&#160;&#160;</font>>];
+"legend" [shape=plain, label=<<table border="1" cellborder="0" cellspacing="4" cellpadding="3"><tr><td colspan="2"><b>Обозначения</b></td></tr><tr><td bgcolor="#08427b" width="22"> </td><td align="left">Пользователь&#160;&#160;&#160;&#160;</td></tr><tr><td bgcolor="#438dd5" width="22"> </td><td align="left">Приложение/сервис&#160;&#160;&#160;&#160;</td></tr><tr><td bgcolor="#2f7d4f" width="22"> </td><td align="left">База данных PostgreSQL&#160;&#160;&#160;&#160;&#160;</td></tr><tr><td bgcolor="#7a5c99" width="22"> </td><td align="left">Инфраструктура данных&#160;&#160;&#160;&#160;&#160;</td></tr><tr><td bgcolor="#8a8a8a" width="22"> </td><td align="left">Наблюдаемость&#160;&#160;&#160;&#160;</td></tr></table>>];
+}

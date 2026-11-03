@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1760" height="1463" viewBox="0 0 1760 1463"><defs><marker id="arrow" viewBox="0 0 12 12" refX="11" refY="6" markerWidth="11" markerHeight="11" orient="auto-start-reverse" markerUnits="userSpaceOnUse"><path d="M0,1 L12,6 L0,11 z" fill="#222"/></marker></defs><rect width="100%" height="100%" fill="#ffffff"/><polyline points="120.0,126.0 120.0,1380.0" stroke="#888" stroke-width="1.2" fill="none" stroke-dasharray="6,5" stroke-linejoin="round"/>
+<polyline points="400.0,126.0 400.0,1380.0" stroke="#888" stroke-width="1.2" fill="none" stroke-dasharray="6,5" stroke-linejoin="round"/>
+<polyline points="680.0,126.0 680.0,1380.0" stroke="#888" stroke-width="1.2" fill="none" stroke-dasharray="6,5" stroke-linejoin="round"/>
+<polyline points="960.0,126.0 960.0,1380.0" stroke="#888" stroke-width="1.2" fill="none" stroke-dasharray="6,5" stroke-linejoin="round"/>
+<polyline points="1260.0,126.0 1260.0,1380.0" stroke="#888" stroke-width="1.2" fill="none" stroke-dasharray="6,5" stroke-linejoin="round"/>
+<polyline points="1560.0,126.0 1560.0,1380.0" stroke="#888" stroke-width="1.2" fill="none" stroke-dasharray="6,5" stroke-linejoin="round"/>
+<rect x="30.0" y="1031.0" width="1700.0" height="26.0" rx="0" stroke="#999" stroke-width="1" fill="#f3f3f3"/>
+<rect x="30.0" y="1327.0" width="1700.0" height="26.0" rx="0" stroke="#999" stroke-width="1" fill="#f3f3f3"/>
+<polyline points="120.0,170.0 400.0,170.0" stroke="#333" stroke-width="1.5" fill="none" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<polyline points="400.0,269.0 680.0,269.0" stroke="#333" stroke-width="1.5" fill="none" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<polyline points="680.0,371.0 960.0,371.0" stroke="#333" stroke-width="1.5" fill="none" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<polyline points="960.0,417.0 1260.0,417.0" stroke="#333" stroke-width="1.5" fill="none" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<polyline points="960.0,475.0 1260.0,475.0" stroke="#333" stroke-width="1.5" fill="none" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<polyline points="1260.0,592.0 1560.0,592.0" stroke="#333" stroke-width="1.5" fill="none" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<polyline points="1260.0,765.0 1560.0,765.0" stroke="#333" stroke-width="1.5" fill="none" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<polyline points="1260.0,811.0 960.0,811.0" stroke="#333" stroke-width="1.5" fill="none" stroke-dasharray="6,4" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<polyline points="960.0,857.0 1260.0,857.0" stroke="#333" stroke-width="1.5" fill="none" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<polyline points="960.0,903.0 680.0,903.0" stroke="#333" stroke-width="1.5" fill="none" stroke-dasharray="6,4" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<polyline points="680.0,949.0 400.0,949.0" stroke="#333" stroke-width="1.5" fill="none" stroke-dasharray="6,4" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<polyline points="400.0,995.0 120.0,995.0" stroke="#333" stroke-width="1.5" fill="none" stroke-dasharray="6,4" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<polyline points="1260.0,1081.0 1560.0,1081.0" stroke="#333" stroke-width="1.5" fill="none" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<polyline points="1560.0,1195.0 960.0,1195.0" stroke="#333" stroke-width="1.5" fill="none" stroke-dasharray="6,4" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<polyline points="680.0,1297.0 120.0,1297.0" stroke="#333" stroke-width="1.5" fill="none" stroke-dasharray="6,4" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<rect x="10.0" y="70.0" width="220.0" height="56.0" rx="8" stroke="#1168bd" stroke-width="1.6" fill="#e8f0ff"/>
+<rect x="290.0" y="70.0" width="220.0" height="56.0" rx="8" stroke="#1168bd" stroke-width="1.6" fill="#e8f0ff"/>
+<rect x="570.0" y="70.0" width="220.0" height="56.0" rx="8" stroke="#1168bd" stroke-width="1.6" fill="#e8f0ff"/>
+<rect x="850.0" y="70.0" width="220.0" height="56.0" rx="8" stroke="#1168bd" stroke-width="1.6" fill="#e8f0ff"/>
+<rect x="1150.0" y="70.0" width="220.0" height="56.0" rx="8" stroke="#1168bd" stroke-width="1.6" fill="#e8f0ff"/>
+<rect x="1450.0" y="70.0" width="220.0" height="56.0" rx="8" stroke="#1168bd" stroke-width="1.6" fill="#e8f0ff"/>
+<rect x="412.0" y="214.0" width="290.0" height="27.0" rx="4" stroke="#b59f3b" stroke-width="1" fill="#fff7d6"/>
+<rect x="692.0" y="301.0" width="290.0" height="42.0" rx="4" stroke="#b59f3b" stroke-width="1" fill="#fff7d6"/>
+<rect x="1272.0" y="507.0" width="290.0" height="57.0" rx="4" stroke="#b59f3b" stroke-width="1" fill="#fff7d6"/>
+<rect x="1258.0" y="624.0" width="290.0" height="57.0" rx="4" stroke="#b59f3b" stroke-width="1" fill="#fff7d6"/>
+<rect x="1258.0" y="695.0" width="290.0" height="42.0" rx="4" stroke="#b59f3b" stroke-width="1" fill="#fff7d6"/>
+<rect x="1258.0" y="1125.0" width="290.0" height="42.0" rx="4" stroke="#b59f3b" stroke-width="1" fill="#fde8e8"/>
+<rect x="692.0" y="1227.0" width="290.0" height="42.0" rx="4" stroke="#b59f3b" stroke-width="1" fill="#fde8e8"/>
+<rect x="972.0" y="1363.0" width="290.0" height="42.0" rx="4" stroke="#b59f3b" stroke-width="1" fill="#e8f4fd"/>
+<text x="260.0" y="151.4" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12.5" text-anchor="middle" fill="#111">POST /api/core/api/v1/appointments,</text>
+<text x="260.0" y="166.4" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12.5" text-anchor="middle" fill="#111">Authorization: Bearer JWT</text>
+<text x="420.0" y="232.2" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12" text-anchor="start" fill="#111">Проверка JWT, rate limit; X-User = barber:&lt;id&gt;</text>
+<text x="540.0" y="265.4" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12.5" text-anchor="middle" fill="#111">POST /api/v1/appointments + X-User</text>
+<text x="700.0" y="319.2" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12" text-anchor="start" fill="#111">decode (DisallowUnknownFields), валидация:</text>
+<text x="700.0" y="334.2" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12" text-anchor="start" fill="#111">телефон, starts_at, 1–5 услуг, source</text>
+<text x="820.0" y="367.4" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12.5" text-anchor="middle" fill="#111">store.Book(ctx, BookInput)</text>
+<text x="1110.0" y="398.4" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12.5" text-anchor="middle" fill="#111">BEGIN; SELECT set_config(&#x27;crm.app_user&#x27;, $1,</text>
+<text x="1110.0" y="413.4" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12.5" text-anchor="middle" fill="#111">true)</text>
+<text x="1110.0" y="471.4" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12.5" text-anchor="middle" fill="#111">SELECT crm.book_appointment($1…$7)</text>
+<text x="1280.0" y="525.2" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12" text-anchor="start" fill="#111">Услуги из прайса мастера (CR007), окно</text>
+<text x="1280.0" y="540.2" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12" text-anchor="start" fill="#111">онлайн-записи (CR008), upsert клиента по</text>
+<text x="1280.0" y="555.2" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12" text-anchor="start" fill="#111">телефону</text>
+<text x="1410.0" y="588.4" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12.5" text-anchor="middle" fill="#111">INSERT appointments</text>
+<text x="1266.0" y="642.2" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12" text-anchor="start" fill="#111">trg_appointments_validate: смена мастера FOR</text>
+<text x="1266.0" y="657.2" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12" text-anchor="start" fill="#111">SHARE (CR003); EXCLUDE gist: пересечения</text>
+<text x="1266.0" y="672.2" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12" text-anchor="start" fill="#111">(23P01)</text>
+<text x="1266.0" y="713.2" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12" text-anchor="start" fill="#111">trg_appointments_status_history, audit.tg_audit;</text>
+<text x="1266.0" y="728.2" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12" text-anchor="start" fill="#111">clients → trg_clients_create_loyalty</text>
+<text x="1410.0" y="761.4" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12.5" text-anchor="middle" fill="#111">INSERT appointment_services (снимок цен)</text>
+<text x="1110.0" y="807.4" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12.5" text-anchor="middle" fill="#111">appointment_id</text>
+<text x="1110.0" y="853.4" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12.5" text-anchor="middle" fill="#111">COMMIT</text>
+<text x="820.0" y="899.4" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12.5" text-anchor="middle" fill="#111">Appointment (из v_appointment_details)</text>
+<text x="540.0" y="945.4" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12.5" text-anchor="middle" fill="#111">201 Created</text>
+<text x="260.0" y="991.4" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12.5" text-anchor="middle" fill="#111">201 Created + JSON записи</text>
+<text x="40.0" y="1053.5" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="13" text-anchor="start" fill="#111" font-weight="bold">Альтернатива: параллельная транзакция уже заняла пересекающееся время</text>
+<text x="1410.0" y="1062.4" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12.5" text-anchor="middle" fill="#111">INSERT appointments (другой клиент,</text>
+<text x="1410.0" y="1077.4" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12.5" text-anchor="middle" fill="#111">пересекающийся интервал)</text>
+<text x="1266.0" y="1143.2" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12" text-anchor="start" fill="#111">Ожидание исхода конкурирующей транзакции;</text>
+<text x="1266.0" y="1158.2" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12" text-anchor="start" fill="#111">после её COMMIT — exclusion_violation 23P01</text>
+<text x="1260.0" y="1191.4" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12.5" text-anchor="middle" fill="#111">ERROR 23P01 appointments_barber_no_overlap → ROLLBACK (ничего не сохранено)</text>
+<text x="700.0" y="1245.2" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12" text-anchor="start" fill="#111">apperr.FromDB: 23P01 → 409 time_slot_conflict</text>
+<text x="700.0" y="1260.2" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12" text-anchor="start" fill="#111">«Мастер уже занят в это время»</text>
+<text x="400.0" y="1293.4" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12.5" text-anchor="middle" fill="#111">409 Conflict → клиенту предлагаются другие слоты</text>
+<text x="40.0" y="1349.5" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="13" text-anchor="start" fill="#111" font-weight="bold">Альтернатива: конфликт сериализации/взаимоблокировка (40001 / 40P01)</text>
+<text x="980.0" y="1381.2" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12" text-anchor="start" fill="#111">db.InTx повторяет транзакцию до 3 раз с</text>
+<text x="980.0" y="1396.2" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12" text-anchor="start" fill="#111">паузой; затем 503 concurrent_update</text>
+<text x="880.0" y="41.7" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="22" text-anchor="middle" fill="#111" font-weight="bold">Последовательность: запись клиента POST /api/core/api/v1/appointments</text>
+<text x="120.0" y="94.5" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="14" text-anchor="middle" fill="#111" font-weight="bold">Клиент</text>
+<text x="120.0" y="111.3" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="14" text-anchor="middle" fill="#111" font-weight="bold">(браузер)</text>
+<text x="400.0" y="102.9" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="14" text-anchor="middle" fill="#111" font-weight="bold">API Gateway</text>
+<text x="680.0" y="94.5" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="14" text-anchor="middle" fill="#111" font-weight="bold">core: handler</text>
+<text x="680.0" y="111.3" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="14" text-anchor="middle" fill="#111" font-weight="bold">+ валидация</text>
+<text x="960.0" y="94.5" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="14" text-anchor="middle" fill="#111" font-weight="bold">core: store</text>
+<text x="960.0" y="111.3" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="14" text-anchor="middle" fill="#111" font-weight="bold">+ InTx</text>
+<text x="1260.0" y="94.5" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="14" text-anchor="middle" fill="#111" font-weight="bold">PostgreSQL:</text>
+<text x="1260.0" y="111.3" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="14" text-anchor="middle" fill="#111" font-weight="bold">book_appointment</text>
+<text x="1560.0" y="94.5" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="14" text-anchor="middle" fill="#111" font-weight="bold">PostgreSQL:</text>
+<text x="1560.0" y="111.3" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="14" text-anchor="middle" fill="#111" font-weight="bold">триггеры, EXCLUDE</text></svg>

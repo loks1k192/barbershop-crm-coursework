@@ -1,0 +1,37 @@
+digraph "arch-4-deployment" {
+graph [rankdir=TB, fontname="Liberation Sans", fontsize=22, labelloc=t, label=<<b>Архитектура: развёртывание (docker compose)</b>>, nodesep=0.55, ranksep=0.8, pad=0.4, splines=spline, newrank=true ];
+node [fontname="Liberation Sans", fontsize=13];
+edge [fontname="Liberation Sans", fontsize=10, arrowsize=0.8, penwidth=1.3];
+"dev" [label=<<b>Хост разработчика / сервер&#160;&#160;&#160;&#160;&#160;&#160;</b><br/><font point-size="10">[Docker Engine + Compose v2]</font><br/><font point-size="10">make core-up · docker compose up -d&#160;&#160;&#160;&#160;&#160;&#160;&#160;</font>>, shape=box, style="rounded,filled", fillcolor="#8a8a8a", fontcolor="white", color="#8a8a8a", margin="0.25,0.12"];
+subgraph cluster_net { label=<<b>Сеть docker compose (bridge)</b>>; style="rounded"; color="#555555"; fontsize=15;
+"pg" [label=<<b>postgres&#160;&#160;&#160;</b><br/><font point-size="10">[postgres:16-alpine · 5433→5432]</font><br/><font point-size="10">init: init.sql, seed.sql, 10-barbershop.sh (роли и БД&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</font><br/><font point-size="10">из .env) · том postgres_data&#160;&#160;&#160;&#160;&#160;&#160;</font>>, shape=cylinder, style="filled", fillcolor="#2f7d4f", fontcolor="white", color="#2f7d4f", margin="0.25,0.12"];
+"mig" [label=<<b>core-migrate&#160;&#160;&#160;&#160;</b><br/><font point-size="10">[образ core · одноразовый]</font><br/><font point-size="10">migrate up (crm_owner)&#160;&#160;&#160;&#160;&#160;</font>>, shape=box, style="rounded,filled", fillcolor="#438dd5", fontcolor="white", color="#438dd5", margin="0.25,0.12"];
+"seed" [label=<<b>core-seed&#160;&#160;&#160;</b><br/><font point-size="10">[образ core · одноразовый]</font><br/><font point-size="10">run_seed.sh: наполнение, если БД пуста&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</font>>, shape=box, style="rounded,filled", fillcolor="#438dd5", fontcolor="white", color="#438dd5", margin="0.25,0.12"];
+"core" [label=<<b>core&#160;&#160;</b><br/><font point-size="10">[образ core · 8090→8090]</font><br/><font point-size="10">REST API (crm_app), healthcheck /health&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</font>>, shape=box, style="rounded,filled", fillcolor="#438dd5", fontcolor="white", color="#438dd5", margin="0.25,0.12"];
+"gw" [label=<<b>api-gateway&#160;&#160;&#160;</b><br/><font point-size="10">[8080→8080]</font><br/><font point-size="10">JWT, прокси /api/core/*&#160;&#160;&#160;&#160;&#160;</font>>, shape=box, style="rounded,filled", fillcolor="#438dd5", fontcolor="white", color="#438dd5", margin="0.25,0.12"];
+"ms" [label=<<b>staff · booking · client · analytics&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</b><br/><font point-size="10">[gRPC 5005x]</font><br/><font point-size="10">микросервисы исходного проекта&#160;&#160;&#160;&#160;&#160;&#160;&#160;</font>>, shape=box, style="rounded,filled", fillcolor="#438dd5", fontcolor="white", color="#438dd5", margin="0.25,0.12"];
+"infra" [label=<<b>redis · kafka · clickhouse&#160;&#160;&#160;&#160;&#160;&#160;</b><br/><font point-size="10">[тома kafka_data, clickhouse_data]</font>>, shape=cylinder, style="filled", fillcolor="#7a5c99", fontcolor="white", color="#7a5c99", margin="0.25,0.12"];
+"obs" [label=<<b>prometheus · grafana&#160;&#160;&#160;&#160;&#160;</b><br/><font point-size="10">[9090, 3000]</font>>, shape=box, style="rounded,filled", fillcolor="#8a8a8a", fontcolor="white", color="#8a8a8a", margin="0.25,0.12"];
+subgraph cluster_prof { label=<<b>Профили по запросу</b>>; style="dashed"; color="#999999";
+"tests" [label=<<b>core-tests&#160;&#160;&#160;</b><br/><font point-size="10">[golang:1.24 · profile test]</font><br/><font point-size="10">go test ./... против postgres&#160;&#160;&#160;&#160;&#160;&#160;</font>>, shape=box, style="rounded,filled", fillcolor="#7a5c99", fontcolor="white", color="#7a5c99", margin="0.25,0.12"];
+"perf" [label=<<b>core-perf&#160;&#160;&#160;</b><br/><font point-size="10">[образ core · profile perf]</font><br/><font point-size="10">БД barbershop_perf, ≥100 000 записей&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</font>>, shape=box, style="rounded,filled", fillcolor="#7a5c99", fontcolor="white", color="#7a5c99", margin="0.25,0.12"];
+}
+}
+"dev" -> "gw" [color="#555555", fontcolor="#333333", style=solid, label=<<font point-size="10">:8080&#160;&#160;</font>>];
+"dev" -> "core" [color="#555555", fontcolor="#333333", style=solid, label=<<font point-size="10">:8090&#160;&#160;</font>>];
+"dev" -> "pg" [color="#555555", fontcolor="#333333", style=solid, label=<<font point-size="10">:5433 (psql)&#160;&#160;&#160;&#160;</font>>];
+"pg" -> "mig" [color="#555555", fontcolor="#333333", style=dashed, label=<<font point-size="10">service_healthy&#160;&#160;&#160;&#160;</font>>];
+"mig" -> "seed" [color="#555555", fontcolor="#333333", style=dashed, label=<<font point-size="10">completed_successfully&#160;&#160;&#160;&#160;&#160;</font>>];
+"seed" -> "core" [color="#555555", fontcolor="#333333", style=dashed, label=<<font point-size="10">completed_successfully&#160;&#160;&#160;&#160;&#160;</font>>];
+"core" -> "gw" [color="#555555", fontcolor="#333333", style=dashed, label=<<font point-size="10">depends_on&#160;&#160;&#160;</font>>];
+"gw" -> "core" [color="#555555", fontcolor="#333333", style=solid, label=<<font point-size="10">HTTP&#160;&#160;</font>>];
+"gw" -> "ms" [color="#555555", fontcolor="#333333", style=solid, label=<<font point-size="10">gRPC&#160;&#160;</font>>];
+"core" -> "pg" [color="#555555", fontcolor="#333333", style=solid, label=<<font point-size="10">barbershop&#160;&#160;&#160;</font>>];
+"mig" -> "pg" [color="#555555", fontcolor="#333333", style=solid];
+"seed" -> "pg" [color="#555555", fontcolor="#333333", style=solid];
+"ms" -> "pg" [color="#555555", fontcolor="#333333", style=solid, label=<<font point-size="10">staff_db, …&#160;&#160;&#160;</font>>];
+"ms" -> "infra" [color="#555555", fontcolor="#333333", style=solid];
+"tests" -> "pg" [color="#555555", fontcolor="#333333", style=solid, label=<<font point-size="10">временные БД&#160;&#160;&#160;&#160;</font>>];
+"perf" -> "pg" [color="#555555", fontcolor="#333333", style=solid, label=<<font point-size="10">barbershop_perf&#160;&#160;&#160;&#160;</font>>];
+"obs" -> "gw" [color="#555555", fontcolor="#333333", style=dotted, label=<<font point-size="10">scrape&#160;&#160;&#160;</font>>];
+}
