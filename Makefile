@@ -48,3 +48,32 @@ prod-down:
 
 prod-logs:
 	docker compose -f docker-compose.prod.yml logs -f
+
+# ── Курсовой проект: сервис core и БД barbershop ───────────────────
+
+CORE := services/core
+PG_ADMIN ?= postgres://postgres:postgres@localhost:5433/postgres?sslmode=disable
+
+core-up:            ## поднять PostgreSQL + миграции + наполнение + API core (:8090)
+	docker compose up -d --build postgres core-migrate core-seed core
+
+core-test:          ## автотесты БД и API в контейнере
+	docker compose --profile test run --rm core-tests
+
+core-test-local:    ## автотесты против локального PostgreSQL
+	cd $(CORE) && TEST_PG_ADMIN_URL=$(PG_ADMIN) go test ./... -count=1
+
+core-demo-concurrency: ## демонстрация транзакций и конкурентного доступа
+	cd $(CORE) && TEST_PG_ADMIN_URL=$(PG_ADMIN) go run ./cmd/concurrency-demo
+
+core-perf-data:     ## набор данных ≥100 000 записей в БД barbershop_perf
+	docker compose --profile perf run --rm core-perf
+
+core-import-demo:   ## пакетная загрузка примера CSV
+	docker compose run --rm --entrypoint importer core -file /opt/core/data/import/clients_legacy.csv
+
+kpi-refresh:        ## обновить материализованное представление KPI
+	docker compose exec -T postgres psql -U postgres -d barbershop -c "SELECT crm.refresh_kpi()"
+
+psql-core:          ## psql в БД barbershop под ролью-владельцем
+	docker compose exec postgres psql -U crm_owner -d barbershop

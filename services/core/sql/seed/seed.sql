@@ -354,7 +354,7 @@ ALTER TABLE crm.payments ENABLE TRIGGER USER;
 SELECT crm.refresh_kpi();
 COMMIT;
 
-ANALYZE;
+ANALYZE crm.branches, crm.barbers, crm.barber_settings, crm.service_categories, crm.services, crm.barber_services, crm.work_shifts, crm.clients, crm.loyalty_accounts, crm.appointments, crm.appointment_services, crm.payments, crm.bonus_transactions, crm.reviews, crm.appointment_status_history;
 
 -- Итоги наполнения
 SELECT 'branches' AS table_name, count(*) FROM crm.branches

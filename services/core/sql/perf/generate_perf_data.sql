@@ -114,7 +114,7 @@ WHERE status = 'completed' AND appointment_id % 5 = 0 AND ends_at > now() - inte
 DROP TABLE gen;
 COMMIT;
 
-VACUUM ANALYZE;
+VACUUM ANALYZE crm.branches, crm.barbers, crm.barber_settings, crm.service_categories, crm.services, crm.barber_services, crm.work_shifts, crm.clients, crm.loyalty_accounts, crm.appointments, crm.appointment_services, crm.payments, crm.bonus_transactions, crm.reviews, crm.appointment_status_history;
 SELECT crm.refresh_kpi();
 
 SELECT relname AS table_name, n_live_tup AS rows

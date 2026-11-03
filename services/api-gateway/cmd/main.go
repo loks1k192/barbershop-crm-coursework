@@ -161,6 +161,17 @@ func main() {
 		})
 	})
 
+	// ── Core (единая БД сети, курсовой проект) ────────────────────────────────
+	// /api/core/api/v1/... → http://core:8090/api/v1/... (с проверкой JWT)
+	if coreURL := os.Getenv("CORE_URL"); coreURL != "" {
+		coreProxy, err := handler.CoreProxy(coreURL)
+		if err != nil {
+			log.Error("invalid CORE_URL", "error", err)
+			os.Exit(1)
+		}
+		r.With(middleware.Auth(cfg.JWTSecret), chiMiddleware.Timeout(30*time.Second)).Handle("/api/core/*", coreProxy)
+	}
+
 	// ── Metrics server (internal only, not mapped to host) ────────────────────
 
 	metricsMux := http.NewServeMux()
