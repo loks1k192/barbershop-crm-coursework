@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_bpmn-01-booking-and-visit" targetNamespace="http://barber-crm.local/bpmn" exporter="barber-crm docs generator" exporterVersion="1.0">
+  <bpmn:collaboration id="Collaboration_bpmn-01-booking-and-visit">
+    <bpmn:participant id="Pool_Client" name="Клиент" processRef="Process_Pool_Client" />
+    <bpmn:participant id="Pool_Shop" name="Сеть барбершопов" processRef="Process_Pool_Shop" />
+    <bpmn:messageFlow id="m1" name="запрос: мастер, услуги, дата" sourceRef="c_ask" targetRef="s_start" />
+    <bpmn:messageFlow id="m2" name="свободные слоты" sourceRef="s_send_slots" targetRef="c_slots" />
+    <bpmn:messageFlow id="m3" name="заявка" sourceRef="c_req" targetRef="s_req" />
+    <bpmn:messageFlow id="m4" name="подтверждение" sourceRef="s_confirm" targetRef="c_ok" />
+    <bpmn:messageFlow id="m5" name="отказ" sourceRef="s_refuse" targetRef="c_no" />
+    <bpmn:messageFlow id="m6" name="напоминание" sourceRef="s_remind" targetRef="c_rem" />
+    <bpmn:messageFlow id="m7" name="приход" sourceRef="c_come" targetRef="a_came" />
+    <bpmn:messageFlow id="m8" name="оплата" sourceRef="c_pay" targetRef="a_calc" />
+    <bpmn:messageFlow id="m9" name="чек, бонусы" sourceRef="s_receipt" targetRef="c_receipt" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_Pool_Client" isExecutable="false">
+    <bpmn:startEvent id="c_start" name="Нужна стрижка">
+      <bpmn:outgoing>f1</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:userTask id="c_choose" name="Выбрать мастера, услуги и дату">
+      <bpmn:incoming>f1</bpmn:incoming>
+      <bpmn:outgoing>f2</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sendTask id="c_ask" name="Запросить свободное время">
+      <bpmn:incoming>f2</bpmn:incoming>
+      <bpmn:outgoing>f3</bpmn:outgoing>
+    </bpmn:sendTask>
+    <bpmn:receiveTask id="c_slots" name="Получить свободные слоты">
+      <bpmn:incoming>f3</bpmn:incoming>
+      <bpmn:outgoing>f4</bpmn:outgoing>
+    </bpmn:receiveTask>
+    <bpmn:userTask id="c_pick" name="Выбрать слот, указать телефон и имя">
+      <bpmn:incoming>f4</bpmn:incoming>
+      <bpmn:incoming>f9</bpmn:incoming>
+      <bpmn:outgoing>f5</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sendTask id="c_req" name="Отправить заявку на запись">
+      <bpmn:incoming>f5</bpmn:incoming>
+      <bpmn:outgoing>f6</bpmn:outgoing>
+    </bpmn:sendTask>
+    <bpmn:eventBasedGateway id="c_gw" name="">
+      <bpmn:incoming>f6</bpmn:incoming>
+      <bpmn:outgoing>f7</bpmn:outgoing>
+      <bpmn:outgoing>f8</bpmn:outgoing>
+    </bpmn:eventBasedGateway>
+    <bpmn:intermediateCatchEvent id="c_ok" name="Подтверждение получено">
+      <bpmn:incoming>f7</bpmn:incoming>
+      <bpmn:outgoing>f10</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="c_ok_def" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:intermediateCatchEvent id="c_no" name="Отказ получен">
+      <bpmn:incoming>f8</bpmn:incoming>
+      <bpmn:outgoing>f9</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="c_no_def" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:intermediateCatchEvent id="c_rem" name="Напоминание получено">
+      <bpmn:incoming>f10</bpmn:incoming>
+      <bpmn:outgoing>f11</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="c_rem_def" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:intermediateCatchEvent id="c_time" name="Наступило время визита">
+      <bpmn:incoming>f11</bpmn:incoming>
+      <bpmn:outgoing>f12</bpmn:outgoing>
+      <bpmn:timerEventDefinition id="c_time_def" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:manualTask id="c_come" name="Прийти в барбершоп">
+      <bpmn:incoming>f12</bpmn:incoming>
+      <bpmn:outgoing>f13</bpmn:outgoing>
+    </bpmn:manualTask>
+    <bpmn:manualTask id="c_pay" name="Оплатить визит (деньги, бонусы)">
+      <bpmn:incoming>f13</bpmn:incoming>
+      <bpmn:outgoing>f14</bpmn:outgoing>
+    </bpmn:manualTask>
+    <bpmn:receiveTask id="c_receipt" name="Получить чек и бонусы">
+      <bpmn:incoming>f14</bpmn:incoming>
+      <bpmn:outgoing>f15</bpmn:outgoing>
+    </bpmn:receiveTask>
+    <bpmn:endEvent id="c_end" name="Клиент обслужен">
+      <bpmn:incoming>f15</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="f1" sourceRef="c_start" targetRef="c_choose" />
+    <bpmn:sequenceFlow id="f2" sourceRef="c_choose" targetRef="c_ask" />
+    <bpmn:sequenceFlow id="f3" sourceRef="c_ask" targetRef="c_slots" />
+    <bpmn:sequenceFlow id="f4" sourceRef="c_slots" targetRef="c_pick" />
+    <bpmn:sequenceFlow id="f5" sourceRef="c_pick" targetRef="c_req" />
+    <bpmn:sequenceFlow id="f6" sourceRef="c_req" targetRef="c_gw" />
+    <bpmn:sequenceFlow id="f7" sourceRef="c_gw" targetRef="c_ok" />
+    <bpmn:sequenceFlow id="f8" sourceRef="c_gw" targetRef="c_no" />
+    <bpmn:sequenceFlow id="f9" name="выбрать другое время" sourceRef="c_no" targetRef="c_pick" />
+    <bpmn:sequenceFlow id="f10" sourceRef="c_ok" targetRef="c_rem" />
+    <bpmn:sequenceFlow id="f11" sourceRef="c_rem" targetRef="c_time" />
+    <bpmn:sequenceFlow id="f12" sourceRef="c_time" targetRef="c_come" />
+    <bpmn:sequenceFlow id="f13" sourceRef="c_come" targetRef="c_pay" />
+    <bpmn:sequenceFlow id="f14" sourceRef="c_pay" targetRef="c_receipt" />
+    <bpmn:sequenceFlow id="f15" sourceRef="c_receipt" targetRef="c_end" />
+  </bpmn:process>
+  <bpmn:process id="Process_Pool_Shop" isExecutable="false">
+    <bpmn:laneSet id="LaneSet_Pool_Shop">
+      <bpmn:lane id="Lane_Admin" name="Администратор">
+        <bpmn:flowNodeRef>a_gw</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>a_came</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>a_late</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>a_noshow</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>a_end_ns</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>a_begin</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>a_calc</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_Barber" name="Барбер">
+        <bpmn:flowNodeRef>b_serve</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_CRM" name="CRM-система">
+        <bpmn:flowNodeRef>s_start</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>s_slots</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>s_send_slots</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>s_req</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>s_book</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>s_gw1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>s_confirm</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>s_refuse</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>s_t24</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>s_remind</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>s_complete</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>s_gw2</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>s_receipt</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>s_end</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="s_start" name="Запрос свободного времени">
+      <bpmn:outgoing>g1</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="s_start_def" />
+    </bpmn:startEvent>
+    <bpmn:serviceTask id="s_slots" name="Рассчитать свободные слоты (crm.free_slots)">
+      <bpmn:incoming>g1</bpmn:incoming>
+      <bpmn:outgoing>g2</bpmn:outgoing>
+      <bpmn:dataOutputAssociation id="d1"><bpmn:targetRef>ds1</bpmn:targetRef></bpmn:dataOutputAssociation>
+    </bpmn:serviceTask>
+    <bpmn:intermediateThrowEvent id="s_send_slots" name="Слоты отправлены">
+      <bpmn:incoming>g2</bpmn:incoming>
+      <bpmn:outgoing>g3</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="s_send_slots_def" />
+    </bpmn:intermediateThrowEvent>
+    <bpmn:intermediateCatchEvent id="s_req" name="Заявка получена">
+      <bpmn:incoming>g3</bpmn:incoming>
+      <bpmn:incoming>g8</bpmn:incoming>
+      <bpmn:outgoing>g4</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="s_req_def" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:serviceTask id="s_book" name="Создать запись (crm.book_appointment)">
+      <bpmn:incoming>g4</bpmn:incoming>
+      <bpmn:outgoing>g5</bpmn:outgoing>
+      <bpmn:dataOutputAssociation id="d2"><bpmn:targetRef>ds2</bpmn:targetRef></bpmn:dataOutputAssociation>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="s_gw1" name="Запись создана?">
+      <bpmn:incoming>g5</bpmn:incoming>
+      <bpmn:outgoing>g6</bpmn:outgoing>
+      <bpmn:outgoing>g7</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sendTask id="s_confirm" name="Отправить подтверждение">
+      <bpmn:incoming>g6</bpmn:incoming>
+      <bpmn:outgoing>g9</bpmn:outgoing>
+    </bpmn:sendTask>
+    <bpmn:sendTask id="s_refuse" name="Отправить отказ и другие слоты">
+      <bpmn:incoming>g7</bpmn:incoming>
+      <bpmn:outgoing>g8</bpmn:outgoing>
+    </bpmn:sendTask>
+    <bpmn:intermediateCatchEvent id="s_t24" name="За 24 ч до визита">
+      <bpmn:incoming>g9</bpmn:incoming>
+      <bpmn:outgoing>g10</bpmn:outgoing>
+      <bpmn:timerEventDefinition id="s_t24_def" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:sendTask id="s_remind" name="Отправить напоминание">
+      <bpmn:incoming>g10</bpmn:incoming>
+      <bpmn:outgoing>g11</bpmn:outgoing>
+    </bpmn:sendTask>
+    <bpmn:eventBasedGateway id="a_gw" name="">
+      <bpmn:incoming>g11</bpmn:incoming>
+      <bpmn:outgoing>h1</bpmn:outgoing>
+      <bpmn:outgoing>h2</bpmn:outgoing>
+    </bpmn:eventBasedGateway>
+    <bpmn:intermediateCatchEvent id="a_came" name="Клиент пришёл">
+      <bpmn:incoming>h1</bpmn:incoming>
+      <bpmn:outgoing>h3</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="a_came_def" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:intermediateCatchEvent id="a_late" name="15 мин после начала">
+      <bpmn:incoming>h2</bpmn:incoming>
+      <bpmn:outgoing>h4</bpmn:outgoing>
+      <bpmn:timerEventDefinition id="a_late_def" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:userTask id="a_noshow" name="Отметить неявку (no_show)">
+      <bpmn:incoming>h4</bpmn:incoming>
+      <bpmn:outgoing>h5</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:endEvent id="a_end_ns" name="Неявка зафиксирована">
+      <bpmn:incoming>h5</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:userTask id="a_begin" name="Начать визит (in_progress)">
+      <bpmn:incoming>h3</bpmn:incoming>
+      <bpmn:outgoing>h6</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="b_serve" name="Оказать услуги">
+      <bpmn:incoming>h6</bpmn:incoming>
+      <bpmn:outgoing>h7</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="a_calc" name="Принять оплату, учесть списание бонусов">
+      <bpmn:incoming>h7</bpmn:incoming>
+      <bpmn:incoming>h11</bpmn:incoming>
+      <bpmn:outgoing>h8</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:serviceTask id="s_complete" name="Завершить визит (crm.complete_ appointment)">
+      <bpmn:incoming>h8</bpmn:incoming>
+      <bpmn:outgoing>h9</bpmn:outgoing>
+      <bpmn:dataOutputAssociation id="d3"><bpmn:targetRef>ds3</bpmn:targetRef></bpmn:dataOutputAssociation>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="s_gw2" name="Расчёт выполнен?">
+      <bpmn:incoming>h9</bpmn:incoming>
+      <bpmn:outgoing>h10</bpmn:outgoing>
+      <bpmn:outgoing>h11</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sendTask id="s_receipt" name="Отправить чек и начисление бонусов">
+      <bpmn:incoming>h10</bpmn:incoming>
+      <bpmn:outgoing>h12</bpmn:outgoing>
+    </bpmn:sendTask>
+    <bpmn:endEvent id="s_end" name="Визит завершён">
+      <bpmn:incoming>h12</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="g1" sourceRef="s_start" targetRef="s_slots" />
+    <bpmn:sequenceFlow id="g2" sourceRef="s_slots" targetRef="s_send_slots" />
+    <bpmn:sequenceFlow id="g3" sourceRef="s_send_slots" targetRef="s_req" />
+    <bpmn:sequenceFlow id="g4" sourceRef="s_req" targetRef="s_book" />
+    <bpmn:sequenceFlow id="g5" sourceRef="s_book" targetRef="s_gw1" />
+    <bpmn:sequenceFlow id="g6" name="да" sourceRef="s_gw1" targetRef="s_confirm" />
+    <bpmn:sequenceFlow id="g7" name="нет (23P01 / CR003)" sourceRef="s_gw1" targetRef="s_refuse" />
+    <bpmn:sequenceFlow id="g8" name="ждать новую заявку" sourceRef="s_refuse" targetRef="s_req" />
+    <bpmn:sequenceFlow id="g9" sourceRef="s_confirm" targetRef="s_t24" />
+    <bpmn:sequenceFlow id="g10" sourceRef="s_t24" targetRef="s_remind" />
+    <bpmn:sequenceFlow id="g11" sourceRef="s_remind" targetRef="a_gw" />
+    <bpmn:sequenceFlow id="h1" sourceRef="a_gw" targetRef="a_came" />
+    <bpmn:sequenceFlow id="h2" sourceRef="a_gw" targetRef="a_late" />
+    <bpmn:sequenceFlow id="h3" sourceRef="a_came" targetRef="a_begin" />
+    <bpmn:sequenceFlow id="h4" sourceRef="a_late" targetRef="a_noshow" />
+    <bpmn:sequenceFlow id="h5" sourceRef="a_noshow" targetRef="a_end_ns" />
+    <bpmn:sequenceFlow id="h6" sourceRef="a_begin" targetRef="b_serve" />
+    <bpmn:sequenceFlow id="h7" sourceRef="b_serve" targetRef="a_calc" />
+    <bpmn:sequenceFlow id="h8" sourceRef="a_calc" targetRef="s_complete" />
+    <bpmn:sequenceFlow id="h9" sourceRef="s_complete" targetRef="s_gw2" />
+    <bpmn:sequenceFlow id="h10" name="да" sourceRef="s_gw2" targetRef="s_receipt" />
+    <bpmn:sequenceFlow id="h11" name="нет (CR009): откат" sourceRef="s_gw2" targetRef="a_calc" />
+    <bpmn:sequenceFlow id="h12" sourceRef="s_receipt" targetRef="s_end" />
+    <bpmn:dataStoreReference id="ds1" name="БД barbershop" dataStoreRef="DataStore_barbershop" />
+    <bpmn:dataStoreReference id="ds2" name="БД barbershop" dataStoreRef="DataStore_barbershop" />
+    <bpmn:dataStoreReference id="ds3" name="БД barbershop" dataStoreRef="DataStore_barbershop" />
+  </bpmn:process>
+  <bpmn:dataStore id="DataStore_barbershop" name="БД barbershop (PostgreSQL)" />
+  <bpmndi:BPMNDiagram id="Diagram_bpmn-01-booking-and-visit">
+    <bpmndi:BPMNPlane id="Plane_bpmn-01-booking-and-visit" bpmnElement="Collaboration_bpmn-01-booking-and-visit">
+      <bpmndi:BPMNShape id="Pool_Client_di" bpmnElement="Pool_Client" isHorizontal="true"><dc:Bounds x="60" y="50" width="3080" height="200" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Pool_Shop_di" bpmnElement="Pool_Shop" isHorizontal="true"><dc:Bounds x="60" y="300" width="3080" height="710" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_Admin_di" bpmnElement="Lane_Admin" isHorizontal="true"><dc:Bounds x="92" y="300" width="3048" height="260" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_Barber_di" bpmnElement="Lane_Barber" isHorizontal="true"><dc:Bounds x="92" y="560" width="3048" height="170" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_CRM_di" bpmnElement="Lane_CRM" isHorizontal="true"><dc:Bounds x="92" y="730" width="3048" height="280" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="c_start_di" bpmnElement="c_start"><dc:Bounds x="112" y="132" width="36" height="36" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="c_choose_di" bpmnElement="c_choose"><dc:Bounds x="170" y="110" width="130" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="c_ask_di" bpmnElement="c_ask"><dc:Bounds x="340" y="110" width="130" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="c_slots_di" bpmnElement="c_slots"><dc:Bounds x="640" y="110" width="130" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="c_pick_di" bpmnElement="c_pick"><dc:Bounds x="810" y="110" width="130" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="c_req_di" bpmnElement="c_req"><dc:Bounds x="980" y="110" width="130" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="c_gw_di" bpmnElement="c_gw"><dc:Bounds x="1155" y="125" width="50" height="50" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="c_ok_di" bpmnElement="c_ok"><dc:Bounds x="1242" y="132" width="36" height="36" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="c_no_di" bpmnElement="c_no"><dc:Bounds x="1312" y="187" width="36" height="36" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="c_rem_di" bpmnElement="c_rem"><dc:Bounds x="1667" y="132" width="36" height="36" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="c_time_di" bpmnElement="c_time"><dc:Bounds x="1802" y="132" width="36" height="36" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="c_come_di" bpmnElement="c_come"><dc:Bounds x="1900" y="110" width="130" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="c_pay_di" bpmnElement="c_pay"><dc:Bounds x="2380" y="110" width="130" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="c_receipt_di" bpmnElement="c_receipt"><dc:Bounds x="2820" y="110" width="130" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="c_end_di" bpmnElement="c_end"><dc:Bounds x="3032" y="132" width="36" height="36" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="s_start_di" bpmnElement="s_start"><dc:Bounds x="387" y="802" width="36" height="36" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="s_slots_di" bpmnElement="s_slots"><dc:Bounds x="460" y="780" width="130" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="s_send_slots_di" bpmnElement="s_send_slots"><dc:Bounds x="687" y="802" width="36" height="36" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="s_req_di" bpmnElement="s_req"><dc:Bounds x="1027" y="802" width="36" height="36" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="s_book_di" bpmnElement="s_book"><dc:Bounds x="1100" y="780" width="130" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="s_gw1_di" bpmnElement="s_gw1" isMarkerVisible="true"><dc:Bounds x="1275" y="795" width="50" height="50" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="s_confirm_di" bpmnElement="s_confirm"><dc:Bounds x="1360" y="780" width="130" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="s_refuse_di" bpmnElement="s_refuse"><dc:Bounds x="1360" y="895" width="130" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="s_t24_di" bpmnElement="s_t24"><dc:Bounds x="1542" y="802" width="36" height="36" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="s_remind_di" bpmnElement="s_remind"><dc:Bounds x="1620" y="780" width="130" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="a_gw_di" bpmnElement="a_gw"><dc:Bounds x="1855" y="365" width="50" height="50" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="a_came_di" bpmnElement="a_came"><dc:Bounds x="1947" y="372" width="36" height="36" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="a_late_di" bpmnElement="a_late"><dc:Bounds x="1947" y="477" width="36" height="36" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="a_noshow_di" bpmnElement="a_noshow"><dc:Bounds x="2030" y="455" width="130" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="a_end_ns_di" bpmnElement="a_end_ns"><dc:Bounds x="2197" y="477" width="36" height="36" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="a_begin_di" bpmnElement="a_begin"><dc:Bounds x="2020" y="350" width="130" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="b_serve_di" bpmnElement="b_serve"><dc:Bounds x="2200" y="605" width="130" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="a_calc_di" bpmnElement="a_calc"><dc:Bounds x="2380" y="350" width="130" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="s_complete_di" bpmnElement="s_complete"><dc:Bounds x="2560" y="780" width="130" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="s_gw2_di" bpmnElement="s_gw2" isMarkerVisible="true"><dc:Bounds x="2735" y="795" width="50" height="50" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="s_receipt_di" bpmnElement="s_receipt"><dc:Bounds x="2820" y="780" width="130" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="s_end_di" bpmnElement="s_end"><dc:Bounds x="3032" y="802" width="36" height="36" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ds1_di" bpmnElement="ds1"><dc:Bounds x="495" y="1050" width="60" height="60" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ds2_di" bpmnElement="ds2"><dc:Bounds x="1135" y="1050" width="60" height="60" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ds3_di" bpmnElement="ds3"><dc:Bounds x="2595" y="1050" width="60" height="60" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="f1_di" bpmnElement="f1"><di:waypoint x="148" y="150" /><di:waypoint x="170" y="150" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f2_di" bpmnElement="f2"><di:waypoint x="300" y="150" /><di:waypoint x="340" y="150" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f3_di" bpmnElement="f3"><di:waypoint x="470" y="150" /><di:waypoint x="640" y="150" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f4_di" bpmnElement="f4"><di:waypoint x="770" y="150" /><di:waypoint x="810" y="150" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f5_di" bpmnElement="f5"><di:waypoint x="940" y="150" /><di:waypoint x="980" y="150" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f6_di" bpmnElement="f6"><di:waypoint x="1110" y="150" /><di:waypoint x="1155" y="150" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f7_di" bpmnElement="f7"><di:waypoint x="1205" y="150" /><di:waypoint x="1242" y="150" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f8_di" bpmnElement="f8"><di:waypoint x="1180" y="175" /><di:waypoint x="1180" y="205" /><di:waypoint x="1312" y="205" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f9_di" bpmnElement="f9"><di:waypoint x="1348" y="205" /><di:waypoint x="1420" y="205" /><di:waypoint x="1420" y="236" /><di:waypoint x="875" y="236" /><di:waypoint x="875" y="190" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f10_di" bpmnElement="f10"><di:waypoint x="1278" y="150" /><di:waypoint x="1667" y="150" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f11_di" bpmnElement="f11"><di:waypoint x="1703" y="150" /><di:waypoint x="1802" y="150" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f12_di" bpmnElement="f12"><di:waypoint x="1838" y="150" /><di:waypoint x="1900" y="150" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f13_di" bpmnElement="f13"><di:waypoint x="2030" y="150" /><di:waypoint x="2380" y="150" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f14_di" bpmnElement="f14"><di:waypoint x="2510" y="150" /><di:waypoint x="2820" y="150" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f15_di" bpmnElement="f15"><di:waypoint x="2950" y="150" /><di:waypoint x="3032" y="150" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="g1_di" bpmnElement="g1"><di:waypoint x="423" y="820" /><di:waypoint x="460" y="820" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="g2_di" bpmnElement="g2"><di:waypoint x="590" y="820" /><di:waypoint x="687" y="820" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="g3_di" bpmnElement="g3"><di:waypoint x="723" y="820" /><di:waypoint x="1027" y="820" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="g4_di" bpmnElement="g4"><di:waypoint x="1063" y="820" /><di:waypoint x="1100" y="820" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="g5_di" bpmnElement="g5"><di:waypoint x="1230" y="820" /><di:waypoint x="1275" y="820" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="g6_di" bpmnElement="g6"><di:waypoint x="1325" y="820" /><di:waypoint x="1360" y="820" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="g7_di" bpmnElement="g7"><di:waypoint x="1300" y="845" /><di:waypoint x="1300" y="935" /><di:waypoint x="1360" y="935" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="g8_di" bpmnElement="g8"><di:waypoint x="1425" y="975" /><di:waypoint x="1425" y="995" /><di:waypoint x="1045" y="995" /><di:waypoint x="1045" y="838" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="g9_di" bpmnElement="g9"><di:waypoint x="1490" y="820" /><di:waypoint x="1542" y="820" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="g10_di" bpmnElement="g10"><di:waypoint x="1578" y="820" /><di:waypoint x="1620" y="820" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="g11_di" bpmnElement="g11"><di:waypoint x="1750" y="820" /><di:waypoint x="1800" y="820" /><di:waypoint x="1800" y="390" /><di:waypoint x="1855" y="390" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="h1_di" bpmnElement="h1"><di:waypoint x="1905" y="390" /><di:waypoint x="1947" y="390" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="h2_di" bpmnElement="h2"><di:waypoint x="1880" y="415" /><di:waypoint x="1880" y="495" /><di:waypoint x="1947" y="495" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="h3_di" bpmnElement="h3"><di:waypoint x="1983" y="390" /><di:waypoint x="2020" y="390" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="h4_di" bpmnElement="h4"><di:waypoint x="1983" y="495" /><di:waypoint x="2030" y="495" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="h5_di" bpmnElement="h5"><di:waypoint x="2160" y="495" /><di:waypoint x="2197" y="495" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="h6_di" bpmnElement="h6"><di:waypoint x="2150" y="390" /><di:waypoint x="2175" y="390" /><di:waypoint x="2175" y="645" /><di:waypoint x="2200" y="645" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="h7_di" bpmnElement="h7"><di:waypoint x="2330" y="645" /><di:waypoint x="2355" y="645" /><di:waypoint x="2355" y="390" /><di:waypoint x="2380" y="390" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="h8_di" bpmnElement="h8"><di:waypoint x="2510" y="390" /><di:waypoint x="2535" y="390" /><di:waypoint x="2535" y="820" /><di:waypoint x="2560" y="820" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="h9_di" bpmnElement="h9"><di:waypoint x="2690" y="820" /><di:waypoint x="2735" y="820" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="h10_di" bpmnElement="h10"><di:waypoint x="2785" y="820" /><di:waypoint x="2820" y="820" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="h11_di" bpmnElement="h11"><di:waypoint x="2760" y="795" /><di:waypoint x="2760" y="470" /><di:waypoint x="2445" y="470" /><di:waypoint x="2445" y="430" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="h12_di" bpmnElement="h12"><di:waypoint x="2950" y="820" /><di:waypoint x="3032" y="820" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="m1_di" bpmnElement="m1"><di:waypoint x="405" y="190" /><di:waypoint x="405" y="802" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="m2_di" bpmnElement="m2"><di:waypoint x="705" y="802" /><di:waypoint x="705" y="190" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="m3_di" bpmnElement="m3"><di:waypoint x="1045" y="190" /><di:waypoint x="1045" y="802" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="m4_di" bpmnElement="m4"><di:waypoint x="1425" y="780" /><di:waypoint x="1425" y="270" /><di:waypoint x="1260" y="270" /><di:waypoint x="1260" y="168" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="m5_di" bpmnElement="m5"><di:waypoint x="1490" y="935" /><di:waypoint x="1515" y="935" /><di:waypoint x="1515" y="285" /><di:waypoint x="1330" y="285" /><di:waypoint x="1330" y="223" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="m6_di" bpmnElement="m6"><di:waypoint x="1685" y="780" /><di:waypoint x="1685" y="168" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="m7_di" bpmnElement="m7"><di:waypoint x="1965" y="190" /><di:waypoint x="1965" y="372" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="m8_di" bpmnElement="m8"><di:waypoint x="2445" y="190" /><di:waypoint x="2445" y="350" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="m9_di" bpmnElement="m9"><di:waypoint x="2885" y="780" /><di:waypoint x="2885" y="190" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="d1_di" bpmnElement="d1"><di:waypoint x="525" y="860" /><di:waypoint x="525" y="1050" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="d2_di" bpmnElement="d2"><di:waypoint x="1165" y="860" /><di:waypoint x="1165" y="1050" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="d3_di" bpmnElement="d3"><di:waypoint x="2625" y="860" /><di:waypoint x="2625" y="1050" /></bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

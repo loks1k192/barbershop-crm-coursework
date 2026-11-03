@@ -1,0 +1,310 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="3180" height="1180" viewBox="0 0 3180 1180"><defs><marker id="arrow" viewBox="0 0 12 12" refX="11" refY="6" markerWidth="11" markerHeight="11" orient="auto-start-reverse" markerUnits="userSpaceOnUse"><path d="M0,1 L12,6 L0,11 z" fill="#222"/></marker><marker id="circle-open" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="9" markerHeight="9" orient="auto" markerUnits="userSpaceOnUse"><circle cx="5" cy="5" r="4" fill="#fff" stroke="#222" stroke-width="1.3"/></marker><marker id="arrow-open" viewBox="0 0 12 12" refX="11" refY="6" markerWidth="12" markerHeight="12" orient="auto" markerUnits="userSpaceOnUse"><path d="M1,1 L11,6 L1,11 z" fill="#fff" stroke="#222" stroke-width="1.3"/></marker><marker id="assoc" viewBox="0 0 12 12" refX="11" refY="6" markerWidth="11" markerHeight="11" orient="auto" markerUnits="userSpaceOnUse"><path d="M1,1 L11,6 L1,11" fill="none" stroke="#555" stroke-width="1.3"/></marker></defs><rect width="100%" height="100%" fill="#ffffff"/><rect x="60.0" y="50.0" width="3080.0" height="200.0" rx="0" stroke="#222" stroke-width="1.8" fill="#ffffff"/>
+<rect x="60.0" y="50.0" width="32.0" height="200.0" rx="0" stroke="#222" stroke-width="1.8" fill="#f4f4f4"/>
+<rect x="60.0" y="300.0" width="3080.0" height="710.0" rx="0" stroke="#222" stroke-width="1.8" fill="#ffffff"/>
+<rect x="60.0" y="300.0" width="32.0" height="710.0" rx="0" stroke="#222" stroke-width="1.8" fill="#f4f4f4"/>
+<rect x="92.0" y="300.0" width="3048.0" height="260.0" rx="0" stroke="#222" stroke-width="1.1" fill="none"/>
+<rect x="92.0" y="300.0" width="30.0" height="260.0" rx="0" stroke="#222" stroke-width="1.1" fill="#fafafa"/>
+<rect x="92.0" y="560.0" width="3048.0" height="170.0" rx="0" stroke="#222" stroke-width="1.1" fill="none"/>
+<rect x="92.0" y="560.0" width="30.0" height="170.0" rx="0" stroke="#222" stroke-width="1.1" fill="#fafafa"/>
+<rect x="92.0" y="730.0" width="3048.0" height="280.0" rx="0" stroke="#222" stroke-width="1.1" fill="none"/>
+<rect x="92.0" y="730.0" width="30.0" height="280.0" rx="0" stroke="#222" stroke-width="1.1" fill="#fafafa"/>
+<polyline points="148.0,150.0 170.0,150.0" stroke="#222" stroke-width="1.6" fill="none" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<polyline points="300.0,150.0 340.0,150.0" stroke="#222" stroke-width="1.6" fill="none" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<polyline points="470.0,150.0 640.0,150.0" stroke="#222" stroke-width="1.6" fill="none" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<polyline points="770.0,150.0 810.0,150.0" stroke="#222" stroke-width="1.6" fill="none" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<polyline points="940.0,150.0 980.0,150.0" stroke="#222" stroke-width="1.6" fill="none" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<polyline points="1110.0,150.0 1155.0,150.0" stroke="#222" stroke-width="1.6" fill="none" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<polyline points="1205.0,150.0 1242.0,150.0" stroke="#222" stroke-width="1.6" fill="none" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<polyline points="1180.0,175.0 1180.0,205.0 1312.0,205.0" stroke="#222" stroke-width="1.6" fill="none" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<polyline points="1348.0,205.0 1420.0,205.0 1420.0,236.0 875.0,236.0 875.0,190.0" stroke="#222" stroke-width="1.6" fill="none" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<polyline points="1278.0,150.0 1667.0,150.0" stroke="#222" stroke-width="1.6" fill="none" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<polyline points="1703.0,150.0 1802.0,150.0" stroke="#222" stroke-width="1.6" fill="none" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<polyline points="1838.0,150.0 1900.0,150.0" stroke="#222" stroke-width="1.6" fill="none" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<polyline points="2030.0,150.0 2380.0,150.0" stroke="#222" stroke-width="1.6" fill="none" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<polyline points="2510.0,150.0 2820.0,150.0" stroke="#222" stroke-width="1.6" fill="none" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<polyline points="2950.0,150.0 3032.0,150.0" stroke="#222" stroke-width="1.6" fill="none" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<polyline points="423.0,820.0 460.0,820.0" stroke="#222" stroke-width="1.6" fill="none" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<polyline points="590.0,820.0 687.0,820.0" stroke="#222" stroke-width="1.6" fill="none" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<polyline points="723.0,820.0 1027.0,820.0" stroke="#222" stroke-width="1.6" fill="none" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<polyline points="1063.0,820.0 1100.0,820.0" stroke="#222" stroke-width="1.6" fill="none" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<polyline points="1230.0,820.0 1275.0,820.0" stroke="#222" stroke-width="1.6" fill="none" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<polyline points="1325.0,820.0 1360.0,820.0" stroke="#222" stroke-width="1.6" fill="none" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<polyline points="1300.0,845.0 1300.0,935.0 1360.0,935.0" stroke="#222" stroke-width="1.6" fill="none" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<polyline points="1425.0,975.0 1425.0,995.0 1045.0,995.0 1045.0,838.0" stroke="#222" stroke-width="1.6" fill="none" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<polyline points="1490.0,820.0 1542.0,820.0" stroke="#222" stroke-width="1.6" fill="none" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<polyline points="1578.0,820.0 1620.0,820.0" stroke="#222" stroke-width="1.6" fill="none" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<polyline points="1750.0,820.0 1800.0,820.0 1800.0,390.0 1855.0,390.0" stroke="#222" stroke-width="1.6" fill="none" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<polyline points="1905.0,390.0 1947.0,390.0" stroke="#222" stroke-width="1.6" fill="none" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<polyline points="1880.0,415.0 1880.0,495.0 1947.0,495.0" stroke="#222" stroke-width="1.6" fill="none" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<polyline points="1983.0,390.0 2020.0,390.0" stroke="#222" stroke-width="1.6" fill="none" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<polyline points="1983.0,495.0 2030.0,495.0" stroke="#222" stroke-width="1.6" fill="none" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<polyline points="2160.0,495.0 2197.0,495.0" stroke="#222" stroke-width="1.6" fill="none" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<polyline points="2150.0,390.0 2175.0,390.0 2175.0,645.0 2200.0,645.0" stroke="#222" stroke-width="1.6" fill="none" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<polyline points="2330.0,645.0 2355.0,645.0 2355.0,390.0 2380.0,390.0" stroke="#222" stroke-width="1.6" fill="none" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<polyline points="2510.0,390.0 2535.0,390.0 2535.0,820.0 2560.0,820.0" stroke="#222" stroke-width="1.6" fill="none" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<polyline points="2690.0,820.0 2735.0,820.0" stroke="#222" stroke-width="1.6" fill="none" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<polyline points="2785.0,820.0 2820.0,820.0" stroke="#222" stroke-width="1.6" fill="none" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<polyline points="2760.0,795.0 2760.0,470.0 2445.0,470.0 2445.0,430.0" stroke="#222" stroke-width="1.6" fill="none" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<polyline points="2950.0,820.0 3032.0,820.0" stroke="#222" stroke-width="1.6" fill="none" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<polyline points="405.0,190.0 405.0,802.0" stroke="#555" stroke-width="1.4" fill="none" stroke-dasharray="8,5" marker-start="url(#circle-open)" marker-end="url(#arrow-open)" stroke-linejoin="round"/>
+<polyline points="705.0,802.0 705.0,190.0" stroke="#555" stroke-width="1.4" fill="none" stroke-dasharray="8,5" marker-start="url(#circle-open)" marker-end="url(#arrow-open)" stroke-linejoin="round"/>
+<polyline points="1045.0,190.0 1045.0,802.0" stroke="#555" stroke-width="1.4" fill="none" stroke-dasharray="8,5" marker-start="url(#circle-open)" marker-end="url(#arrow-open)" stroke-linejoin="round"/>
+<polyline points="1425.0,780.0 1425.0,270.0 1260.0,270.0 1260.0,168.0" stroke="#555" stroke-width="1.4" fill="none" stroke-dasharray="8,5" marker-start="url(#circle-open)" marker-end="url(#arrow-open)" stroke-linejoin="round"/>
+<polyline points="1490.0,935.0 1515.0,935.0 1515.0,285.0 1330.0,285.0 1330.0,223.0" stroke="#555" stroke-width="1.4" fill="none" stroke-dasharray="8,5" marker-start="url(#circle-open)" marker-end="url(#arrow-open)" stroke-linejoin="round"/>
+<polyline points="1685.0,780.0 1685.0,168.0" stroke="#555" stroke-width="1.4" fill="none" stroke-dasharray="8,5" marker-start="url(#circle-open)" marker-end="url(#arrow-open)" stroke-linejoin="round"/>
+<polyline points="1965.0,190.0 1965.0,372.0" stroke="#555" stroke-width="1.4" fill="none" stroke-dasharray="8,5" marker-start="url(#circle-open)" marker-end="url(#arrow-open)" stroke-linejoin="round"/>
+<polyline points="2445.0,190.0 2445.0,350.0" stroke="#555" stroke-width="1.4" fill="none" stroke-dasharray="8,5" marker-start="url(#circle-open)" marker-end="url(#arrow-open)" stroke-linejoin="round"/>
+<polyline points="2885.0,780.0 2885.0,190.0" stroke="#555" stroke-width="1.4" fill="none" stroke-dasharray="8,5" marker-start="url(#circle-open)" marker-end="url(#arrow-open)" stroke-linejoin="round"/>
+<polyline points="525.0,860.0 525.0,1050.0" stroke="#666" stroke-width="1.3" fill="none" stroke-dasharray="2,4" marker-end="url(#assoc)" stroke-linejoin="round"/>
+<polyline points="1165.0,860.0 1165.0,1050.0" stroke="#666" stroke-width="1.3" fill="none" stroke-dasharray="2,4" marker-end="url(#assoc)" stroke-linejoin="round"/>
+<polyline points="2625.0,860.0 2625.0,1050.0" stroke="#666" stroke-width="1.3" fill="none" stroke-dasharray="2,4" marker-end="url(#assoc)" stroke-linejoin="round"/>
+<text x="76" y="150.0" font-family="Liberation Sans, Arial" font-size="15" font-weight="bold" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90 76 150.0)">Клиент</text>
+<text x="76" y="655.0" font-family="Liberation Sans, Arial" font-size="15" font-weight="bold" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90 76 655.0)">Сеть барбершопов</text>
+<text x="107" y="430.0" font-family="Liberation Sans, Arial" font-size="13" font-weight="normal" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90 107 430.0)">Администратор</text>
+<text x="107" y="645.0" font-family="Liberation Sans, Arial" font-size="13" font-weight="normal" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90 107 645.0)">Барбер</text>
+<text x="107" y="870.0" font-family="Liberation Sans, Arial" font-size="13" font-weight="normal" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90 107 870.0)">CRM-система</text>
+<rect x="1082.3" y="218.0" width="130.5" height="14.0" rx="0" stroke="none" stroke-width="0" fill="#ffffff"/>
+<rect x="1333.6" y="802.0" width="17.8" height="14.0" rx="0" stroke="none" stroke-width="0" fill="#ffffff"/>
+<rect x="1304.0" y="880.0" width="116.7" height="14.0" rx="0" stroke="none" stroke-width="0" fill="#ffffff"/>
+<rect x="1177.3" y="977.0" width="115.5" height="14.0" rx="0" stroke="none" stroke-width="0" fill="#ffffff"/>
+<rect x="2793.6" y="802.0" width="17.8" height="14.0" rx="0" stroke="none" stroke-width="0" fill="#ffffff"/>
+<rect x="2764.0" y="622.5" width="108.2" height="14.0" rx="0" stroke="none" stroke-width="0" fill="#ffffff"/>
+<rect x="409.0" y="486.0" width="164.0" height="14.0" rx="0" stroke="none" stroke-width="0" fill="#ffffff"/>
+<rect x="709.0" y="486.0" width="103.5" height="14.0" rx="0" stroke="none" stroke-width="0" fill="#ffffff"/>
+<rect x="1049.0" y="486.0" width="41.3" height="14.0" rx="0" stroke="none" stroke-width="0" fill="#ffffff"/>
+<rect x="1429.0" y="515.0" width="91.7" height="14.0" rx="0" stroke="none" stroke-width="0" fill="#ffffff"/>
+<rect x="1485.6" y="917.0" width="33.7" height="14.0" rx="0" stroke="none" stroke-width="0" fill="#ffffff"/>
+<rect x="1689.0" y="464.0" width="79.5" height="14.0" rx="0" stroke="none" stroke-width="0" fill="#ffffff"/>
+<rect x="1969.0" y="271.0" width="43.7" height="14.0" rx="0" stroke="none" stroke-width="0" fill="#ffffff"/>
+<rect x="2449.0" y="260.0" width="43.2" height="14.0" rx="0" stroke="none" stroke-width="0" fill="#ffffff"/>
+<rect x="2889.0" y="475.0" width="70.0" height="14.0" rx="0" stroke="none" stroke-width="0" fill="#ffffff"/>
+<rect x="85.7" y="173.0" width="88.5" height="14.0" rx="0" stroke="none" stroke-width="0" fill="#ffffff"/>
+<rect x="1213.0" y="173.0" width="94.0" height="14.0" rx="0" stroke="none" stroke-width="0" fill="#ffffff"/>
+<rect x="1231.6" y="187.0" width="56.7" height="14.0" rx="0" stroke="none" stroke-width="0" fill="#ffffff"/>
+<rect x="1352.0" y="199.0" width="85.5" height="14.0" rx="0" stroke="none" stroke-width="0" fill="#ffffff"/>
+<rect x="1644.2" y="173.0" width="81.5" height="14.0" rx="0" stroke="none" stroke-width="0" fill="#ffffff"/>
+<rect x="1656.6" y="187.0" width="56.7" height="14.0" rx="0" stroke="none" stroke-width="0" fill="#ffffff"/>
+<rect x="1769.0" y="173.0" width="102.0" height="14.0" rx="0" stroke="none" stroke-width="0" fill="#ffffff"/>
+<rect x="1799.1" y="187.0" width="41.7" height="14.0" rx="0" stroke="none" stroke-width="0" fill="#ffffff"/>
+<rect x="2999.4" y="173.0" width="101.2" height="14.0" rx="0" stroke="none" stroke-width="0" fill="#ffffff"/>
+<rect x="349.0" y="843.0" width="112.0" height="14.0" rx="0" stroke="none" stroke-width="0" fill="#ffffff"/>
+<rect x="378.8" y="857.0" width="52.5" height="14.0" rx="0" stroke="none" stroke-width="0" fill="#ffffff"/>
+<rect x="649.0" y="843.0" width="112.0" height="14.0" rx="0" stroke="none" stroke-width="0" fill="#ffffff"/>
+<rect x="995.5" y="843.0" width="99.0" height="14.0" rx="0" stroke="none" stroke-width="0" fill="#ffffff"/>
+<rect x="1250.5" y="775.0" width="99.0" height="14.0" rx="0" stroke="none" stroke-width="0" fill="#ffffff"/>
+<rect x="1508.9" y="843.0" width="102.2" height="14.0" rx="0" stroke="none" stroke-width="0" fill="#ffffff"/>
+<rect x="1919.8" y="413.0" width="90.5" height="14.0" rx="0" stroke="none" stroke-width="0" fill="#ffffff"/>
+<rect x="1903.9" y="518.0" width="122.2" height="14.0" rx="0" stroke="none" stroke-width="0" fill="#ffffff"/>
+<rect x="2192.7" y="518.0" width="44.5" height="14.0" rx="0" stroke="none" stroke-width="0" fill="#ffffff"/>
+<rect x="2169.4" y="532.0" width="91.2" height="14.0" rx="0" stroke="none" stroke-width="0" fill="#ffffff"/>
+<rect x="2705.5" y="775.0" width="109.0" height="14.0" rx="0" stroke="none" stroke-width="0" fill="#ffffff"/>
+<rect x="3002.4" y="843.0" width="95.2" height="14.0" rx="0" stroke="none" stroke-width="0" fill="#ffffff"/>
+<rect x="482.6" y="1116.0" width="84.8" height="14.0" rx="0" stroke="none" stroke-width="0" fill="#ffffff"/>
+<rect x="1122.6" y="1116.0" width="84.8" height="14.0" rx="0" stroke="none" stroke-width="0" fill="#ffffff"/>
+<rect x="2582.6" y="1116.0" width="84.8" height="14.0" rx="0" stroke="none" stroke-width="0" fill="#ffffff"/>
+<text x="1147.5" y="232.2" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12" text-anchor="middle" fill="#333">выбрать другое время</text>
+<text x="1342.5" y="816.2" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12" text-anchor="middle" fill="#333">да</text>
+<text x="1306.0" y="894.2" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12" text-anchor="start" fill="#333">нет (23P01 / CR003)</text>
+<text x="1235.0" y="991.2" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12" text-anchor="middle" fill="#333">ждать новую заявку</text>
+<text x="2802.5" y="816.2" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12" text-anchor="middle" fill="#333">да</text>
+<text x="2766.0" y="636.7" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12" text-anchor="start" fill="#333">нет (CR009): откат</text>
+<text x="411.0" y="500.2" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12" text-anchor="start" fill="#333">запрос: мастер, услуги, дата</text>
+<text x="711.0" y="500.2" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12" text-anchor="start" fill="#333">свободные слоты</text>
+<text x="1051.0" y="500.2" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12" text-anchor="start" fill="#333">заявка</text>
+<text x="1431.0" y="529.2" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12" text-anchor="start" fill="#333">подтверждение</text>
+<text x="1502.5" y="931.2" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12" text-anchor="middle" fill="#333">отказ</text>
+<text x="1691.0" y="478.2" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12" text-anchor="start" fill="#333">напоминание</text>
+<text x="1971.0" y="285.2" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12" text-anchor="start" fill="#333">приход</text>
+<text x="2451.0" y="274.2" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12" text-anchor="start" fill="#333">оплата</text>
+<text x="2891.0" y="489.2" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12" text-anchor="start" fill="#333">чек, бонусы</text>
+<text x="130.0" y="187.2" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12" text-anchor="middle" fill="#333">Нужна стрижка</text>
+<text x="1260.0" y="187.2" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12" text-anchor="middle" fill="#333">Подтверждение</text>
+<text x="1260.0" y="201.2" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12" text-anchor="middle" fill="#333">получено</text>
+<text x="1354.0" y="213.2" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12" text-anchor="start" fill="#333">Отказ получен</text>
+<text x="1685.0" y="187.2" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12" text-anchor="middle" fill="#333">Напоминание</text>
+<text x="1685.0" y="201.2" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12" text-anchor="middle" fill="#333">получено</text>
+<text x="1820.0" y="187.2" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12" text-anchor="middle" fill="#333">Наступило время</text>
+<text x="1820.0" y="201.2" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12" text-anchor="middle" fill="#333">визита</text>
+<text x="3050.0" y="187.2" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12" text-anchor="middle" fill="#333">Клиент обслужен</text>
+<text x="405.0" y="857.2" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12" text-anchor="middle" fill="#333">Запрос свободного</text>
+<text x="405.0" y="871.2" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12" text-anchor="middle" fill="#333">времени</text>
+<text x="705.0" y="857.2" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12" text-anchor="middle" fill="#333">Слоты отправлены</text>
+<text x="1045.0" y="857.2" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12" text-anchor="middle" fill="#333">Заявка получена</text>
+<text x="1300.0" y="789.2" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12" text-anchor="middle" fill="#333">Запись создана?</text>
+<text x="1560.0" y="857.2" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12" text-anchor="middle" fill="#333">За 24 ч до визита</text>
+<text x="1965.0" y="427.2" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12" text-anchor="middle" fill="#333">Клиент пришёл</text>
+<text x="1965.0" y="532.2" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12" text-anchor="middle" fill="#333">15 мин после начала</text>
+<text x="2215.0" y="532.2" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12" text-anchor="middle" fill="#333">Неявка</text>
+<text x="2215.0" y="546.2" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12" text-anchor="middle" fill="#333">зафиксирована</text>
+<text x="2760.0" y="789.2" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12" text-anchor="middle" fill="#333">Расчёт выполнен?</text>
+<text x="3050.0" y="857.2" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12" text-anchor="middle" fill="#333">Визит завершён</text>
+<text x="525.0" y="1130.2" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12" text-anchor="middle" fill="#333">БД barbershop</text>
+<text x="1165.0" y="1130.2" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12" text-anchor="middle" fill="#333">БД barbershop</text>
+<text x="2625.0" y="1130.2" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12" text-anchor="middle" fill="#333">БД barbershop</text>
+<text x="1590.0" y="35.7" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="22" text-anchor="middle" fill="#111" font-weight="bold">BPMN: запись клиента на услугу и обслуживание визита</text>
+<circle cx="130.0" cy="150.0" r="18.0" stroke="#222" stroke-width="1.6" fill="#eaf7ea"/>
+<rect x="170.0" y="110.0" width="130.0" height="80.0" rx="10" stroke="#222" stroke-width="1.7" fill="#fffbea"/>
+<rect x="340.0" y="110.0" width="130.0" height="80.0" rx="10" stroke="#222" stroke-width="1.7" fill="#fffbea"/>
+<rect x="640.0" y="110.0" width="130.0" height="80.0" rx="10" stroke="#222" stroke-width="1.7" fill="#fffbea"/>
+<rect x="810.0" y="110.0" width="130.0" height="80.0" rx="10" stroke="#222" stroke-width="1.7" fill="#fffbea"/>
+<rect x="980.0" y="110.0" width="130.0" height="80.0" rx="10" stroke="#222" stroke-width="1.7" fill="#fffbea"/>
+<polygon points="1180.0,125.0 1205.0,150.0 1180.0,175.0 1155.0,150.0" stroke="#222" stroke-width="1.7" fill="#fff5f0"/>
+<circle cx="1260.0" cy="150.0" r="18.0" stroke="#222" stroke-width="1.6" fill="#ffffff"/>
+<circle cx="1260.0" cy="150.0" r="14.5" stroke="#222" stroke-width="1.3" fill="none"/>
+<circle cx="1330.0" cy="205.0" r="18.0" stroke="#222" stroke-width="1.6" fill="#ffffff"/>
+<circle cx="1330.0" cy="205.0" r="14.5" stroke="#222" stroke-width="1.3" fill="none"/>
+<circle cx="1685.0" cy="150.0" r="18.0" stroke="#222" stroke-width="1.6" fill="#ffffff"/>
+<circle cx="1685.0" cy="150.0" r="14.5" stroke="#222" stroke-width="1.3" fill="none"/>
+<circle cx="1820.0" cy="150.0" r="18.0" stroke="#222" stroke-width="1.6" fill="#ffffff"/>
+<circle cx="1820.0" cy="150.0" r="14.5" stroke="#222" stroke-width="1.3" fill="none"/>
+<rect x="1900.0" y="110.0" width="130.0" height="80.0" rx="10" stroke="#222" stroke-width="1.7" fill="#fffbea"/>
+<rect x="2380.0" y="110.0" width="130.0" height="80.0" rx="10" stroke="#222" stroke-width="1.7" fill="#fffbea"/>
+<rect x="2820.0" y="110.0" width="130.0" height="80.0" rx="10" stroke="#222" stroke-width="1.7" fill="#fffbea"/>
+<circle cx="3050.0" cy="150.0" r="18.0" stroke="#222" stroke-width="4.2" fill="#fbeaea"/>
+<circle cx="405.0" cy="820.0" r="18.0" stroke="#222" stroke-width="1.6" fill="#eaf7ea"/>
+<rect x="460.0" y="780.0" width="130.0" height="80.0" rx="10" stroke="#222" stroke-width="1.7" fill="#fffbea"/>
+<circle cx="705.0" cy="820.0" r="18.0" stroke="#222" stroke-width="1.6" fill="#ffffff"/>
+<circle cx="705.0" cy="820.0" r="14.5" stroke="#222" stroke-width="1.3" fill="none"/>
+<circle cx="1045.0" cy="820.0" r="18.0" stroke="#222" stroke-width="1.6" fill="#ffffff"/>
+<circle cx="1045.0" cy="820.0" r="14.5" stroke="#222" stroke-width="1.3" fill="none"/>
+<rect x="1100.0" y="780.0" width="130.0" height="80.0" rx="10" stroke="#222" stroke-width="1.7" fill="#fffbea"/>
+<polygon points="1300.0,795.0 1325.0,820.0 1300.0,845.0 1275.0,820.0" stroke="#222" stroke-width="1.7" fill="#fff5f0"/>
+<rect x="1360.0" y="780.0" width="130.0" height="80.0" rx="10" stroke="#222" stroke-width="1.7" fill="#fffbea"/>
+<rect x="1360.0" y="895.0" width="130.0" height="80.0" rx="10" stroke="#222" stroke-width="1.7" fill="#fffbea"/>
+<circle cx="1560.0" cy="820.0" r="18.0" stroke="#222" stroke-width="1.6" fill="#ffffff"/>
+<circle cx="1560.0" cy="820.0" r="14.5" stroke="#222" stroke-width="1.3" fill="none"/>
+<rect x="1620.0" y="780.0" width="130.0" height="80.0" rx="10" stroke="#222" stroke-width="1.7" fill="#fffbea"/>
+<polygon points="1880.0,365.0 1905.0,390.0 1880.0,415.0 1855.0,390.0" stroke="#222" stroke-width="1.7" fill="#fff5f0"/>
+<circle cx="1965.0" cy="390.0" r="18.0" stroke="#222" stroke-width="1.6" fill="#ffffff"/>
+<circle cx="1965.0" cy="390.0" r="14.5" stroke="#222" stroke-width="1.3" fill="none"/>
+<circle cx="1965.0" cy="495.0" r="18.0" stroke="#222" stroke-width="1.6" fill="#ffffff"/>
+<circle cx="1965.0" cy="495.0" r="14.5" stroke="#222" stroke-width="1.3" fill="none"/>
+<rect x="2030.0" y="455.0" width="130.0" height="80.0" rx="10" stroke="#222" stroke-width="1.7" fill="#fffbea"/>
+<circle cx="2215.0" cy="495.0" r="18.0" stroke="#222" stroke-width="4.2" fill="#fbeaea"/>
+<rect x="2020.0" y="350.0" width="130.0" height="80.0" rx="10" stroke="#222" stroke-width="1.7" fill="#fffbea"/>
+<rect x="2200.0" y="605.0" width="130.0" height="80.0" rx="10" stroke="#222" stroke-width="1.7" fill="#fffbea"/>
+<rect x="2380.0" y="350.0" width="130.0" height="80.0" rx="10" stroke="#222" stroke-width="1.7" fill="#fffbea"/>
+<rect x="2560.0" y="780.0" width="130.0" height="80.0" rx="10" stroke="#222" stroke-width="1.7" fill="#fffbea"/>
+<polygon points="2760.0,795.0 2785.0,820.0 2760.0,845.0 2735.0,820.0" stroke="#222" stroke-width="1.7" fill="#fff5f0"/>
+<rect x="2820.0" y="780.0" width="130.0" height="80.0" rx="10" stroke="#222" stroke-width="1.7" fill="#fffbea"/>
+<circle cx="3050.0" cy="820.0" r="18.0" stroke="#222" stroke-width="4.2" fill="#fbeaea"/>
+<path d="M495,1058 v44 a30,8 0 0 0 60,0 v-44 a30,8 0 0 0 -60,0 a30,8 0 0 0 60,0" stroke="#222" stroke-width="1.5" fill="#eef4ff"/>
+<path d="M1135,1058 v44 a30,8 0 0 0 60,0 v-44 a30,8 0 0 0 -60,0 a30,8 0 0 0 60,0" stroke="#222" stroke-width="1.5" fill="#eef4ff"/>
+<path d="M2595,1058 v44 a30,8 0 0 0 60,0 v-44 a30,8 0 0 0 -60,0 a30,8 0 0 0 60,0" stroke="#222" stroke-width="1.5" fill="#eef4ff"/>
+<circle cx="185.0" cy="122.0" r="4.0" stroke="#222" stroke-width="1.1" fill="#fff"/>
+<path d="M178.0,134.0 Q185.0,123.0 192.0,134.0 Z" stroke="#222" stroke-width="1.1" fill="#fff"/>
+<text x="235.0" y="152.9" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12.5" text-anchor="middle" fill="#111">Выбрать мастера,</text>
+<text x="235.0" y="167.9" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12.5" text-anchor="middle" fill="#111">услуги и дату</text>
+<rect x="348.0" y="119.0" width="17.0" height="12.0" rx="0" stroke="#222" stroke-width="1.1" fill="#222"/>
+<polyline points="348.0,119.0 356.5,126.0 365.0,119.0" stroke="#fff" stroke-width="1.1" fill="none" stroke-linejoin="round"/>
+<text x="405.0" y="152.9" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12.5" text-anchor="middle" fill="#111">Запросить</text>
+<text x="405.0" y="167.9" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12.5" text-anchor="middle" fill="#111">свободное время</text>
+<rect x="648.0" y="119.0" width="17.0" height="12.0" rx="0" stroke="#222" stroke-width="1.1" fill="#fff"/>
+<polyline points="648.0,119.0 656.5,126.0 665.0,119.0" stroke="#222" stroke-width="1.1" fill="none" stroke-linejoin="round"/>
+<text x="705.0" y="152.9" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12.5" text-anchor="middle" fill="#111">Получить</text>
+<text x="705.0" y="167.9" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12.5" text-anchor="middle" fill="#111">свободные слоты</text>
+<circle cx="825.0" cy="122.0" r="4.0" stroke="#222" stroke-width="1.1" fill="#fff"/>
+<path d="M818.0,134.0 Q825.0,123.0 832.0,134.0 Z" stroke="#222" stroke-width="1.1" fill="#fff"/>
+<text x="875.0" y="145.4" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12.5" text-anchor="middle" fill="#111">Выбрать слот,</text>
+<text x="875.0" y="160.4" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12.5" text-anchor="middle" fill="#111">указать телефон и</text>
+<text x="875.0" y="175.4" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12.5" text-anchor="middle" fill="#111">имя</text>
+<rect x="988.0" y="119.0" width="17.0" height="12.0" rx="0" stroke="#222" stroke-width="1.1" fill="#222"/>
+<polyline points="988.0,119.0 996.5,126.0 1005.0,119.0" stroke="#fff" stroke-width="1.1" fill="none" stroke-linejoin="round"/>
+<text x="1045.0" y="152.9" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12.5" text-anchor="middle" fill="#111">Отправить заявку</text>
+<text x="1045.0" y="167.9" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12.5" text-anchor="middle" fill="#111">на запись</text>
+<circle cx="1180.0" cy="150.0" r="13.0" stroke="#222" stroke-width="1.2" fill="none"/>
+<circle cx="1180.0" cy="150.0" r="10.0" stroke="#222" stroke-width="1.2" fill="none"/>
+<polygon points="1180.0,144.0 1185.7,148.1 1183.5,154.9 1176.5,154.9 1174.3,148.1" stroke="#222" stroke-width="1.2" fill="none"/>
+<rect x="1252.0" y="144.0" width="16.0" height="12.0" rx="0" stroke="#222" stroke-width="1.1" fill="#fff"/>
+<polyline points="1252.0,144.0 1260.0,151.0 1268.0,144.0" stroke="#222" stroke-width="1.1" fill="none" stroke-linejoin="round"/>
+<rect x="1322.0" y="199.0" width="16.0" height="12.0" rx="0" stroke="#222" stroke-width="1.1" fill="#fff"/>
+<polyline points="1322.0,199.0 1330.0,206.0 1338.0,199.0" stroke="#222" stroke-width="1.1" fill="none" stroke-linejoin="round"/>
+<rect x="1677.0" y="144.0" width="16.0" height="12.0" rx="0" stroke="#222" stroke-width="1.1" fill="#fff"/>
+<polyline points="1677.0,144.0 1685.0,151.0 1693.0,144.0" stroke="#222" stroke-width="1.1" fill="none" stroke-linejoin="round"/>
+<circle cx="1820.0" cy="150.0" r="10.0" stroke="#222" stroke-width="1.3" fill="#fff"/>
+<polyline points="1820.0,150.0 1820.0,143.0" stroke="#222" stroke-width="1.3" fill="none" stroke-linejoin="round"/>
+<polyline points="1820.0,150.0 1825.0,152.0" stroke="#222" stroke-width="1.3" fill="none" stroke-linejoin="round"/>
+<path d="M1908.0,125.0 h10 a2,2 0 0 1 0,4 h-2 v3 h-8 z" stroke="#222" stroke-width="1.1" fill="#fff"/>
+<text x="1965.0" y="152.9" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12.5" text-anchor="middle" fill="#111">Прийти в</text>
+<text x="1965.0" y="167.9" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12.5" text-anchor="middle" fill="#111">барбершоп</text>
+<path d="M2388.0,125.0 h10 a2,2 0 0 1 0,4 h-2 v3 h-8 z" stroke="#222" stroke-width="1.1" fill="#fff"/>
+<text x="2445.0" y="152.9" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12.5" text-anchor="middle" fill="#111">Оплатить визит</text>
+<text x="2445.0" y="167.9" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12.5" text-anchor="middle" fill="#111">(деньги, бонусы)</text>
+<rect x="2828.0" y="119.0" width="17.0" height="12.0" rx="0" stroke="#222" stroke-width="1.1" fill="#fff"/>
+<polyline points="2828.0,119.0 2836.5,126.0 2845.0,119.0" stroke="#222" stroke-width="1.1" fill="none" stroke-linejoin="round"/>
+<text x="2885.0" y="152.9" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12.5" text-anchor="middle" fill="#111">Получить чек и</text>
+<text x="2885.0" y="167.9" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12.5" text-anchor="middle" fill="#111">бонусы</text>
+<rect x="397.0" y="814.0" width="16.0" height="12.0" rx="0" stroke="#222" stroke-width="1.1" fill="#fff"/>
+<polyline points="397.0,814.0 405.0,821.0 413.0,814.0" stroke="#222" stroke-width="1.1" fill="none" stroke-linejoin="round"/>
+<circle cx="475.0" cy="794.0" r="6.0" stroke="#222" stroke-width="1.1" fill="#fff"/>
+<circle cx="475.0" cy="794.0" r="2.4" stroke="#222" stroke-width="1" fill="none"/>
+<circle cx="480.0" cy="799.0" r="5.0" stroke="#222" stroke-width="1.1" fill="#fff"/>
+<circle cx="480.0" cy="799.0" r="2.0" stroke="#222" stroke-width="1" fill="none"/>
+<text x="525.0" y="815.4" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12.5" text-anchor="middle" fill="#111">Рассчитать</text>
+<text x="525.0" y="830.4" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12.5" text-anchor="middle" fill="#111">свободные слоты</text>
+<text x="525.0" y="845.4" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12.5" text-anchor="middle" fill="#111">(crm.free_slots)</text>
+<rect x="697.0" y="814.0" width="16.0" height="12.0" rx="0" stroke="#222" stroke-width="1.1" fill="#222"/>
+<polyline points="697.0,814.0 705.0,821.0 713.0,814.0" stroke="#fff" stroke-width="1.1" fill="none" stroke-linejoin="round"/>
+<rect x="1037.0" y="814.0" width="16.0" height="12.0" rx="0" stroke="#222" stroke-width="1.1" fill="#fff"/>
+<polyline points="1037.0,814.0 1045.0,821.0 1053.0,814.0" stroke="#222" stroke-width="1.1" fill="none" stroke-linejoin="round"/>
+<circle cx="1115.0" cy="794.0" r="6.0" stroke="#222" stroke-width="1.1" fill="#fff"/>
+<circle cx="1115.0" cy="794.0" r="2.4" stroke="#222" stroke-width="1" fill="none"/>
+<circle cx="1120.0" cy="799.0" r="5.0" stroke="#222" stroke-width="1.1" fill="#fff"/>
+<circle cx="1120.0" cy="799.0" r="2.0" stroke="#222" stroke-width="1" fill="none"/>
+<text x="1165.0" y="822.9" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12.5" text-anchor="middle" fill="#111">Создать запись</text>
+<text x="1165.0" y="837.9" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12.5" text-anchor="middle" fill="#111">(crm.book_appointment)</text>
+<polyline points="1291.0,811.0 1309.0,829.0" stroke="#222" stroke-width="3" fill="none" stroke-linejoin="round"/>
+<polyline points="1291.0,829.0 1309.0,811.0" stroke="#222" stroke-width="3" fill="none" stroke-linejoin="round"/>
+<rect x="1368.0" y="789.0" width="17.0" height="12.0" rx="0" stroke="#222" stroke-width="1.1" fill="#222"/>
+<polyline points="1368.0,789.0 1376.5,796.0 1385.0,789.0" stroke="#fff" stroke-width="1.1" fill="none" stroke-linejoin="round"/>
+<text x="1425.0" y="822.9" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12.5" text-anchor="middle" fill="#111">Отправить</text>
+<text x="1425.0" y="837.9" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12.5" text-anchor="middle" fill="#111">подтверждение</text>
+<rect x="1368.0" y="904.0" width="17.0" height="12.0" rx="0" stroke="#222" stroke-width="1.1" fill="#222"/>
+<polyline points="1368.0,904.0 1376.5,911.0 1385.0,904.0" stroke="#fff" stroke-width="1.1" fill="none" stroke-linejoin="round"/>
+<text x="1425.0" y="937.9" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12.5" text-anchor="middle" fill="#111">Отправить отказ и</text>
+<text x="1425.0" y="952.9" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12.5" text-anchor="middle" fill="#111">другие слоты</text>
+<circle cx="1560.0" cy="820.0" r="10.0" stroke="#222" stroke-width="1.3" fill="#fff"/>
+<polyline points="1560.0,820.0 1560.0,813.0" stroke="#222" stroke-width="1.3" fill="none" stroke-linejoin="round"/>
+<polyline points="1560.0,820.0 1565.0,822.0" stroke="#222" stroke-width="1.3" fill="none" stroke-linejoin="round"/>
+<rect x="1628.0" y="789.0" width="17.0" height="12.0" rx="0" stroke="#222" stroke-width="1.1" fill="#222"/>
+<polyline points="1628.0,789.0 1636.5,796.0 1645.0,789.0" stroke="#fff" stroke-width="1.1" fill="none" stroke-linejoin="round"/>
+<text x="1685.0" y="822.9" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12.5" text-anchor="middle" fill="#111">Отправить</text>
+<text x="1685.0" y="837.9" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12.5" text-anchor="middle" fill="#111">напоминание</text>
+<circle cx="1880.0" cy="390.0" r="13.0" stroke="#222" stroke-width="1.2" fill="none"/>
+<circle cx="1880.0" cy="390.0" r="10.0" stroke="#222" stroke-width="1.2" fill="none"/>
+<polygon points="1880.0,384.0 1885.7,388.1 1883.5,394.9 1876.5,394.9 1874.3,388.1" stroke="#222" stroke-width="1.2" fill="none"/>
+<rect x="1957.0" y="384.0" width="16.0" height="12.0" rx="0" stroke="#222" stroke-width="1.1" fill="#fff"/>
+<polyline points="1957.0,384.0 1965.0,391.0 1973.0,384.0" stroke="#222" stroke-width="1.1" fill="none" stroke-linejoin="round"/>
+<circle cx="1965.0" cy="495.0" r="10.0" stroke="#222" stroke-width="1.3" fill="#fff"/>
+<polyline points="1965.0,495.0 1965.0,488.0" stroke="#222" stroke-width="1.3" fill="none" stroke-linejoin="round"/>
+<polyline points="1965.0,495.0 1970.0,497.0" stroke="#222" stroke-width="1.3" fill="none" stroke-linejoin="round"/>
+<circle cx="2045.0" cy="467.0" r="4.0" stroke="#222" stroke-width="1.1" fill="#fff"/>
+<path d="M2038.0,479.0 Q2045.0,468.0 2052.0,479.0 Z" stroke="#222" stroke-width="1.1" fill="#fff"/>
+<text x="2095.0" y="497.9" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12.5" text-anchor="middle" fill="#111">Отметить неявку</text>
+<text x="2095.0" y="512.9" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12.5" text-anchor="middle" fill="#111">(no_show)</text>
+<circle cx="2035.0" cy="362.0" r="4.0" stroke="#222" stroke-width="1.1" fill="#fff"/>
+<path d="M2028.0,374.0 Q2035.0,363.0 2042.0,374.0 Z" stroke="#222" stroke-width="1.1" fill="#fff"/>
+<text x="2085.0" y="392.9" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12.5" text-anchor="middle" fill="#111">Начать визит</text>
+<text x="2085.0" y="407.9" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12.5" text-anchor="middle" fill="#111">(in_progress)</text>
+<circle cx="2215.0" cy="617.0" r="4.0" stroke="#222" stroke-width="1.1" fill="#fff"/>
+<path d="M2208.0,629.0 Q2215.0,618.0 2222.0,629.0 Z" stroke="#222" stroke-width="1.1" fill="#fff"/>
+<text x="2265.0" y="655.4" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12.5" text-anchor="middle" fill="#111">Оказать услуги</text>
+<circle cx="2395.0" cy="362.0" r="4.0" stroke="#222" stroke-width="1.1" fill="#fff"/>
+<path d="M2388.0,374.0 Q2395.0,363.0 2402.0,374.0 Z" stroke="#222" stroke-width="1.1" fill="#fff"/>
+<text x="2445.0" y="385.4" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12.5" text-anchor="middle" fill="#111">Принять оплату,</text>
+<text x="2445.0" y="400.4" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12.5" text-anchor="middle" fill="#111">учесть списание</text>
+<text x="2445.0" y="415.4" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12.5" text-anchor="middle" fill="#111">бонусов</text>
+<circle cx="2575.0" cy="794.0" r="6.0" stroke="#222" stroke-width="1.1" fill="#fff"/>
+<circle cx="2575.0" cy="794.0" r="2.4" stroke="#222" stroke-width="1" fill="none"/>
+<circle cx="2580.0" cy="799.0" r="5.0" stroke="#222" stroke-width="1.1" fill="#fff"/>
+<circle cx="2580.0" cy="799.0" r="2.0" stroke="#222" stroke-width="1" fill="none"/>
+<text x="2625.0" y="815.4" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12.5" text-anchor="middle" fill="#111">Завершить визит</text>
+<text x="2625.0" y="830.4" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12.5" text-anchor="middle" fill="#111">(crm.complete_</text>
+<text x="2625.0" y="845.4" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12.5" text-anchor="middle" fill="#111">appointment)</text>
+<polyline points="2751.0,811.0 2769.0,829.0" stroke="#222" stroke-width="3" fill="none" stroke-linejoin="round"/>
+<polyline points="2751.0,829.0 2769.0,811.0" stroke="#222" stroke-width="3" fill="none" stroke-linejoin="round"/>
+<rect x="2828.0" y="789.0" width="17.0" height="12.0" rx="0" stroke="#222" stroke-width="1.1" fill="#222"/>
+<polyline points="2828.0,789.0 2836.5,796.0 2845.0,789.0" stroke="#fff" stroke-width="1.1" fill="none" stroke-linejoin="round"/>
+<text x="2885.0" y="815.4" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12.5" text-anchor="middle" fill="#111">Отправить чек и</text>
+<text x="2885.0" y="830.4" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12.5" text-anchor="middle" fill="#111">начисление</text>
+<text x="2885.0" y="845.4" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="12.5" text-anchor="middle" fill="#111">бонусов</text></svg>

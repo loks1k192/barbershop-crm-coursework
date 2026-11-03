@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_bpmn-03-client-import" targetNamespace="http://barber-crm.local/bpmn" exporter="barber-crm docs generator" exporterVersion="1.0">
+  <bpmn:collaboration id="Collaboration_bpmn-03-client-import">
+    <bpmn:participant id="Pool_Shop3" name="Сеть барбершопов" processRef="Process_Pool_Shop3" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_Pool_Shop3" isExecutable="false">
+    <bpmn:laneSet id="LaneSet_Pool_Shop3">
+      <bpmn:lane id="Lane_Admin3" name="Администратор">
+        <bpmn:flowNodeRef>a_start</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>a_prep</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>a_upload</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>a_fix</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>a_review</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>a_end_part</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_CRM3" name="CRM-система">
+        <bpmn:flowNodeRef>s_check</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>s_gw1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>s_400</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>s_copy</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>s_proc</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>s_err</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>s_end_err</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>s_and1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>s_errors</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>s_upsert</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>s_and2</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>s_report</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>s_gw2</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>s_end</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="a_start" name="Получена выгрузка из прежней CRM">
+      <bpmn:outgoing>f1</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:userTask id="a_prep" name="Подготовить CSV: UTF-8, заголовок">
+      <bpmn:incoming>f1</bpmn:incoming>
+      <bpmn:outgoing>f2</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sendTask id="a_upload" name="Загрузить файл (POST /import/clients)">
+      <bpmn:incoming>f2</bpmn:incoming>
+      <bpmn:incoming>f8</bpmn:incoming>
+      <bpmn:outgoing>f3</bpmn:outgoing>
+    </bpmn:sendTask>
+    <bpmn:serviceTask id="s_check" name="Проверить структуру CSV">
+      <bpmn:incoming>f3</bpmn:incoming>
+      <bpmn:outgoing>f4</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="s_gw1" name="Структура корректна?">
+      <bpmn:incoming>f4</bpmn:incoming>
+      <bpmn:outgoing>f5</bpmn:outgoing>
+      <bpmn:outgoing>f6</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sendTask id="s_400" name="Вернуть ошибку 400 с описанием">
+      <bpmn:incoming>f6</bpmn:incoming>
+      <bpmn:outgoing>f7</bpmn:outgoing>
+    </bpmn:sendTask>
+    <bpmn:userTask id="a_fix" name="Исправить файл">
+      <bpmn:incoming>f7</bpmn:incoming>
+      <bpmn:outgoing>f8</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:serviceTask id="s_copy" name="Создать пакет, COPY строк в staging">
+      <bpmn:incoming>f5</bpmn:incoming>
+      <bpmn:outgoing>f9</bpmn:outgoing>
+      <bpmn:dataOutputAssociation id="d1"><bpmn:targetRef>ds1</bpmn:targetRef></bpmn:dataOutputAssociation>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="s_proc" name="Нормализовать и проверить строки (process_client_import)">
+      <bpmn:incoming>f9</bpmn:incoming>
+      <bpmn:outgoing>f10</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:boundaryEvent id="s_err" name="Сбой БД" attachedToRef="s_proc">
+      <bpmn:outgoing>f20</bpmn:outgoing>
+      <bpmn:errorEventDefinition id="s_err_def" />
+    </bpmn:boundaryEvent>
+    <bpmn:endEvent id="s_end_err" name="Пакет откатан целиком">
+      <bpmn:incoming>f20</bpmn:incoming>
+      <bpmn:errorEventDefinition id="s_end_err_def" />
+    </bpmn:endEvent>
+    <bpmn:parallelGateway id="s_and1" name="">
+      <bpmn:incoming>f10</bpmn:incoming>
+      <bpmn:outgoing>f11</bpmn:outgoing>
+      <bpmn:outgoing>f12</bpmn:outgoing>
+    </bpmn:parallelGateway>
+    <bpmn:serviceTask id="s_errors" name="Записать ошибки строк (import_errors)">
+      <bpmn:incoming>f11</bpmn:incoming>
+      <bpmn:outgoing>f13</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="s_upsert" name="Добавить или обновить клиентов, создать бонусные счета">
+      <bpmn:incoming>f12</bpmn:incoming>
+      <bpmn:outgoing>f14</bpmn:outgoing>
+      <bpmn:dataOutputAssociation id="d2"><bpmn:targetRef>ds2</bpmn:targetRef></bpmn:dataOutputAssociation>
+    </bpmn:serviceTask>
+    <bpmn:parallelGateway id="s_and2" name="">
+      <bpmn:incoming>f13</bpmn:incoming>
+      <bpmn:incoming>f14</bpmn:incoming>
+      <bpmn:outgoing>f15</bpmn:outgoing>
+    </bpmn:parallelGateway>
+    <bpmn:serviceTask id="s_report" name="Сформировать отчёт о загрузке">
+      <bpmn:incoming>f15</bpmn:incoming>
+      <bpmn:outgoing>f16</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="s_gw2" name="Есть отклонённые строки?" default="f17">
+      <bpmn:incoming>f16</bpmn:incoming>
+      <bpmn:outgoing>f17</bpmn:outgoing>
+      <bpmn:outgoing>f18</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:userTask id="a_review" name="Разобрать отчёт об ошибках">
+      <bpmn:incoming>f18</bpmn:incoming>
+      <bpmn:outgoing>f19</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:endEvent id="a_end_part" name="Ошибочные строки исправит владелец данных">
+      <bpmn:incoming>f19</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:endEvent id="s_end" name="Клиентская база загружена">
+      <bpmn:incoming>f17</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="f1" sourceRef="a_start" targetRef="a_prep" />
+    <bpmn:sequenceFlow id="f2" sourceRef="a_prep" targetRef="a_upload" />
+    <bpmn:sequenceFlow id="f3" sourceRef="a_upload" targetRef="s_check" />
+    <bpmn:sequenceFlow id="f4" sourceRef="s_check" targetRef="s_gw1" />
+    <bpmn:sequenceFlow id="f5" name="да" sourceRef="s_gw1" targetRef="s_copy" />
+    <bpmn:sequenceFlow id="f6" name="нет" sourceRef="s_gw1" targetRef="s_400" />
+    <bpmn:sequenceFlow id="f7" sourceRef="s_400" targetRef="a_fix" />
+    <bpmn:sequenceFlow id="f8" sourceRef="a_fix" targetRef="a_upload" />
+    <bpmn:sequenceFlow id="f9" sourceRef="s_copy" targetRef="s_proc" />
+    <bpmn:sequenceFlow id="f10" sourceRef="s_proc" targetRef="s_and1" />
+    <bpmn:sequenceFlow id="f11" sourceRef="s_and1" targetRef="s_errors" />
+    <bpmn:sequenceFlow id="f12" sourceRef="s_and1" targetRef="s_upsert" />
+    <bpmn:sequenceFlow id="f13" sourceRef="s_errors" targetRef="s_and2" />
+    <bpmn:sequenceFlow id="f14" sourceRef="s_upsert" targetRef="s_and2" />
+    <bpmn:sequenceFlow id="f15" sourceRef="s_and2" targetRef="s_report" />
+    <bpmn:sequenceFlow id="f16" sourceRef="s_report" targetRef="s_gw2" />
+    <bpmn:sequenceFlow id="f17" name="нет" sourceRef="s_gw2" targetRef="s_end" />
+    <bpmn:sequenceFlow id="f18" name="да" sourceRef="s_gw2" targetRef="a_review" />
+    <bpmn:sequenceFlow id="f19" sourceRef="a_review" targetRef="a_end_part" />
+    <bpmn:sequenceFlow id="f20" sourceRef="s_err" targetRef="s_end_err" />
+    <bpmn:dataStoreReference id="ds1" name="staging.client_import_rows" dataStoreRef="DataStore_barbershop" />
+    <bpmn:dataStoreReference id="ds2" name="crm.clients, loyalty_accounts" dataStoreRef="DataStore_barbershop" />
+  </bpmn:process>
+  <bpmn:dataStore id="DataStore_barbershop" name="БД barbershop (PostgreSQL)" />
+  <bpmndi:BPMNDiagram id="Diagram_bpmn-03-client-import">
+    <bpmndi:BPMNPlane id="Plane_bpmn-03-client-import" bpmnElement="Collaboration_bpmn-03-client-import">
+      <bpmndi:BPMNShape id="Pool_Shop3_di" bpmnElement="Pool_Shop3" isHorizontal="true"><dc:Bounds x="60" y="50" width="2600" height="700" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_Admin3_di" bpmnElement="Lane_Admin3" isHorizontal="true"><dc:Bounds x="92" y="50" width="2568" height="260" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_CRM3_di" bpmnElement="Lane_CRM3" isHorizontal="true"><dc:Bounds x="92" y="310" width="2568" height="440" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="a_start_di" bpmnElement="a_start"><dc:Bounds x="147" y="132" width="36" height="36" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="a_prep_di" bpmnElement="a_prep"><dc:Bounds x="225" y="110" width="130" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="a_upload_di" bpmnElement="a_upload"><dc:Bounds x="365" y="110" width="130" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="s_check_di" bpmnElement="s_check"><dc:Bounds x="365" y="390" width="130" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="s_gw1_di" bpmnElement="s_gw1" isMarkerVisible="true"><dc:Bounds x="555" y="405" width="50" height="50" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="s_400_di" bpmnElement="s_400"><dc:Bounds x="515" y="550" width="130" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="a_fix_di" bpmnElement="a_fix"><dc:Bounds x="225" y="205" width="130" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="s_copy_di" bpmnElement="s_copy"><dc:Bounds x="665" y="390" width="130" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="s_proc_di" bpmnElement="s_proc"><dc:Bounds x="835" y="390" width="130" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="s_err_di" bpmnElement="s_err"><dc:Bounds x="922" y="452" width="36" height="36" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="s_end_err_di" bpmnElement="s_end_err"><dc:Bounds x="922" y="572" width="36" height="36" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="s_and1_di" bpmnElement="s_and1"><dc:Bounds x="1015" y="405" width="50" height="50" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="s_errors_di" bpmnElement="s_errors"><dc:Bounds x="1115" y="310" width="130" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="s_upsert_di" bpmnElement="s_upsert"><dc:Bounds x="1115" y="490" width="130" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="s_and2_di" bpmnElement="s_and2"><dc:Bounds x="1295" y="405" width="50" height="50" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="s_report_di" bpmnElement="s_report"><dc:Bounds x="1395" y="390" width="130" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="s_gw2_di" bpmnElement="s_gw2" isMarkerVisible="true"><dc:Bounds x="1575" y="405" width="50" height="50" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="a_review_di" bpmnElement="a_review"><dc:Bounds x="1675" y="110" width="130" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="a_end_part_di" bpmnElement="a_end_part"><dc:Bounds x="1882" y="132" width="36" height="36" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="s_end_di" bpmnElement="s_end"><dc:Bounds x="1722" y="412" width="36" height="36" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ds1_di" bpmnElement="ds1"><dc:Bounds x="700" y="610" width="60" height="60" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ds2_di" bpmnElement="ds2"><dc:Bounds x="1150" y="620" width="60" height="60" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="f1_di" bpmnElement="f1"><di:waypoint x="183" y="150" /><di:waypoint x="225" y="150" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f2_di" bpmnElement="f2"><di:waypoint x="355" y="150" /><di:waypoint x="365" y="150" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f3_di" bpmnElement="f3"><di:waypoint x="430" y="190" /><di:waypoint x="430" y="390" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f4_di" bpmnElement="f4"><di:waypoint x="495" y="430" /><di:waypoint x="555" y="430" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f5_di" bpmnElement="f5"><di:waypoint x="605" y="430" /><di:waypoint x="665" y="430" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f6_di" bpmnElement="f6"><di:waypoint x="580" y="455" /><di:waypoint x="580" y="550" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f7_di" bpmnElement="f7"><di:waypoint x="515" y="590" /><di:waypoint x="480" y="590" /><di:waypoint x="480" y="300" /><di:waypoint x="290" y="300" /><di:waypoint x="290" y="285" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f8_di" bpmnElement="f8"><di:waypoint x="355" y="245" /><di:waypoint x="380" y="245" /><di:waypoint x="380" y="170" /><di:waypoint x="365" y="150" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f9_di" bpmnElement="f9"><di:waypoint x="795" y="430" /><di:waypoint x="835" y="430" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f10_di" bpmnElement="f10"><di:waypoint x="965" y="430" /><di:waypoint x="1015" y="430" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f11_di" bpmnElement="f11"><di:waypoint x="1040" y="405" /><di:waypoint x="1040" y="350" /><di:waypoint x="1115" y="350" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f12_di" bpmnElement="f12"><di:waypoint x="1040" y="455" /><di:waypoint x="1040" y="530" /><di:waypoint x="1115" y="530" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f13_di" bpmnElement="f13"><di:waypoint x="1245" y="350" /><di:waypoint x="1320" y="350" /><di:waypoint x="1320" y="405" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f14_di" bpmnElement="f14"><di:waypoint x="1245" y="530" /><di:waypoint x="1320" y="530" /><di:waypoint x="1320" y="455" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f15_di" bpmnElement="f15"><di:waypoint x="1345" y="430" /><di:waypoint x="1395" y="430" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f16_di" bpmnElement="f16"><di:waypoint x="1525" y="430" /><di:waypoint x="1575" y="430" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f17_di" bpmnElement="f17"><di:waypoint x="1625" y="430" /><di:waypoint x="1722" y="430" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f18_di" bpmnElement="f18"><di:waypoint x="1600" y="405" /><di:waypoint x="1600" y="150" /><di:waypoint x="1675" y="150" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f19_di" bpmnElement="f19"><di:waypoint x="1805" y="150" /><di:waypoint x="1882" y="150" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f20_di" bpmnElement="f20"><di:waypoint x="940" y="488" /><di:waypoint x="940" y="572" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="d1_di" bpmnElement="d1"><di:waypoint x="730" y="470" /><di:waypoint x="730" y="610" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="d2_di" bpmnElement="d2"><di:waypoint x="1180" y="570" /><di:waypoint x="1180" y="620" /></bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
